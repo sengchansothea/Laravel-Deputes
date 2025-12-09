@@ -1,0 +1,271 @@
+.required::after {
+    content: " *";
+    color: red;
+}
+.required2::after {
+    content: " *";
+    color: blue!important;
+}
+table.myformat3 th, table.myformat3 td { padding:0.50rem!important;}
+table.myformat3 tr td.white {color:#FFFFFF;  }
+table.myformat3 tr td.black {color:#000000; }
+table.myformat3 tr td.blue {color:#2D5FE7; }
+table.myformat3 tr td.red {color:#F57274; }
+table.myformat3 tr td.pink{color:#F30DCE;}
+table.myformat3 tr td.orange{color:#FF9600;}
+table.myformat3 tr td.purple{color:#7c4fe0 ;}
+
+table.myformat3 tr th.col-answer, tr td.col-answer {width:18%;  font-weight: bold}
+table.myformat3 tr th.col-answer, tr td.col-answer2 {width:20%;  font-weight: bold}
+table.myformat3 tr th.col-answer, tr td.col-answer3 {width:10%;  font-weight: bold}
+table.myformat3 tr th.col-answer, tr td.col-answer4 {width:15%;  font-weight: bold}
+table.myformat3 tr th.col-ref, tr td.col-ref {width:12%; font-size:16px; font-weight: bold}
+table.myformat3 tr th.col-ref, tr td.col-ref2 {width:17%; font-size:16px; font-weight: bold}
+table.myformat3 tr th.col-ref, tr td.col-ref3 {width:20%; font-size:16px; font-weight: bold}
+
+table.myformat3 tr td.ref {line-height: 21px; font-size: 14px; }
+table.myformat3 tr td.ref41 {line-height: 21px; font-size: 14px; color: #2D5FE7}
+table.myformat3 tr td.ref41c {line-height: 21px; font-size: 14px; color: #2D5FE7; vertical-align: middle;}
+table.myformat3 tr td.ref31 {line-height: 21px; font-size: 14px;color:#FF3F42}
+table.myformat3 tr td.ref31c {line-height: 21px; font-size: 14px;color:#FF3F42; vertical-align: middle;}
+
+table.myformat3 tr th.col-comment, tr td.col-comment {width:45%;}
+table.myformat3 tr th.col-comment, tr td.col-comment2 {width:15%;}
+
+ol.outside li {
+		list-style-position:outside;
+		padding-bottom: 10px;
+	}
+
+	.drop-inline-sex {display:inline; font-size: 10px; width:60px; padding: 3px;}
+	.drop-inline {display:inline; font-size: 11px;}
+
+	.table{ margin-top: 5px;margin-bottom: 5px;}
+
+/** =======For Double click on radio button to unchecked =====*/
+	table.myformat tr td  input[type="radio"] {
+		/*ms-transform: scale(1.1); /* IE 9
+    	-webkit-transform: scale(1.1); /* Chrome, Safari, Opera
+    	transform: scale(1.1);*/
+	}
+
+	/*.radioDbl input[type='radio'] {*/
+    /*    -webkit-appearance: none;*/
+    /*    border-radius: 50%;*/
+    /*    outline: none;*/
+	/*	border: 2px solid #919191;*/
+	/*	padding: 0px 2px;*/
+	/*	cursor: pointer;*/
+    /*}*/
+    /*.radioDbl input[type='radio']:before {*/
+    /*    content: '';*/
+    /*    display: inline-block;*/
+    /*    width: 8px;*/
+    /*    height: 8px;*/
+    /*    margin: 0 1px;*/
+    /*    border-radius: 50%;*/
+    /*}*/
+	/*.radioDbl input[type='radio']:hover {*/
+	/*	border: 2px solid #03a9f4;*/
+    /*}*/
+	/*.radioDbl input[type='radio']:checked {*/
+	/*	border: 2px solid #03a9f4;*/
+    /*}*/
+	/*.radioDbl input[type='radio']:checked:before {*/
+	/*	border: 4px solid #03a9f4;*/
+    /*}*/
+	/*.radioDbl input[type='radio']:after {*/
+    /*    margin-bottom: 1px;*/
+    /*}*/
+	/*.radioDbl label {padding-left: 4px!important;}*/
+
+	/*!*** radioDbl-green ***!*/
+	/*.radioDbl-green input[type='radio']:hover, .radioDbl-green input[type='radio']:checked {*/
+	/*	border: 2px solid green;*/
+    /*}*/
+	/*.radioDbl-green input[type='radio']:checked:before {*/
+	/*	border: 4px solid green;*/
+    /*}*/
+
+	/*!*** radioDbl-red ***!*/
+	/*.radioDbl-red input[type='radio']:hover, .radioDbl-red input[type='radio']:checked {*/
+	/*	border: 2px solid red;*/
+    /*}*/
+	/*.radioDbl-red input[type='radio']:checked:before {*/
+	/*	border: 4px solid red;*/
+    /*}*/
+
+/** ======for table list letter=====*/
+
+	div .div_number{
+		margin-top:5px; font-size: 18px; line-height: 40px; color:#FFFFFF !important; font-weight: bold;
+	}
+	.tr_head{ background-color:#4d9dd6; color: #ffffff; text-align: center; font-size:12px!important;}
+	.my_style {font-size: 11px; vertical-align: middle; text-align: center;}
+	tr > th {
+        font-size: 15px !important;
+        /*font-size:13px!important;*/
+    }
+/** =========================*/
+
+	.my_row_center {text-align: center;}
+    table.myformat th, table.myformat td { padding:0.50rem!important;}
+	table.myformat tr td { line-height:28px; padding:5px 4px; vertical-align:middle;}
+	table.myformat tr td img {padding-left:20px; padding-right:2px; width:30px; height:13px;}
+	table.myformat tr td .img_ud {width:60px; height:30px;}
+
+	table.myformat tr td:first-child { font-size: 16px; }
+	table.myformat tr td:second-child { font-size: 16px; }
+	table.myformat tr td:third-child { font-size: 16px; }
+
+	table.myformat tr th.col-answer, tr td.col-answer {width:18%;  font-weight: bold}
+	table.myformat tr th.col-answer, tr td.col-answer2 {width:20%;  font-weight: bold}
+	table.myformat tr th.col-answer, tr td.col-answer3 {width:10%;  font-weight: bold}
+	table.myformat tr th.col-answer, tr td.col-answer4 {width:15%;  font-weight: bold}
+	table.myformat tr th.col-ref, tr td.col-ref {width:12%; font-size:16px; font-weight: bold}
+	table.myformat tr th.col-ref, tr td.col-ref2 {width:17%; font-size:16px; font-weight: bold}
+	table.myformat tr th.col-ref, tr td.col-ref3 {width:20%; font-size:16px; font-weight: bold}
+
+	table.myformat tr td.ref {line-height: 21px; font-size: 14px; }
+	table.myformat tr td.ref41 {line-height: 21px; font-size: 14px; color: #2D5FE7}
+	table.myformat tr td.ref41c {line-height: 21px; font-size: 14px; color: #2D5FE7; vertical-align: middle;}
+	table.myformat tr td.ref31 {line-height: 21px; font-size: 14px;color:#FF3F42}
+	table.myformat tr td.ref31c {line-height: 21px; font-size: 14px;color:#FF3F42; vertical-align: middle;}
+
+	table.myformat tr th.col-comment, tr td.col-comment {width:45%;}
+	table.myformat tr th.col-comment, tr td.col-comment2 {width:15%;}
+
+	table.myformat input {font-size:12px; display:inline;}
+    table.myformat input.short8 {width:100px; font-size:12px; padding: 4px;}
+    table.myformat input.short7 {width:90px; font-size:12px; padding: 4px;}
+    table.myformat input.short6 {width:80px; font-size:12px; padding: 4px;}
+    table.myformat input.short5 {width:70px; font-size:12px; padding: 4px;}
+	table.myformat input.short4 {width:60px; font-size:12px; padding: 4px;}
+	table.myformat input.short3 {width:50px; font-size:12px; padding: 4px;}
+	table.myformat input.short2 {width:40px; font-size:12px; padding: 4px;}
+    table.myformat input.short  {width:30px; font-size:12px; padding: 4px;}
+	table.myformat input.long_100 {width:100%; font-size:12px;}
+	table.myformat input.long_97  {width:97%; font-size:12px;}
+	table.myformat input.long_90  {width:90%; font-size:12px;}
+	table.myformat input.long_85  {width:85%; font-size:12px;}
+	table.myformat input.long_80  {width:80%; font-size:12px;}
+    table.myformat input.long_75  {width:75%; font-size:12px;}
+	table.myformat input.long_70  {width:70%; font-size:12px;}
+	table.myformat input.long_60  {width:60%; font-size:12px;}
+	table.myformat input.long_50  {width:50%; font-size:12px;}
+	table.myformat input.long_40  {width:40%; font-size:12px;}
+    table.myformat input.long_35  {width:30%; font-size:12px;}
+	table.myformat input.long_30  {width:30%; font-size:12px;}
+    table.myformat input.long_25  {width:25%; font-size:12px;}
+	table.myformat input.long_20  {width:20%; font-size:12px;}
+    table.myformat input.long_15  {width:15%; font-size:12px;}
+	table.myformat input.long_10  {width:10%; font-size:12px;}
+    table.myformat input.long_5  {width:5%; font-size:12px;}
+    table.myformat long_11  {width:5%!important; font-size:12px;}
+
+    table.myformat select.long_97 {width:97%;}
+    table.myformat select.long_90 {width:90%;}
+    table.myformat select.long_85 {width:85%;}
+    table.myformat select.long_80 {width:80%;}
+    table.myformat select.long_70 {width:70%;}
+    table.myformat select.long_60 {width:60%;}
+    table.myformat select.long_50 {width:50%;}
+    table.myformat select.long_40 {width:40%;}
+    table.myformat select.long_30 {width:30%;}
+    table.myformat select.long_20 {width:20%;}
+    table.myformat select.long_10 {width:10%;}
+
+	/*table.myformat label { font-size:16px; padding-left: 20px; padding-right: 8px;}*/
+	table.myformat label.label_small{ font-size:8px;}
+	table.myformat select.short {width:120px; padding:2px; font-size:12px; display: inline;}
+	table.myformat select.short2 {width:150px; padding:2px; font-size:12px; display: inline;}
+
+	.my-yellow {background-color:#F8F264; }
+	.my-green {background-color:#0DF32E; } /*#0DF32E*/
+    .my-purple {background-color:#7c4fe0; } /*#0DF32E*/
+	.my-blue {background-color:#5F98EF; }
+	.my-red {background-color:#F57274; }
+	.my-pink {background-color:#F30DCE; }
+	.cap1 {font-size: 15px; font-weight: bold; color: #000000;}
+	.m12 {background-color:#F8F264; }
+	.m14 {background-color:#0DF32E; }
+
+	.center{text-align: center;}
+	.my-bold {font-weight:bold;}
+	.white {color:#FFFFFF; }
+	.black {color:#000000; }
+	.blue {color:#2D5FE7; }
+	.red {color:#F57274; }
+	.pink{color:#F30DCE;}
+	.orange{color:#FF9600;}
+    .purple{color:#7c4fe0;}
+
+	.bgblue {background-color:#2D5FE7; }
+	.bgred {background-color:#F57274; }
+	.bgpink{background-color:#F65BDD}
+	.bgyellow{background-color:#F9FF38}
+
+	.bgdefault{background-color:#777373}
+	.bgprimary{background-color:#547BE4}
+	.bgsuccess{background-color:#09C624}
+	.bginfo{background-color:#3294C4}
+	.bgwarning{background-color:#E98183}
+	.bgdanger{background-color:#EB393C}
+
+
+	/*.radio { margin-top:1px; margin-bottom:1px;}*/
+	/*.radio label::before {height:16px; width:16px; top:6px;}*/
+	/*.radio label::after {height:12px;width:12px; top:5px;}*/
+
+	.wid1 {width:20%; }
+	.wid2 {width:30%;text-align: center;}
+	.wid3 {width:40%;}
+
+
+	table.myformat label.check_label { padding-left: 2px; }
+
+	table.myformat tr td {line-height:29px;}
+
+	table.myformat tr td.top{ border-top-color:#FFFFFF;}
+	table.myformat tr td.bottom{ border-bottom-color:#FFFFFF;}
+	table.myformat tr td.right{ border-right-color:#FFFFFF;}
+	table.myformat tr td.my-bold {font-weight:bold;}
+
+	.top{ border-top-color:#FFFFFF;}
+
+	table.myformat label.check_label { padding-left: 2px; padding-top:0; margin-left: 11px; }
+
+	/*table.myformat tr td:first-child { font-size: 15px; }*/
+	table.myformat2 input {width:500px; font-size:12px; display:inline; border-width: 2px; padding: 3px 3px 3px 3px;}
+	table.myformat2 label { font-size:16px; }
+	.my-box{border: 1px solid #000000;}
+	.my-box-style{ padding:10px;}
+	hr.my-line{border-top: 1px solid #000000;margin: 0}
+	.my_inline{display: inline;}
+	.padb5{padding-bottom:5px;}
+	.padt5{padding-top:5px;}
+	.padt10{padding-top:10px;}
+
+
+	fieldset.f-border {
+    border: 1px groove #B31F9B !important;
+    padding: 0 1.4em 1.4em 1.4em !important;
+    margin: 0 0 1.5em 0 !important;
+    -webkit-box-shadow:  0px 0px 0px 0px #000;
+            box-shadow:  0px 0px 0px 0px #000;
+}
+
+    legend.f-border {
+        font-size: 1.2em !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width:auto;
+        padding:0 10px;
+        border-bottom:none;
+		/*color:#2D5FE7;*/
+    }
+
+	/** ===for menu 11, 12, 14, 15=== */
+	.col11_1 {	float: left; width: 2%;  }
+	.col11_2 {	float: right; width: 98%;  }
+

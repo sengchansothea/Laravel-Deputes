@@ -1,0 +1,129 @@
+@import url(../fonts/styles.css);
+
+:root {
+  --bs-primary: #4d9dd6;
+  --bs-secondary: #006390;
+}
+
+body {
+	font-family: 'Work Sans', 'Siemreap', sans-serif;
+	font-size: 1rem;
+}
+p {
+	font-size: inherit;
+}
+.text-moul {
+	font-family: 'Work Sans', 'Moul', sans-serif;
+}
+.text-battambang {
+	font-family: 'Work Sans', 'Battambang', sans-serif;
+}
+.text-siemreap {
+	font-family: 'Work Sans', 'Siemreap', sans-serif;
+}
+.text-hanuman {
+    font-family: 'Roboto Condensed', 'Hanuman', serif !important;
+}
+.bg-primary {
+	color: #fff;
+	background-color: var(--bs-primary)!important;
+}
+.text-primary {
+	color: var(--bs-primary)!important;
+}
+.text-secondary {
+	color: var(--bs-secondary)!important;
+}
+.w-0 {
+	width: 0%!important;
+}
+.page-wrapper .page-main-header {
+	height: 140px;
+}
+.logo-wrapper img {
+	height: 100px;
+}
+.header-bottom {
+	position: fixed;
+    top: 140px;
+    width: 100%;
+    z-index: 9;
+    background-color: var(--bs-primary);
+	color: #fff;
+}
+.vertical-menu-mt {
+	margin-top: 200px!important;
+}
+svg {
+	vertical-align: middle!important;
+}
+.btn-md.btn-primary {
+	color: #fff!important;
+}
+.btn-md.btn-success {
+	color: #fff!important;
+}
+#main-nav ul {
+	float: right;
+	top: 0;
+}
+.pixelstrap > li {
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+.pixelstrap > li > a, .pixelstrap > li > a:hover, .pixelstrap > li > a:active {
+	padding: 0;
+	font-size: 16px;
+}
+.pixelstrap > li > a {
+	color: var(--bs-primary);
+}
+.pixelstrap > li > a:hover {
+	color: var(--bs-secondary);
+}
+.page-main-header .main-header-right .nav-right ul li svg {
+	margin-top: 0;
+}
+.vertical-menu-main .icofont {
+	font-size: 20px;
+}
+.vertical-mobile-sidebar {
+	top: 10%!important;
+	right: 3%!important;
+}
+.vertical-mobile-sidebar svg {
+	width: 32px!important;
+	height: 32px!important;
+}
+.vertical-mobile-sidebar svg line {
+	color: var(--bs-secondary)!important;
+}
+.btn-primary {
+	background-color: var(--bs-primary)!important;
+	border-color: var(--bs-primary)!important;
+}
+.btn-primary:hover {
+	background-color: var(--bs-secondary)!important;
+	border-color: var(--bs-secondary)!important;
+}
+.input-group-text i {
+	color: #c5c5c5;
+}
+
+@media (min-width: 1200px) {
+	.page-wrapper .mega-menu-header .vertical-menu-main {
+		width: 100%;
+		right: 0;
+	}
+}
+/* @media only screen and (max-width: 1199px) {
+	.mega-menu-header .vertical-mobile-sidebar {
+		right: 0;
+		top: 0;
+	}
+} */
+@media only screen and (max-width: 991px) {
+	.page-wrapper .page-main-header .main-header-left .logo-wrapper img {
+		height: 96px;
+	}
+}

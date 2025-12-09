@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Disputes Management System - សូមស្វាគមន៍មកកាន់ប្រព័ន្ធ គ្រប់គ្រងពាក្យបណ្ដឹង">
+    <meta name="keywords" content="Disputes Management System - សូមស្វាគមន៍មកកាន់ប្រព័ន្ធ គ្រប់គ្រងពាក្យបណ្ដឹង">
+    <meta name="author" content="MLVT">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="{{ rurl('assets/images/mlvt.svg') }}">
+    <title>DISPUTES SYSTEM - Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/style.css') }}">
+    {{-- <link id="color" rel="stylesheet" href="{{ rurl('assets/css/color-1.css') }}" media="screen"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/login_v2.css') }}">
+
+    <style>
+    	:root {
+    		--bs-blue: #0d6efd;
+    		--bs-indigo: #6610f2;
+    		--bs-purple: #6f42c1;
+    		--bs-pink: #d63384;
+    		--bs-red: #dc3545;
+    		--bs-orange: #fd7e14;
+    		--bs-yellow: #ffc107;
+    		--bs-green: #198754;
+    		--bs-teal: #20c997;
+    		--bs-cyan: #0dcaf0;
+    		--bs-white: #fff;
+    		--bs-gray: #6c757d;
+    		--bs-gray-dark: #343a40;
+    		--bs-primary: #4380F9;
+    		--bs-primary-dark: #040368;
+    		--bs-secondary: #6c757d;
+    		--bs-success: #198754;
+    		--bs-info: #0dcaf0;
+    		--bs-warning: #ffc107;
+    		--bs-danger: #dc3545;
+    		--bs-light: #f8f9fa;
+    		--bs-dark: #212529;
+    		--bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    		--bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    		--bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); }
+    	body {
+    		background: linear-gradient(270deg,#1f71df 0%,#2872f0 100%);
+    	}
+    	.logo-wrapper img {
+    		width: 540px;
+    	}
+    	.text-primary-dark {
+    		color: var(--bs-primary-dark);
+    	}
+    	.text-gray-dark {
+    		color: var(--bs-gray-dark);
+    	}
+    	.center-screen {
+    		display: flex;
+    		flex-direction: column;
+    		justify-content: center;
+    		align-items: center;
+    		text-align: center;
+    		min-height: 100vh;
+    	}
+
+        .blink {
+            animation: blinker 1s linear infinite;
+        }
+
+        @keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+
+    </style>
+</head>
+<body class="center-screen">
+<div class="loader-wrapper">
+    <div class="loader bg-white">
+        <div class="whirly-loader"> </div>
+    </div>
+</div>
+<div class="container page-wrapper vertical">
+    <div class="row">
+        <div class="col-12 col-md-6 mx-auto login-wrap">
+            <div class="card mt-4">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-details">
+                                <div class="logo-wrapper text-center">
+                                    <a href="{{ url('/') }}"><img class="img-fluid" src="{{ rurl('assets/images/logo2.png') }}" alt=""></a>
+                                </div>
+
+                                <div class="d-flex align-items-center h-100">
+                                    <div class="w-100">
+                                        <form class="mt-3 mb-2" method="POST" action="{{ route('login') }}">
+                                            @csrf
+                                            <!-- reCAPTCHA Token -->
+                                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                                            <div class="text-center">
+												<p class="text-hanuman text-danger fw-bold fs-5 blink">
+                                                    អ្នកមិនមានគណនីប្រើប្រាស់ នៅក្នុងប្រព័ន្ធគ្រប់គ្រងបណ្ដឹងនេះទេ!
+                                                </p>
+											</div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Google reCAPTCHA v3 Script -->
+@include('script.google_recaptcha_v3')
+<script src="{{ rurl('assets/js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ rurl('assets/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ rurl('assets/js/script.js') }}"></script>
+</body>
+</html>

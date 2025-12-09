@@ -1,0 +1,26 @@
+<?php
+return [
+    'k_account' => "អ្នកប្រើប្រាស់",
+    'k_create_new_user' => "បង្កើតអ្នកប្រើប្រាស់ថ្មី",
+    'k_username' => "ឈ្មោះអ្នកប្រើប្រាស់ (for login)",
+    'k_user_fullname' => "ឈ្មោះម្ចាស់",
+    'k_password' => "ពាក្យសម្ងាត់ (តិចបំផុត៨ខ្ទង់)",
+    'k_old_password' => "ពាក្យសម្ងាត់ចាស់",
+    'k_confirm_password' => "ពាក្យសម្ងាត់ម្ដងទៀត",
+    'k_list_user' => "បញ្ជីអ្នកប្រើប្រាស់",
+    'k_change_password' => "ផ្លាស់ប្ដូរពាក្យសម្ងាត់",
+    'k_logout' => "ចាកចេញ",
+    'k_edit_user' => "កែប្រែពត៌មានអ្នកប្រើប្រាស់",
+    'k_auth_message_password_changed'  =>  'ពាក្យសម្ងាត់ត្រូវបានផ្លាស់ប្ដូរដោយជោគជ័យ។',
+    'k_super' => "Super",
+    'k_location' => "Location",
+    'k_level' => "Level",
+    'k_admin' => "Admin",
+    'k_data_entry' => "Data Entry",
+    'k_status' => "Status",
+    'k_action' => "Action",
+    'user_admin'  => "ថ្នាក់កណ្ដាល",
+    'user_province'  => "ថ្នាក់មន្ទីរ (Admin)",
+    'user_province2'  => "",
+
+];
