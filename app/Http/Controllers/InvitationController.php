@@ -17,8 +17,9 @@ class InvitationController extends Controller
     private int $totalRecord = 0;
     private int $perPage = 20;
 
-    function deleteInvitationNext($id){
-//        dd($id);
+    function deleteInvitationNext($id)
+    {
+        //        dd($id);
         $tmp = explode("_", $id);
         $caseYear = $tmp[0];
         $next_id = $tmp[1];
@@ -30,7 +31,7 @@ class InvitationController extends Controller
             // Delete file
             deleteFile($invNext->letter, pathToUploadFile("invitation/next/".$caseYear."/"));//delete invitation_file
         }
-//        return redirect("invitation/".$invitation_id."/edit")->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
+        //        return redirect("invitation/".$invitation_id."/edit")->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
         return back()->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
     }
     /**
@@ -53,7 +54,8 @@ class InvitationController extends Controller
 
         return view($view, [ "adata" => $data ]);
     }
-    function getOrSearchEloquent(){
+    function getOrSearchEloquent() //searchCampany
+    {
         $letters = CaseInvitation::with([
             'case.caseType',
             'case.caseDisputant',
@@ -69,17 +71,17 @@ class InvitationController extends Controller
                 //$query->whereRaw("long_distance = 1");
                 $query->where(DB::raw("CONCAT('x',company_id,'x', company_name_khmer,'', COALESCE(company_name_latin, 'NULL'), COALESCE(company_register_number, 'NULL'), COALESCE(company_tin, 'NULL') )"), "LIKE", "%".$search."%");
             });
-//                ->orWhereRelation("disputant", function ($query) use ($search) {
-//                    $query->where(DB::raw("CONCAT('x',id,'x', name,'', COALESCE(name_latin, 'NULL'), id_number )"), "LIKE", "%".$search."%");
-//                });
-            //dd($cases->ddRawSql());
-        }
+            //                ->orWhereRelation("disputant", function ($query) use ($search) {
+            //                    $query->where(DB::raw("CONCAT('x',id,'x', name,'', COALESCE(name_latin, 'NULL'), id_number )"), "LIKE", "%".$search."%");
+            //                });
+                        //dd($cases->ddRawSql());
+                    }
 
 
-//        if(request('business_activity') && request('business_activity') > 0){
-//            $companys = $companys->where("business_activity", request('business_activity'));
-//            $this->pageTitle = "លទ្ធផលស្វែងរករោងចក្រ សហគ្រាស ";
-//        }
+            //        if(request('business_activity') && request('business_activity') > 0){
+            //            $companys = $companys->where("business_activity", request('business_activity'));
+            //            $this->pageTitle = "លទ្ធផលស្វែងរករោងចក្រ សហគ្រាស ";
+            //        }
 
 
 
@@ -91,11 +93,11 @@ class InvitationController extends Controller
         $arraySearchParam =array (
             "json_opt" => request( 'json_opt'),
             "search" => request( 'search'),
-//            "business_activity" => request( 'business_activity'),
-//            "total_emp" => request( 'total_emp'),
-//            "business_province" => request( 'business_province'),
-//            "business_district" => request( 'business_district'),
-//            "business_commune" => request( 'business_commune'),
+            //            "business_activity" => request( 'business_activity'),
+            //            "total_emp" => request( 'total_emp'),
+            //            "business_province" => request( 'business_province'),
+            //            "business_district" => request( 'business_district'),
+            //            "business_commune" => request( 'business_commune'),
         );
         $letters->appends( $arraySearchParam );
 
@@ -105,7 +107,8 @@ class InvitationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($case_id = 0, $employee_or_company = 1){
+    public function create($case_id = 0, $employee_or_company = 1)
+    {
         if(!allowUserAccess($case_id)){
             abort(403, 'You do not have permission to access this page.');
         }
@@ -219,7 +222,7 @@ class InvitationController extends Controller
                     "date_updated" =>  $date_created,
                 ];
 
-//                dd($adataDisputant);
+                //                dd($adataDisputant);
                 $result = Disputant::updateOrCreate($searchDisputant, $adataDisputant);
 
                 dd($result);
@@ -239,18 +242,18 @@ class InvitationController extends Controller
                 "letter_date" => date2DB($request->letter_date),
                 "contact_phone" => $request->contact_phone,
 
-//                "receive_date" => $request->receive_date,
-//                "receive_time" => $request->receive_time,
-//                "receive_disputant_id" => $disputant_id,
-//                "receive_disputant_occupation" => $request->receive_disputant_occupation,
-//                "receive_disputant_phone_number" => $request->phone_number,
-//                //Address
-//                "receive_province" => $request->village,
-//                "receive_district" => $request->district,
-//                "receive_commune" => $request->commune,
-//                "receive_village" => $request->village,
-//                "receive_street" => $request->addr_street,
-//                "receive_house_no" => $request->addr_house_no,
+                //                "receive_date" => $request->receive_date,
+                //                "receive_time" => $request->receive_time,
+                //                "receive_disputant_id" => $disputant_id,
+                //                "receive_disputant_occupation" => $request->receive_disputant_occupation,
+                //                "receive_disputant_phone_number" => $request->phone_number,
+                //                //Address
+                //                "receive_province" => $request->village,
+                //                "receive_district" => $request->district,
+                //                "receive_commune" => $request->commune,
+                //                "receive_village" => $request->village,
+                //                "receive_street" => $request->addr_street,
+                //                "receive_house_no" => $request->addr_house_no,
 
                 "user_created" => Auth::user()->id,
                 "date_created" =>  $date_created,
@@ -271,48 +274,49 @@ class InvitationController extends Controller
             return back()->with("message", sweetalert()->addWarning("បរាជ័យ"));
         }
     }
-    public function storeBoth(Request $request){
+    public function storeBoth(Request $request)
+    {
         if(!allowUserAccess($request->case_id)){
             abort(403, 'You do not have permission to access this page.');
         }
-//        dd($request->all());
+        //        dd($request->all());
 
         $date_created = myDateTime();
         DB::beginTransaction();
         try{
-            /** ================== .Insert/Update Disputant (Receive Letter) =================== */
-//            $disputant_id = 0;
-//            if(!empty($request->id_number) && !empty($request->name) && !empty($request->dob) && !empty($request->nationality) && !empty($request->phone_number)){
-//                $searchDisputant = ["id_number" => $request->id_number];
-//                $adataDisputant = [
-//                    "name" => $request->name,
-//                    "gender" => $request->gender,
-//                    "dob" => date2DB($request->dob),
-//                    "nationality" => $request->nationality,
-//                    //"id_number" => $request->id_number,
-//                    "phone_number" => $request->phone_number,
-//
-//                    "house_no" => $request->addr_house_no,
-//                    "street" => $request->addr_street,
-//                    "group_name" => $request->group_name,
-//                    "village" => $request->village,
-//                    "commune" => $request->commune,
-//                    "district" => $request->district,
-//                    "province" => $request->province,
-//
-//                    "pob_commune_id" => $request->pob_commune_id,
-//                    "pob_district_id" => $request->pob_district_id,
-//                    "pob_province_id" => $request->pob_province_id,
-//
-//                    "user_created" => Auth::user()->id,
-//                    "user_updated" => Auth::user()->id,
-//                    "date_created" =>  $date_created,
-//                    "date_updated" =>  $date_created,
-//                ];
-//                $result = Disputant::updateOrCreate($searchDisputant, $adataDisputant);
-//                $disputant_id = !empty($result)? $result->id : 0;//get disputant_id
-//            }
-            /** ================== 1.Insert Case Invitation for employee =================== */
+                        /** ================== .Insert/Update Disputant (Receive Letter) =================== */
+            //            $disputant_id = 0;
+            //            if(!empty($request->id_number) && !empty($request->name) && !empty($request->dob) && !empty($request->nationality) && !empty($request->phone_number)){
+            //                $searchDisputant = ["id_number" => $request->id_number];
+            //                $adataDisputant = [
+            //                    "name" => $request->name,
+            //                    "gender" => $request->gender,
+            //                    "dob" => date2DB($request->dob),
+            //                    "nationality" => $request->nationality,
+            //                    //"id_number" => $request->id_number,
+            //                    "phone_number" => $request->phone_number,
+            //
+            //                    "house_no" => $request->addr_house_no,
+            //                    "street" => $request->addr_street,
+            //                    "group_name" => $request->group_name,
+            //                    "village" => $request->village,
+            //                    "commune" => $request->commune,
+            //                    "district" => $request->district,
+            //                    "province" => $request->province,
+            //
+            //                    "pob_commune_id" => $request->pob_commune_id,
+            //                    "pob_district_id" => $request->pob_district_id,
+            //                    "pob_province_id" => $request->pob_province_id,
+            //
+            //                    "user_created" => Auth::user()->id,
+            //                    "user_updated" => Auth::user()->id,
+            //                    "date_created" =>  $date_created,
+            //                    "date_updated" =>  $date_created,
+            //                ];
+            //                $result = Disputant::updateOrCreate($searchDisputant, $adataDisputant);
+            //                $disputant_id = !empty($result)? $result->id : 0;//get disputant_id
+            //            }
+                        /** ================== 1.Insert Case Invitation for employee =================== */
             $searchCaseInvEmp = [
                 "case_id" => $request->case_id,
                 "invitation_number" => $request->inv_num_emp,
@@ -454,7 +458,7 @@ class InvitationController extends Controller
     }
     public function uploadNextFile(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $request->validate([
             'file' => 'required|mimes:jpeg,png,jpg,gif,pdf|max:5148', // Max 5MB image size
         ]);
@@ -477,7 +481,7 @@ class InvitationController extends Controller
             abort(403, 'You do not have permission to access this page.');
         }
 
-//        dd($request->all());
+        //        dd($request->all());
         //dd($request->input());
         $caseYear = $request->case_year;
         $date_created = myDateTime();
@@ -538,18 +542,18 @@ class InvitationController extends Controller
                 "letter_date" => date2DB($request->letter_date),
                 "contact_phone" => $request->contact_phone,
 
-//                "receive_date" => $request->receive_date,
-//                "receive_time" => $request->receive_time,
-//                "receive_disputant_id" => $disputant_id,
-//                "receive_disputant_occupation" => $request->receive_disputant_occupation,
-//                "receive_disputant_phone_number" => $request->phone_number,
-//                //Address
-//                "receive_province" => $request->village,
-//                "receive_district" => $request->district,
-//                "receive_commune" => $request->commune,
-//                "receive_village" => $request->village,
-//                "receive_street" => $request->addr_street,
-//                "receive_house_no" => $request->addr_house_no,
+                //                "receive_date" => $request->receive_date,
+                //                "receive_time" => $request->receive_time,
+                //                "receive_disputant_id" => $disputant_id,
+                //                "receive_disputant_occupation" => $request->receive_disputant_occupation,
+                //                "receive_disputant_phone_number" => $request->phone_number,
+                //                //Address
+                //                "receive_province" => $request->village,
+                //                "receive_district" => $request->district,
+                //                "receive_commune" => $request->commune,
+                //                "receive_village" => $request->village,
+                //                "receive_street" => $request->addr_street,
+                //                "receive_house_no" => $request->addr_house_no,
 
                 "user_updated" => Auth::user()->id,
                 "date_updated" =>  $date_created,
@@ -573,7 +577,7 @@ class InvitationController extends Controller
                 $result = InvitationNextTime::create($adataNext);
                 $next_id = $result->id;//get next_id
                 /** ===============Blog: Upload Next File ======================== */
-//                $letter = uploadFileOnly2($request, $path_to_upload, "letter", $next_id, "letter");
+                //                $letter = uploadFileOnly2($request, $path_to_upload, "letter", $next_id, "letter");
                 $letter = myUploadFileOnly($request, $path_to_upload, "letter", $next_id, "invitation_next");
                 //dd($letter);
                 InvitationNextTime::where("id", $next_id)->update([
@@ -585,7 +589,7 @@ class InvitationController extends Controller
             /** New Next Record Many Record  */
             if(isset($request->status_old)){
                 /** ===============Blog: Upload Next File ======================== */
-//                $arrayLetter = uploadFileOnlyMulti($request, "invitation/next/".$caseYear."/", "letter_old", $request->next_id_old, "letter");
+                //                $arrayLetter = uploadFileOnlyMulti($request, "invitation/next/".$caseYear."/", "letter_old", $request->next_id_old, "letter");
                 $arrayLetter = myUploadMultiFilesOnly($request, $path_to_upload, "letter_old", $request->next_id_old, "invitation_next");
                 //dd($arrayLetter);
                 for($i = 0; $i < count($request->status_old); $i++){
@@ -619,12 +623,12 @@ class InvitationController extends Controller
             }
 
             return saveRedirect($request->input("btnSubmit"), $request->input("case_id"));
-//            if($request->input("btnSubmit") == "save"){
-//                return back()->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
-//            }
-//            else{
-//                return redirect("cases/".$request->input("case_id"))->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
-//            }
+            //            if($request->input("btnSubmit") == "save"){
+            //                return back()->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
+            //            }
+            //            else{
+            //                return redirect("cases/".$request->input("case_id"))->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
+            //            }
 
 
         }
@@ -697,7 +701,7 @@ class InvitationController extends Controller
                 $result = InvitationNextTime::create($adataNext);
                 $next_id = $result->id;//get next_id
                 /** ===============Blog: Upload Next File ======================== */
-//                $letter = uploadFileOnly2($request, $path_to_upload, "letter", $next_id, "letter");
+                //                $letter = uploadFileOnly2($request, $path_to_upload, "letter", $next_id, "letter");
                 $letter = myUploadFileOnly($request, $path_to_upload, "letter", $next_id, "invitation_next");
                 //dd($letter);
                 InvitationNextTime::where("id", $next_id)->update([
@@ -709,7 +713,7 @@ class InvitationController extends Controller
             /** New Next Record Many Record  */
             if(isset($request->status_old)){
                 /** ===============Blog: Upload Next File ======================== */
-//                $arrayLetter = uploadFileOnlyMulti($request, "invitation/next", "letter_old", $request->next_id_old, "letter");
+                //                $arrayLetter = uploadFileOnlyMulti($request, "invitation/next", "letter_old", $request->next_id_old, "letter");
                 $arrayLetter = myUploadMultiFilesOnly($request, $path_to_upload, "letter_old", $request->next_id_old, "invitation_next");
                 //dd($arrayLetter);
                 for($i = 0; $i < count($request->status_old); $i++){
@@ -765,7 +769,7 @@ class InvitationController extends Controller
         DB::beginTransaction();
         try{
             $tmp = explode("_", $id);
-//            dd(count($tmp));
+        //            dd(count($tmp));
             if(count($tmp) > 1){
                 $i = 1;
                 foreach($tmp as $key => $val){
@@ -792,9 +796,9 @@ class InvitationController extends Controller
             caseStatusTelegramNotification($currentCase, $msgTitle);
 
             DB::commit();
-//            if(request("json_opt") == 1){ //if request from app
-//                //return response()->json(['status' => 200, 'message' => 'success', 'data'=> $data]);
-//            }
+        //            if(request("json_opt") == 1){ //if request from app
+        //                //return response()->json(['status' => 200, 'message' => 'success', 'data'=> $data]);
+        //            }
             return redirect("cases/".$case_id)->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
 
         }

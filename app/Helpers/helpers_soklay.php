@@ -92,34 +92,49 @@ function caseStatusTelegramNotification($case, $caseStepMsg)
 {
 //    dd($case, $caseStepMsg, $caseStepObj);
     /**=================== Telegram Bot ============================  */
+    // Accept either a Cases model instance or an ID
+    if (is_numeric($case) || is_string($case)) {
+        $case = Cases::find($case);
+    }
+
+    if (!$case) {
+        return false; // nothing to send
+    }
+
     $todayCases = DB::table('tbl_case')
         ->whereDate('date_created', Carbon::today())
         ->count();
     $totalCases = DB::table('tbl_case')->where('case_type_id', 1)->count();
-    //    $currentCase = Cases::where("id", $case)->first();
 
-    //    dd($caseStepMsg);
+    $userFullname = optional(Auth::user())->k_fullname ?? 'N/A';
+    $caseNum = $case->case_num_str ?? 'N/A';
+    $disputantName = optional($case->disputant)->name ?? 'N/A';
+    $companyName = optional($case->company)->company_name_khmer ?? 'N/A';
+    $caseDate = !empty($case->case_date) ? date2Display($case->case_date) : 'N/A';
+    $caseDateEntry = !empty($case->case_date_entry) ? date2Display($case->case_date_entry) : 'N/A';
+    $mediator = optional(optional($case->latestCaseOfficer)->officer)->officer_name_khmer ?? 'N/A';
+    $noter = optional(optional($case->caseNoter)->officer)->officer_name_khmer ?? 'N/A';
+
     $msg2Telegram = "<b>" . "📢 ពាក្យបណ្តឹងត្រូវបានធ្វើបច្ចប្បន្នភាព !!!" . "</b>" . "\n"
         . "===========================" . "\n"
-        . "📌 សំណុំរឿងលេខ៖ " . "<b>" . ($case->case_num_str ?? 'N/A') . "</b>\n\n"
+        . "📌 សំណុំរឿងលេខ៖ " . "<b>" . $caseNum . "</b>\n\n"
         . "📌 បច្ចុប្បន្នភាពពាក្យបណ្តឹង៖ " . "<b>" . ($caseStepMsg ?? 'N/A') . "</b>\n\n"
-        . "👤 ធ្វើបច្ចុប្បន្នភាពដោយ៖ " . "<b>" . (Auth::user()->k_fullname ?? 'N/A') . "</b>" . "\n\n"
-        //        . "📌 ប្រភេទបណ្តឹង៖ " ."<b>". ($case->caseType->case_type_name ?? 'N/A') ."</b>". "\n\n"
-        . "👤 ដើមបណ្តឹង៖ " . "<b>" . ($case->disputant->name ?? 'N/A') . "</b>" . "\n\n"
-        . "👤 ចុងបណ្តឹង៖ " . "<b>" . ($case->company->company_name_khmer ?? 'N/A') . "</b>" . "\n\n"
-        . "📆 កាលបរិច្ឆេទបណ្តឹង៖ " . "<b>" . (date2Display($case->case_date) ?? 'N/A') . "</b>" . "\n\n"
-        . "🗓️ កាលបរិច្ឆេទប្តឹងទៅអធិការការងារ៖ " . "<b>" . (date2Display($case->case_date_entry) ?? 'N/A') . "</b>" . "\n\n"
-        . "👤 អ្នកផ្សះផ្សា៖ " . "<b>" . ($case->latestCaseOfficer->officer->officer_name_khmer ?? 'N/A') . "</b>" . "\n\n"
-        . "👤 អ្នកកត់ត្រា៖ " . "<b>" . ($case->caseNoter->officer->officer_name_khmer ?? 'N/A') . "</b>" . "\n"
+        . "👤 ធ្វើបច្ចុប្បន្នភាពដោយ៖ " . "<b>" . $userFullname . "</b>" . "\n\n"
+        . "👤 ដើមបណ្តឹង៖ " . "<b>" . $disputantName . "</b>" . "\n\n"
+        . "👤 ចុងបណ្តឹង៖ " . "<b>" . $companyName . "</b>" . "\n\n"
+        . "📆 កាលបរិច្ឆេទបណ្តឹង៖ " . "<b>" . $caseDate . "</b>" . "\n\n"
+        . "🗓️ កាលបរិច្ឆេទប្តឹងទៅអធិការការងារ៖ " . "<b>" . $caseDateEntry . "</b>" . "\n\n"
+        . "👤 អ្នកផ្សះផ្សា៖ " . "<b>" . $mediator . "</b>" . "\n\n"
+        . "👤 អ្នកកត់ត្រា៖ " . "<b>" . $noter . "</b>" . "\n"
         . "===========================" . "\n"
         . "#️⃣ សំណុំរឿងដែលបានបញ្ចូលថ្ងៃនេះចំនួន៖ " . "<b>" . number2KhmerNumber($todayCases) . "</b>" . " បណ្តឹង\n\n"
         . "#️⃣ សំណុំរឿងសរុបទាំងអស់ចំនួន៖ " . "<b>" . number2KhmerNumber($totalCases) . "</b>" . " បណ្តឹង\n\n";
 
-
-    //    dd($msg2Telegram);
-    // Resolve  TelegramService
+    // Resolve TelegramService
     $telegramService = app(TelegramService::class);
-    $telegramService->sendMessage($msg2Telegram);
+    // Prefer configured TELEGRAM_CHAT_ID, otherwise send to requested chat id
+    $chatId = env('TELEGRAM_CHAT_ID') ?: 6152829240;
+    return $telegramService->sendMessageToChat($msg2Telegram, $chatId);
 }
 
 /**

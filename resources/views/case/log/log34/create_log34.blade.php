@@ -44,22 +44,22 @@
                             <div class="card-block row">
                                 <div class="col-sm-12 col-lg-12 col-xl-12">
                                     <div class="row col-12">
-{{--                                        <div class="form-group col-sm-3 mt-3">--}}
-{{--                                            <label>Business1</label>--}}
-{{--                                            {!! showSelect('business_activity1', arrayBusinessActivity1(1,0), old('business_activity1'), " select2", "", "business_activity1", "") !!}--}}
-{{--                                        </div>--}}
-{{--                                        <div class="form-group col-sm-3 mt-3">--}}
-{{--                                            <label>Business2</label>--}}
-{{--                                            {!! showSelect('business_activity2', array(), old('business_activity2'), " select2", "", "business_activity2", "") !!}--}}
-{{--                                        </div>--}}
-{{--                                        <div class="form-group col-sm-3 mt-3">--}}
-{{--                                            <label>Business3</label>--}}
-{{--                                            {!! showSelect('business_activity3', array(), old('business_activity3'), " select2", "", "business_activity3", "") !!}--}}
-{{--                                        </div>--}}
-{{--                                        <div class="form-group col-sm-3 mt-3">--}}
-{{--                                            <label>Business4</label>--}}
-{{--                                            {!! showSelect('business_activity4', array(), old('business_activity4'), " select2", "", "business_activity4", "") !!}--}}
-{{--                                        </div>--}}
+                        {{--                                        <div class="form-group col-sm-3 mt-3">--}}
+                        {{--                                            <label>Business1</label>--}}
+                        {{--                                            {!! showSelect('business_activity1', arrayBusinessActivity1(1,0), old('business_activity1'), " select2", "", "business_activity1", "") !!}--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="form-group col-sm-3 mt-3">--}}
+                        {{--                                            <label>Business2</label>--}}
+                        {{--                                            {!! showSelect('business_activity2', array(), old('business_activity2'), " select2", "", "business_activity2", "") !!}--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="form-group col-sm-3 mt-3">--}}
+                        {{--                                            <label>Business3</label>--}}
+                        {{--                                            {!! showSelect('business_activity3', array(), old('business_activity3'), " select2", "", "business_activity3", "") !!}--}}
+                        {{--                                        </div>--}}
+                        {{--                                        <div class="form-group col-sm-3 mt-3">--}}
+                        {{--                                            <label>Business4</label>--}}
+                        {{--                                            {!! showSelect('business_activity4', array(), old('business_activity4'), " select2", "", "business_activity4", "") !!}--}}
+                        {{--                                        </div>--}}
 
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1">ឈ្មោះកម្មករ</label>

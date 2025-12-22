@@ -29,6 +29,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TelegramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -363,6 +364,9 @@ Route::middleware('throttle:60,1')->group(function () {
 
                 Route::get('/ajaxDeleteFile/{filename}/{path}/{table?}/{key_find?}/{key_value?}/{field?}', [AjaxController::class, 'deleteFile']);
                 Route::get('/ajaxDeleteFileOnly/{filename}/{path}/{table?}/{key_find?}/{key_value?}/{field?}', [AjaxController::class, 'deleteFileOnly']);
+
+                // Notify Telegram when user clicks upload links from the UI
+                Route::post('/telegram/notify-upload', [TelegramController::class, 'notifyUpload'])->name('telegram.notify-upload');
 
 
                 /**

@@ -68,7 +68,7 @@ function khmerNumber2English($string=2017){
     ));
 }
 function cleanNumber($str){
-    $phone= str_replace("​", "", trim($str));// remove zero space
+    $phone= str_replace(" ", "", trim($str));// remove zero space
     $phone= str_replace(" ", "", $phone); //remove space
     $phone= khmerNumber2English($phone);
     return $phone;

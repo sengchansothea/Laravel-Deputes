@@ -111,59 +111,59 @@ class Log34Controller extends Controller
             /** ================== 4.Insert/Update Sub Disputant in tbl_disputant, insert in tbl_case_disputant, and insert/update in tbl_case_log_attendant for Sub disputant (employee) ===== */
             $sub_disputant_id = 0;
             insertUpdateDisputant($request, $logID, $subAttendantTypeID);
-//        if(!empty($request->id_number) && !empty($request->name) && !empty($request->dob) && !empty($request->nationality) && !empty($request->phone_number)){
-//            $searchSubDisputant = ["id_number" => $request->id_number];
-//            $adataSubDisputant = [
-//                "name" => $request->name,
-//                "gender" => $request->gender,
-//                "dob" => date2DB($request->dob),
-//                "nationality" => $request->nationality,
-//                //"id_number" => $request->id_number,
-//                "phone_number" => $request->phone_number,
-//
-//                "house_no" => $request->addr_house_no,
-//                "street" => $request->addr_street,
-//                "group_name" => $request->group_name,
-//                "village" => $request->village,
-//                "commune" => $request->commune,
-//                "district" => $request->district,
-//                "province" => $request->province,
-//
-//                "pob_commune_id" => $request->pob_commune_id,
-//                "pob_district_id" => $request->pob_district_id,
-//                "pob_province_id" => $request->pob_province_id,
-//
-//                "user_created" => Auth::user()->id,
-//                "user_updated" => Auth::user()->id,
-//                "date_created" =>  $date_created,
-//                "date_updated" =>  $date_created,
-//            ];
-//            //dd($adataSubDisputant);
-//            $result = Disputant::updateOrCreate($searchSubDisputant, $adataSubDisputant);
-//            $sub_disputant_id = !empty($result)? $result->id : 0;//insert or update it return the same result
-//            /** ================== 3.Insert Case Disputant in tbl_case_disputant ============ */
-//            $adataCaseDisputant = [
-//                "case_id" => $request->case_id,
-//                "disputant_id" => $sub_disputant_id,
-//                "attendant_type_id" => 2,
-//                "house_no" => $request->addr_house_no,
-//                "street" => $request->addr_street,
-//                "village" => $request->village,
-//                "commune" => $request->commune,
-//                "district" => $request->district,
-//                "province" => $request->province,
-//
-//                "phone_number" => $request->phone_number,
-//                "occupation" => $request->occupation,
-//
-//                "user_created" => Auth::user()->id,
-//                "date_created" =>  $date_created,
-//            ];
-//            //dd($adataCaseDisputant);
-//            $result = CaseDisputant::create($adataCaseDisputant);
-//            dd($result);
-//
-//        }
+                //        if(!empty($request->id_number) && !empty($request->name) && !empty($request->dob) && !empty($request->nationality) && !empty($request->phone_number)){
+                //            $searchSubDisputant = ["id_number" => $request->id_number];
+                //            $adataSubDisputant = [
+                //                "name" => $request->name,
+                //                "gender" => $request->gender,
+                //                "dob" => date2DB($request->dob),
+                //                "nationality" => $request->nationality,
+                //                //"id_number" => $request->id_number,
+                //                "phone_number" => $request->phone_number,
+                //
+                //                "house_no" => $request->addr_house_no,
+                //                "street" => $request->addr_street,
+                //                "group_name" => $request->group_name,
+                //                "village" => $request->village,
+                //                "commune" => $request->commune,
+                //                "district" => $request->district,
+                //                "province" => $request->province,
+                //
+                //                "pob_commune_id" => $request->pob_commune_id,
+                //                "pob_district_id" => $request->pob_district_id,
+                //                "pob_province_id" => $request->pob_province_id,
+                //
+                //                "user_created" => Auth::user()->id,
+                //                "user_updated" => Auth::user()->id,
+                //                "date_created" =>  $date_created,
+                //                "date_updated" =>  $date_created,
+                //            ];
+                //            //dd($adataSubDisputant);
+                //            $result = Disputant::updateOrCreate($searchSubDisputant, $adataSubDisputant);
+                //            $sub_disputant_id = !empty($result)? $result->id : 0;//insert or update it return the same result
+                //            /** ================== 3.Insert Case Disputant in tbl_case_disputant ============ */
+                //            $adataCaseDisputant = [
+                //                "case_id" => $request->case_id,
+                //                "disputant_id" => $sub_disputant_id,
+                //                "attendant_type_id" => 2,
+                //                "house_no" => $request->addr_house_no,
+                //                "street" => $request->addr_street,
+                //                "village" => $request->village,
+                //                "commune" => $request->commune,
+                //                "district" => $request->district,
+                //                "province" => $request->province,
+                //
+                //                "phone_number" => $request->phone_number,
+                //                "occupation" => $request->occupation,
+                //
+                //                "user_created" => Auth::user()->id,
+                //                "date_created" =>  $date_created,
+                //            ];
+                //            //dd($adataCaseDisputant);
+                //            $result = CaseDisputant::create($adataCaseDisputant);
+                //            dd($result);
+                //
+                //        }
             /** ================== 5.Insert Data in Log34 (tbl_case_log34) =================== */
             $adata = [
                 "case_id" => $caseID,
@@ -192,7 +192,7 @@ class Log34Controller extends Controller
             //dd($adata);
             CaseLog34::create($adata);
 
-//            $id = !empty($result)? $result->id : 0;
+        //            $id = !empty($result)? $result->id : 0;
             $msgTitle = "បានបង្កើតកំណត់ហេតុ សាកសួរព័ត៌មានកម្មករ";
 
             $currentCase = Cases::find($caseID);
@@ -211,7 +211,8 @@ class Log34Controller extends Controller
             return back()->with("message", sweetalert()->addWarning("បរាជ័យ"));
         }
     }
-    function insertUpdateDisputantxx($request, $log_id, $sub_attendant_type_id){
+    function insertUpdateDisputantxx($request, $log_id, $sub_attendant_type_id)
+    {
         $date_created = myDateTime();
         $arrayDisputant = $request->id_number;
         //dd($arrayDisputant);

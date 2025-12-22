@@ -1532,6 +1532,14 @@
         <script src="{{ rurl('assets/js/select2/select2-custom.js') }}"></script>
         @include('script.my_sweetalert2')
         <script type="text/javascript">
+            // Telegram notify config available to upload handler
+            window.telegramNotify = {
+                url: '{{ route('telegram.notify-upload') }}',
+                case_id: '{{ $row->id }}',
+                case_num: '{{ $row->case_num_str ?? $row->case_number ?? "" }}',
+                csrf: '{{ csrf_token() }}'
+            };
+
             $(document).ready(function() {
                 $('#in_out_domain').select2();
                 $('#officer_id').select2();
@@ -1621,6 +1629,33 @@
                             // Handle success response
                             console.log(data.message);
                             Swal.fire('Success', data.message, 'success');
+
+                            // Notify telegram about successful upload (best-effort)
+                            try {
+                                if (window.telegramNotify && window.telegramNotify.url) {
+                                    fetch(window.telegramNotify.url, {
+                                        method: 'POST',
+                                        headers: {
+                                            'X-CSRF-TOKEN': window.telegramNotify.csrf,
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            case_id: window.telegramNotify.case_id,
+                                            case_num: window.telegramNotify.case_num
+                                        }),
+                                        keepalive: true
+                                    }).then(function(res) {
+                                        return res.json();
+                                    }).then(function(json) {
+                                        console.log('telegram notify after upload', json);
+                                    }).catch(function(err) {
+                                        console.warn('telegram notify failed', err);
+                                    });
+                                }
+                            } catch (e) {
+                                console.warn('telegram notify exception', e);
+                            }
+
                             location.reload(); // Reload the page upon successful upload
                         })
                         .catch(error => {
@@ -1630,6 +1665,41 @@
                         });
                 }
             });
+
+            // Notify telegram when user clicks any upload link on this page
+            (function() {
+                var CASE_ID = '{{ $row->id }}';
+                var CASE_NUM = '{{ $row->case_num_str ?? $row->case_number ?? "" }}';
+                var notifyUrl = '{{ route('telegram.notify-upload') }}';
+
+                document.querySelectorAll('a[href*="/uploads/all/"]').forEach(function(el) {
+                    el.addEventListener('click', function(evt) {
+                        try {
+                            var payload = JSON.stringify({ case_id: CASE_ID, case_num: CASE_NUM });
+                            // Use keepalive so the request can continue during navigation
+                            fetch(notifyUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: payload,
+                                keepalive: true
+                            }).then(function(res) {
+                                // optional: handle response
+                                return res.json();
+                            }).then(function(json) {
+                                console.log('telegram notify', json);
+                            }).catch(function(err) {
+                                console.warn('telegram notify failed', err);
+                            });
+                        } catch (e) {
+                            console.warn('telegram notify exception', e);
+                        }
+                        // allow the link to proceed to upload page
+                    });
+                });
+            })();
         </script>
     </x-slot>
 </x-admin.layout-main>

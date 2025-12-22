@@ -199,6 +199,20 @@ class UploadController extends Controller
             ($config['model'])::where("id", $request->id)->update(($config['extra'])($request));
         }
 
+        // Notify Telegram about the successful upload (uses helper in app/Helpers/helpers_soklay.php)
+        try {
+            $caseId = $request->case_id ?? null;
+            $uploadedFile = $fileName ?? null;
+            $msg = 'Uploaded file: ' . ($uploadedFile ?? 'n/a');
+            if ($caseId) {
+                // caseStatusTelegramNotification accepts case (id or model) and a message
+                caseStatusTelegramNotification($caseId, $msg);
+            }
+        } catch (\Throwable $e) {
+            // don't break the upload flow for notification errors; log for debugging
+            \Log::error('Telegram notify after upload failed: ' . $e->getMessage());
+        }
+
         // Redirect or JSON
         if ($request->form_upload === "normal") {
             return redirect(($caseType == 3 ? "collective_cases/" : "cases/") . $request->case_id)

@@ -45,9 +45,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-
-
-
     public function company()
     {
         return $this->hasOne(CompanyApi::class, "company_id", 'company_id');
