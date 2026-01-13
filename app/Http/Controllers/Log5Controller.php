@@ -28,7 +28,7 @@ class Log5Controller extends Controller
     }
     public function uploadFile(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         $request->validate([
             'file' => 'required|mimes:jpeg,png,jpg,gif,pdf|max:5148', // Max 5MB image size
         ]);
@@ -71,7 +71,7 @@ class Log5Controller extends Controller
      */
     public function store(Request $request)
     {
-//       dd($request->all());
+        //       dd($request->all());
         //dd($request->input());
         $date_created = myDateTime();
         $case_id = $request->case_id;
@@ -131,7 +131,7 @@ class Log5Controller extends Controller
                 "date_updated" =>  $date_created,
 
             ];
-//            dd($adataCompany);
+        //            dd($adataCompany);
             Company::where("company_id", $request->company_id)->update($adataCompany);
 
             /** ================== 5.Insert/Update Case Company in tbl_case_company =================== */
@@ -225,7 +225,8 @@ class Log5Controller extends Controller
             return back()->with("message", sweetalert()->addWarning("បរាជ័យ"));
         }
     }
-    private function insertUpdateUnion1($case_id, $log_id, $union1_number = 0, $union1){
+    private function insertUpdateUnion1($case_id, $log_id, $union1_number = 0, $union1)
+    {
         if($union1_number > 0){
             $date_created = myDateTime();
             foreach($union1 as $key => $val){
@@ -250,17 +251,18 @@ class Log5Controller extends Controller
                         // The record was just created
                         //echo 'Record was created';
                     }
-//                else {
-//                    // The record already existed and was updated
-//                    echo 'Record was updated';
-//                }
+                    //                else {
+                    //                    // The record already existed and was updated
+                    //                    echo 'Record was updated';
+                    //                }
                 }
             }
             //dd("Result");
 
         }
     }
-    private function updateUnion1($union1_id, $union1){
+    private function updateUnion1($union1_id, $union1)
+    {
         if(!empty($union1)){
             $date_created = myDateTime();
             foreach($union1 as $key => $val) {
@@ -297,9 +299,9 @@ class Log5Controller extends Controller
         $data['case_id'] = $log5->case->id;
         $data['head_meeting'] = $log5->headMeeting;
         $data['noter'] = $log5->noter;
-//        $data['noter'] = CaseLogAttendant::where("case_id", $log5->case->id)
-//            ->where("log_id", $log5->log_id)->where("attendant_type_id", 8)
-//            ->first();
+        //        $data['noter'] = CaseLogAttendant::where("case_id", $log5->case->id)
+        //            ->where("log_id", $log5->log_id)->where("attendant_type_id", 8)
+        //            ->first();
         $case_type_id = $log5->case->case_type_id;
         if($case_type_id == 1){
             $attendant_type_id = 3;//represent company
@@ -331,7 +333,7 @@ class Log5Controller extends Controller
      */
     public function update(Request $request, string $id)
     {
-//         dd($request->all());
+        //         dd($request->all());
         $date_created = myDateTime();
         $log_id = $request->log_id;
         $case_id = $request->case_id;
@@ -368,14 +370,14 @@ class Log5Controller extends Controller
 
         $attendant_type_id = 8; //Noter
         insertUpdateCaseOfficer($case_id, $log_id, $request->noter, $attendant_type_id);
-//            $adataNoter = [
-//                "attendant_id" => $request->noter,
-//                "user_updated" => Auth::user()->id,
-//                "date_updated" =>  $date_created,
-//            ];
-//            CaseLogAttendant::where("id", $request->noterid)->update($adataNoter);
+        //            $adataNoter = [
+        //                "attendant_id" => $request->noter,
+        //                "user_updated" => Auth::user()->id,
+        //                "date_updated" =>  $date_created,
+        //            ];
+        //            CaseLogAttendant::where("id", $request->noterid)->update($adataNoter);
 
-        /** ======== 4.Insert/Update Disputant Represent Company in tbl_disputant, insert in tbl_case_disputant, and insert/update in tbl_case_log_attendant for Represent Company ===== */
+                /** ======== 4.Insert/Update Disputant Represent Company in tbl_disputant, insert in tbl_case_disputant, and insert/update in tbl_case_log_attendant for Represent Company ===== */
         insertUpdateDisputantRepresentCompany($request, $log_id);
 
         /** ======= 5.Update Company Info in tbl_company =================== */
@@ -482,7 +484,7 @@ class Log5Controller extends Controller
      */
     public function destroy(string $id, TelegramService $telegramService)
     {
-//        dd($id);
+        //        dd($id);
         if(!allowUserAccess()){
             abort(403, 'You do not have permission to access this page.');
         }
@@ -544,7 +546,8 @@ class Log5Controller extends Controller
             return back()->with("message", sweetalert()->addWarning("បរាជ័យ"));
         }
     }
-    function deleteRepresentCompany($id){
+    function deleteRepresentCompany($id)
+    {
         if(!allowUserAccess()){
             abort(403, 'You do not have permission to access this page.');
         }
@@ -555,7 +558,8 @@ class Log5Controller extends Controller
         CaseLogAttendant::where("id", $id)->delete();
         return redirect("log5/".$logID."/edit")->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
     }
-    function deleteUnion1($id){
+    function deleteUnion1($id)
+    {
         if(!allowUserAccess()){
             abort(403, 'You do not have permission to access this page.');
         }

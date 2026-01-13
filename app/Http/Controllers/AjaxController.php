@@ -25,8 +25,8 @@ class AjaxController extends Controller
                 //->where("ready_add_2case", 0)
             ->where(DB::raw("CONCAT('x',company_id,'x', company_name_khmer,'', COALESCE(company_name_latin, 'NULL'),  COALESCE(company_tin, 'NULL') )"), "like", "%".$query."%")
             ->limit(10)
-//            ->orderBy('id', 'DESC')
-//            ->where('operation_status', 1)
+        //            ->orderBy('id', 'DESC')
+        //            ->where('operation_status', 1)
             ->pluck('name');
 
         if($data->count() > 0){
@@ -53,7 +53,7 @@ class AjaxController extends Controller
         $tmp = explode("__", $request->input('name'));
         $name = $tmp[0];
         //dd($tmp);
-//        $company_option = $tmp[2];
+            //        $company_option = $tmp[2];
 
         // Attempting to find the company in CompanyApi
         $details = CompanyApi::selectRaw("
@@ -67,7 +67,7 @@ class AjaxController extends Controller
                 single_id, operation_status
             ")
             ->where('company_name_khmer', $name)
-//            ->where('company_name_khmer', "LIKE", "%".$name."%")
+                //            ->where('company_name_khmer', "LIKE", "%".$name."%")
             ->first();
 
             // Set company_option based on which source the data is found
@@ -342,7 +342,7 @@ class AjaxController extends Controller
     function getDisputantDetail($search=""){
         $data = Disputant::where("id_number", $search)
             ->orWhere("name", $search)
-//            ->orWhere("name", "LIKE", "%".$search."%")
+        //            ->orWhere("name", "LIKE", "%".$search."%")
             ->limit(10)->get();
         if($data->count() > 0){
             return response()->json($data);

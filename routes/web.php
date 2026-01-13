@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\Auth\CustomLogoutController;
 use App\Http\Controllers\CaseController;
+use App\Http\Controllers\CaseController1;
 use App\Http\Controllers\CollectiveCaseController;
 use App\Http\Controllers\CollectiveInvitationController;
 use App\Http\Controllers\CollectivesLog34Controller;
@@ -111,7 +112,7 @@ Route::middleware('throttle:60,1')->group(function () {
             } elseif ($user->isInspectorUser()) { //Dispute
                 return redirect("/mainboard");
                 //                return redirect("/dispute/home");
-            } elseif ($user->isEmploymentUser()) { //Employment
+            } elseif ($user->isEmploymentUser()) { //Employmentថ
                 return redirect("/employment/home");
             }
         }
@@ -148,6 +149,7 @@ Route::middleware('throttle:60,1')->group(function () {
 
                 Route::post('/ajaxDeleteFile', [CaseController::class, 'ajaxDeleteFile'])->name('ajaxDeleteFile');
                 // routes/web.php
+                // In routes/web.php
 
                 Route::get('cases/create/step1', [CaseController::class, 'createStep1'])->name('cases.create.step1');
                 Route::get('cases/edit/step1/{case_id}', [CaseController::class, 'editStep1'])->name('cases.edit.step1');

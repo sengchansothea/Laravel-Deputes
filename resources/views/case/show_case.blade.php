@@ -188,7 +188,7 @@
                                             <div class="row mt-2">
                                                 <div class="form-group col-sm-4">
                                                     @if ($hasFullAccess)
-                                                        <a class="btn btn-success custom form-control fw-bold"
+                                                        <a class="btn btn-outline-success custom form-control fw-bold"
                                                             href="{{ url('cases/' . $row->id . '/edit') }}"
                                                             title="កែប្រែពាក្យបណ្តឹង"
                                                             target="_blank">កែសម្រួលពាក្យបណ្ដឹង</a>
@@ -196,7 +196,7 @@
                                                 </div>
                                                 <div class="form-group col-sm-4"></div>
                                                 <div class="form-group col-sm-4 text-end">
-                                                    <a class="btn btn-info custom form-control fw-bold"
+                                                    <a class="btn btn-outline-info custom form-control fw-bold"
                                                         href="{{ url('export/word/case/' . $row->id) }}"
                                                         title="ទាញយកពាក្យបណ្ដឹង" target="_blank">ទាញយកពាក្យបណ្ដឹង</a>
                                                 </div>
@@ -222,10 +222,9 @@
                                                         $imageStatus = '/check.png';
                                                         $button = '';
                                                     } else {
-                                                        //echo '<button id="uploadButtonInvitationEmployee" class="btn btn-success uploadButton" value="'.$row->id.'" data-url="'.url('case/upload/case_file3').'">Upload លិខិត</button>';
                                                         echo '<a href="' .
                                                             url('uploads/all/1/' . $row->id . '/' . $row->id) .
-                                                            '" class="btn btn-success form-control mt-2 fw-bold">' .
+                                                            '" class="btn btn-outline-success form-control mt-2 fw-bold">' .
                                                             'Upload លិខិត</a>';
                                                     }
                                                 }
@@ -238,9 +237,11 @@
                                             @endif
                                         </td>
                                     </tr>
-@php
-    $caseYear= !empty($row->case_date) ? date('Y', strtotime($row->case_date)) : null;
-@endphp
+                                    @php
+                                        $caseYear = !empty($row->case_date)
+                                            ? date('Y', strtotime($row->case_date))
+                                            : null;
+                                    @endphp
 
                                     <tr>
                                         <td>
@@ -260,7 +261,7 @@
                                         </td>
 
                                         <td colspan="2">
-                                            @if (!empty($imageStatus) && ($caseYear >= 2025 && !empty($row->case_file)) || ($caseYear < 2025))
+                                            @if ((!empty($imageStatus) && ($caseYear >= 2025 && !empty($row->case_file))) || $caseYear < 2025)
                                                 <form action="{{ url('assign/officer') }}" method="POST">
                                                     @method('PUT')
                                                     @csrf
@@ -272,7 +273,7 @@
                                                         <div class="form-group col-sm-3">
                                                             @if ($hasFullAccess)
                                                                 <button id="btnShowSelectOfficer" type="button"
-                                                                    class="btn btn-success form-control fw-bold">
+                                                                    class="btn btn-outline-success form-control fw-bold">
                                                                     កំណត់ ឬ ផ្លាស់ប្តូរ
                                                                 </button>
                                                             @endif
@@ -286,7 +287,7 @@
                                                         <div id="div_btn_change_officer" class="form-group col-sm-3"
                                                             style="display:none">
                                                             <button type="submit"
-                                                                class="btn btn-success form-control fw-bold">បញ្ជូន</button>
+                                                                class="btn btn--outline-success form-control fw-bold">បញ្ជូន</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -311,7 +312,7 @@
 
                                         <td>
                                             <div class="row">
-                                                @if (!empty($lastOfficer) && !empty($imageStatus) && ($caseYear >= 2025) || ($caseYear < 2025))
+                                                @if ((!empty($lastOfficer) && !empty($imageStatus) && $caseYear >= 2025) || $caseYear < 2025)
                                                     {!! $invitationEmployee['info'] !!}
                                                     {!! $invitationEmployee['export'] !!}
                                                 @endif
@@ -320,7 +321,11 @@
 
                                         <td>
                                             @php
-                                                if ($hasFullAccess && $invitationEmployee['invitation_id'] > 0 && !empty($imageStatus)) {
+                                                if (
+                                                    $hasFullAccess &&
+                                                    $invitationEmployee['invitation_id'] > 0 &&
+                                                    !empty($imageStatus)
+                                                ) {
                                                     $showFile = showFile(
                                                         1,
                                                         $invitationEmployee['invitation_file'],
@@ -343,7 +348,7 @@
                                                                     '/' .
                                                                     $invitationEmployee['invitation_id'],
                                                             ) .
-                                                            '" class="btn btn-success form-control fw-bold">Upload លិខិត</a>';
+                                                            '" class="btn btn-outline-success form-control fw-bold">Upload លិខិត</a>';
                                                         $step3_status = false;
                                                     }
                                                 }
@@ -404,7 +409,7 @@
                                                                                 '/' .
                                                                                 $next->id,
                                                                         ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
+                                                                        '" class="btn btn-outline-success form-control fw-bold">' .
                                                                         'Upload លិខិត</a>';
                                                                 }
                                                             @endphp
@@ -424,8 +429,9 @@
                                         <td>
                                             @if (!empty($lastOfficer))
                                                 <div class="row">
-                                                    @if (!empty($showFile) && ($invitationEmployee['invitation_id'] > 0) && !empty($imageStatus) && ($caseYear >= 2025) || ($caseYear < 2025))
-                                                        
+                                                    @if (
+                                                        (!empty($showFile) && $invitationEmployee['invitation_id'] > 0 && !empty($imageStatus) && $caseYear >= 2025) ||
+                                                            $caseYear < 2025)
                                                         {!! $showCaseLog34['info'] !!}
                                                         {!! $showCaseLog34['export'] !!}
                                                     @endif
@@ -436,7 +442,7 @@
                                         <td>
                                             @php
                                                 if ($hasFullAccess) {
-                                                    if (!empty($showFile) && ($showCaseLog34['log34_id'] > 0)) {
+                                                    if (!empty($showFile) && $showCaseLog34['log34_id'] > 0) {
                                                         $showFile = showFile(
                                                             1,
                                                             $showCaseLog34['log_file'],
@@ -459,7 +465,7 @@
                                                                         '/' .
                                                                         $showCaseLog34['log34_id'],
                                                                 ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
+                                                                '" class="btn btn-outline-success form-control fw-bold">' .
                                                                 'Upload កំណត់ហេតុ</a>';
                                                         }
                                                     }
@@ -467,7 +473,7 @@
                                             @endphp
                                         </td>
                                         <td class="text-center">
-                                            @if (!empty($showFile) &&($showCaseLog34['log34_id'] > 0))
+                                            @if (!empty($showFile) && $showCaseLog34['log34_id'] > 0)
                                                 <img width="30" height="30"
                                                     src="{{ $imageUrl }}/check.png" />
                                             @endif
@@ -481,19 +487,22 @@
                                         </td>
 
                                         <td>
-                                           
+
                                             @if (!empty($lastOfficer))
                                                 <div class="row">
                                                     @php
                                                         $step1_completed = !empty($row->case_file);
                                                         $step2_completed = !empty($adata['lastOfficer']);
                                                         $step4_completed = !empty($showCaseLog34['log34_id']); // FIXED
-                                                        $hasStep4File    = !empty($showCaseLog34['log_file']); // <-- semicolon added
+                                                        $hasStep4File = !empty($showCaseLog34['log_file']); // <-- semicolon added
 
                                                         // Check Step 4 file in log5
                                                         if (!empty($row->log5)) {
                                                             foreach ($row->log5 as $log5) {
-                                                                if (!empty($log5->detail5) && !empty($log5->detail5->log_file)) {
+                                                                if (
+                                                                    !empty($log5->detail5) &&
+                                                                    !empty($log5->detail5->log_file)
+                                                                ) {
                                                                     $hasStep4File = true;
                                                                     $step4_completed = true;
                                                                     break;
@@ -506,35 +515,13 @@
                                                             $step1_completed,
                                                             $step2_completed,
                                                             $step4_completed,
-                                                            $hasStep4File
+                                                            $hasStep4File,
                                                         );
                                                     @endphp
 
-                                                    {{-- @php
-                                                        // Step completion checks
-                                                    $step1_completed = !empty($row->case_file); // Step 1: Case file exists
-                                                    $step2_completed = !empty($adata['lastOfficer']); // Step 2: Last officer selected
-                                                    $step4_completed = !empty($showCaseLog34['log34_id']); // Step 4: Some log exists
-
-                                                    // Disable button if step4 completed but no file (or any other logic)
-                                                    $disabled = !$step4_completed;
-
-                                                    // Get invitation info
-                                                    $invitationCompany = showInvitationCompany(
-                                                        $row,
-                                                        $disabled,
-                                                        $step2_completed,
-                                                        $step1_completed,
-                                                        $step4_completed
-                                                    );
-                                                    @endphp --}}
-
                                                     {!! $invitationCompany['info'] !!}
                                                     {!! $invitationCompany['export'] !!}
-                                                    {{-- @if (!empty($imageStatus) && ($caseYear >= 2025) || ($caseYear < 2025))
-                                                        {!! $invitationCompany['info'] !!}
-                                                        {!! $invitationCompany['export'] !!}
-                                                    @endif                                     --}}
+
                                                 </div>
                                             @endif
                                         </td>
@@ -563,7 +550,7 @@
                                                                         '/' .
                                                                         $invitationCompany['invitation_id'],
                                                                 ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
+                                                                '" class="btn btn-outline-success form-control fw-bold">' .
                                                                 'Upload លិខិត</a>';
                                                         }
                                                     }
@@ -625,7 +612,7 @@
                                                                                 '/' .
                                                                                 $next->id,
                                                                         ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
+                                                                        '" class="btn btn-outline-success form-control fw-bold">' .
                                                                         'Upload លិខិត</a>';
                                                                 }
                                                             }
@@ -636,351 +623,7 @@
                                             @endforeach
                                         @endif
                                     @endif
-                                    {{-- <tr>
-                                        <td>
-                                            @php
-                                                $officerName = '';
-                                                $select = showSelect(
-                                                    'officer_id',
-                                                    $adata['caseOfficerList'],
-                                                    old('officer_id'),
-                                                    ' select2',
-                                                    '',
-                                                    '',
-                                                    'required',
-                                                );
-                                                $button =
-                                                    '<button type="submit" class="btn btn-success form-control fw-bold">បញ្ជូន</button>';
-                                                $btnChangeOfficer =
-                                                    '<button id="btnShowSelectOfficer" value="0" type="button" class="btn btn-success form-control fw-bold">កំណត់ ឬផ្លាស់ប្តូរ</button>';
-                                                if (!empty($lastOfficer)) {
-                                                    $officerName = $adata['lastOfficerInfo']->officer_name_khmer;
-                                                    $imageStatus = '/check.png';
-                                                } else {
-                                                    $imageStatus = '';
-                                                }
-                                            @endphp
-                                            <label
-                                                class="form-label fw-bold blue">{{ Num2Unicode(2) }}.អ្នកផ្សះផ្សារ:</label>
-                                            <span class="red fw-bold">{{ $officerName }}</span>
-                                        </td>
 
-                                      
-                                            <td colspan="2">
-                                                <form id="frm_change_officer" name="frm_change_officer"
-                                                    action="{{ url('assign/officer') }}" method="POST">
-                                                    @method('PUT')
-                                                    @csrf
-                                                    <input type="hidden" name="case_id"
-                                                        value="{{ $row->id }}">
-                                                    <div class="row">
-                                                        <div class="form-group col-sm-3">
-                                                            @if ($hasFullAccess)
-                                                                {!! $btnChangeOfficer !!}
-                                                            @endif
-                                                        </div>
-                                                        <div id="div_select_officer" class="form-group col-sm-6"
-                                                            style="display: none">
-                                                            {!! $select !!}
-                                                        </div>
-                                                        <div id="div_btn_change_officer" class="form-group col-sm-3"
-                                                            style="display: none">
-                                                            {!! $button !!}
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </td>
-                                       
-                                        <td class="text-center">
-                                            @if (!empty($imageStatus))
-                                                <img width="30" height="30"
-                                                    src="{{ $imageUrl }}/check.png" />
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label
-                                                class="form-label fw-bold blue">{{ Num2Unicode(3) }}.អញ្ជើញភាគីដើមចោទមកផ្ដល់ព័ត៌មាន</label>
-                                        </td>
-                                            <td>
-                                                <div class="row">
-                                                    @if (!empty($lastOfficer))
-                                                        {!! $invitationEmployee['info'] !!}
-                                                        {!! $invitationEmployee['export'] !!}
-                                                    @endif
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @php
-                                                    if ($hasFullAccess) {
-                                                        if ($invitationEmployee['invitation_id'] > 0) {
-                                                            $showFile = showFile(
-                                                                1,
-                                                                $invitationEmployee['invitation_file'],
-                                                                pathToDeleteFile('invitation/' . $caseYear . '/'),
-                                                                'delete',
-                                                                'tbl_case_invitation',
-                                                                'id',
-                                                                $invitationEmployee['invitation_id'],
-                                                                'invitation_file',
-                                                                '',
-                                                            );
-                                                            if ($showFile) {
-                                                                echo $showFile;
-                                                            } else {
-                                                                // echo '<button id="uploadButtonInvitationEmployee" class="btn btn-success form-control uploadButton" value="'.$invitationEmployee['invitation_id'].'" data-title="Upload លិខិតអញ្ជើញដែលមានចុះហត្ថលេខាទទួល" data-url="'.url('invitation/upload/file').'">Upload លិខិត</button>';
-                                                                echo '<a href="' .
-                                                                    url(
-                                                                        'uploads/all/3/' .
-                                                                            $row->id .
-                                                                            '/' .
-                                                                            $invitationEmployee['invitation_id'],
-                                                                    ) .
-                                                                    '" class="btn btn-success form-control fw-bold">' .
-                                                                    'Upload លិខិត</a>';
-                                                            }
-                                                        }
-                                                    }
-                                                @endphp
-                                            </td>
-                                            <td class="text-center">
-                                                @if ($invitationEmployee['invitation_id'] > 0)
-                                                    <img width="30" height="30"
-                                                        src="{{ $imageUrl }}/check.png" />
-                                                @endif
-                                            </td>
-                                    </tr> --}}
-                                    {{-- @if ($hasFullAccess)
-                                        @if (!empty($row->invitationDisputant))
-                                            @if (count($row->invitationDisputant->nextTime) > 0)
-                                                @foreach ($row->invitationDisputant->nextTime as $next)
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>
-                                                            <div class="row">
-                                                                <div class="form-group col-sm-12 fw-bold">
-                                                                    <span class="text-info"><span
-                                                                            class="blue">[{{ $next->status->status_name }}]</span>
-                                                                        ជួបលើកក្រោយថ្ងៃទី <span
-                                                                            class="text-danger">{{ date2Display($next->next_date) }}</span>
-                                                                        ម៉ោង <span
-                                                                            class="text-danger">{{ $next->next_time }}</span>
-                                                                        មូលហេតុ <span
-                                                                            class="text-danger">{{ $next->reason }}</span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                        </td>
-                                                        <td>
-                                                            @php
-                                                                $showFile = showFile(
-                                                                    1,
-                                                                    $next->letter,
-                                                                    pathToDeleteFile(
-                                                                        'invitation/next/' . $caseYear . '/',
-                                                                    ),
-                                                                    'delete',
-                                                                    'tbl_case_invitation_next_time',
-                                                                    'id',
-                                                                    $next->id,
-                                                                    'letter',
-                                                                    '',
-                                                                );
-                                                                if ($showFile) {
-                                                                    echo $showFile;
-                                                                } else {
-                                                                    echo '<a href="' .
-                                                                        url(
-                                                                            'uploads/all/33/' .
-                                                                                $row->id .
-                                                                                '/' .
-                                                                                $next->id,
-                                                                        ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
-                                                                        'Upload លិខិត</a>';
-                                                                }
-                                                            @endphp
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                @endforeach
-                                            @endif
-                                        @endif
-                                    @endif --}}
-                                    {{-- <tr>
-                                        <td><label
-                                                class="form-label fw-bold blue">{{ Num2Unicode(4) }}.សាកសួរព័ត៌មានដើមចោទ</label>
-                                        </td>
-
-                                        <td>
-                                            @if (!empty($lastOfficer))
-                                                <div class="row">
-                                                    @if ($invitationEmployee['invitation_id'] > 0)
-                                                        {!! $showCaseLog34['info'] !!}
-                                                        {!! $showCaseLog34['export'] !!}
-                                                    @endif
-
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @php
-                                                if ($hasFullAccess) {
-                                                    if ($showCaseLog34['log34_id'] > 0) {
-                                                        $showFile = showFile(
-                                                            1,
-                                                            $showCaseLog34['log_file'],
-                                                            pathToDeleteFile('case_doc/log34/' . $caseYear . '/'),
-                                                            'delete',
-                                                            'tbl_case_log34',
-                                                            'id',
-                                                            $showCaseLog34['log34_id'],
-                                                            'log_file',
-                                                            '',
-                                                        );
-                                                        if ($showFile) {
-                                                            echo $showFile;
-                                                        } else {
-                                                            //echo '<button id="uploadButtonInvitationEmployee" class="btn btn-success form-control uploadButton" value="'.$showCaseLog34['log34_id'].'" data-title="Upload កំណត់ហេតុដែលបានចុះហត្ថលេខា ផ្ដិតមេដៃ និងវាយត្រាឈ្មោះ" data-url="'.url('log34/upload/file').'">Upload កំណត់ហេតុ</button>';
-                                                            echo '<a href="' .
-                                                                url(
-                                                                    'uploads/all/4/' .
-                                                                        $row->id .
-                                                                        '/' .
-                                                                        $showCaseLog34['log34_id'],
-                                                                ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
-                                                                'Upload កំណត់ហេតុ</a>';
-                                                        }
-                                                    }
-                                                }
-                                            @endphp
-                                        </td>
-                                        <td class="text-center">
-                                            @if ($showCaseLog34['log34_id'] > 0)
-                                                <img width="30" height="30"
-                                                    src="{{ $imageUrl }}/check.png" />
-                                            @endif
-                                        </td>
-
-
-                                    </tr> --}}
-                                    {{-- <tr>
-                                        <td><label
-                                                class="form-label fw-bold blue">{{ Num2Unicode(5) }}.អញ្ជើញភាគីចុងចោទមកផ្ដល់ព័ត៌មាន</label>
-                                        </td>
-
-                                        <td>
-                                            @php
-
-                                            @endphp
-                                            @if (!empty($lastOfficer))
-                                                <div class="row">
-                                                    {!! $invitationCompany['info'] !!}
-                                                    {!! $invitationCompany['export'] !!}
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @php
-                                                if ($hasFullAccess) {
-                                                    if ($invitationCompany['invitation_id'] > 0) {
-                                                        $showFile = showFile(
-                                                            1,
-                                                            $invitationCompany['invitation_file'],
-                                                            pathToDeleteFile('invitation/' . $caseYear . '/'),
-                                                            'delete',
-                                                            'tbl_case_invitation',
-                                                            'id',
-                                                            $invitationCompany['invitation_id'],
-                                                            'invitation_file',
-                                                            '',
-                                                        );
-                                                        if ($showFile) {
-                                                            echo $showFile;
-                                                        } else {
-                                                            echo '<a href="' .
-                                                                url(
-                                                                    'uploads/all/5/' .
-                                                                        $row->id .
-                                                                        '/' .
-                                                                        $invitationCompany['invitation_id'],
-                                                                ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
-                                                                'Upload លិខិត</a>';
-                                                        }
-                                                    }
-                                                }
-                                            @endphp
-                                        </td>
-                                        <td class="text-center">
-                                            @if ($invitationCompany['invitation_id'] > 0)
-                                                <img width="30" height="30"
-                                                    src="{{ $imageUrl }}/check.png" />
-                                            @endif
-                                        </td>
-
-                                    </tr> --}}
-                                    {{-- @if (!empty($row->invitationCompany))
-                                        @if (count($row->invitationCompany->nextTime) > 0)
-                                            @foreach ($row->invitationCompany->nextTime as $next)
-                                                <tr>
-                                                    <td></td>
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="form-group col-sm-12 fw-bold">
-                                                                <span class="text-info"><span
-                                                                        class="pink">[{{ $next->status->status_name }}]</span>
-                                                                    ជួបលើកក្រោយថ្ងៃទី <span
-                                                                        class="text-danger">{{ date2Display($next->next_date) }}</span>
-                                                                    ម៉ោង <span
-                                                                        class="text-danger">{{ $next->next_time }}</span>
-                                                                    មូលហេតុ <span
-                                                                        class="text-danger">{{ $next->reason }}</span>
-                                                                </span>
-                                                            </div>
-                                                        </div>
-
-                                                    </td>
-                                                    <td>
-                                                        @php
-                                                            if ($hasFullAccess) {
-                                                                $showFile = showFile(
-                                                                    1,
-                                                                    $next->letter,
-                                                                    pathToDeleteFile(
-                                                                        'invitation/next/' . $caseYear . '/',
-                                                                    ),
-                                                                    'delete',
-                                                                    'tbl_case_invitation_next_time',
-                                                                    'id',
-                                                                    $next->id,
-                                                                    'letter',
-                                                                    '',
-                                                                );
-                                                                if ($showFile) {
-                                                                    echo $showFile;
-                                                                } else {
-                                                                    echo '<a href="' .
-                                                                        url(
-                                                                            'uploads/all/55/' .
-                                                                                $row->id .
-                                                                                '/' .
-                                                                                $next->id,
-                                                                        ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
-                                                                        'Upload លិខិត</a>';
-                                                                }
-                                                            }
-                                                        @endphp
-                                                    </td>
-                                                    <td></td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
-                                    @endif --}}
                                     <tr>
                                         <td><label
                                                 class="form-label fw-bold blue">{{ Num2Unicode(6) }}.សាកសួរព័ត៌មានភាគីចុងចោទ</label>
@@ -988,8 +631,7 @@
 
                                         <td>
                                             <div class="row">
-                                                @if(!empty($showFile) && ($invitationCompany['invitation_id'] > 0))
-
+                                                @if (!empty($showFile) && $invitationCompany['invitation_id'] > 0)
                                                     {!! $showCaseLog5['info'] !!}
                                                     {!! $showCaseLog5['export'] !!}
                                                 @endif
@@ -1020,7 +662,7 @@
                                                                         '/' .
                                                                         $showCaseLog5['log5_id'],
                                                                 ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
+                                                                '" class="btn btn-outline-success form-control fw-bold">' .
                                                                 'Upload កំណត់ហេតុ</a>';
                                                         }
                                                     }
@@ -1028,7 +670,7 @@
                                             @endphp
                                         </td>
                                         <td class="text-center">
-                                            @if ($showCaseLog5['log5_id'] > 0)
+                                            @if ($showCaseLog5['log5_id'] > 0 && !empty($showFile))
                                                 <img width="30" height="30"
                                                     src="{{ $imageUrl }}/check.png" />
                                             @endif
@@ -1042,19 +684,18 @@
 
                                         <td>
                                             @php
-                                                if ($invitationBoth['invitation_id1'] == 0) {
+                                                if (!empty($showFile) && $invitationBoth['invitation_id1'] == 0) {
                                                     echo $invitationBoth['info1'];
                                                 }
                                             @endphp
                                         </td>
                                         <td></td>
                                         <td class="text-center">
-                                            @if ($invitationBoth['invitation_id1'] > 0)
+                                            @if (hasUploadedFile($invitationBoth['invitation_file1']))
                                                 <img width="30" height="30"
                                                     src="{{ $imageUrl }}/check.png" />
                                             @endif
                                         </td>
-
                                     </tr>
 
                                     @if ($invitationBoth['invitation_id1'] > 0)
@@ -1090,7 +731,7 @@
                                                                         '/' .
                                                                         $invitationBoth['invitation_id1'],
                                                                 ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
+                                                                '" class="btn btn-outline-success form-control fw-bold">' .
                                                                 'Upload លិខិត</a>';
                                                         }
                                                     }
@@ -1132,7 +773,7 @@
                                                                         '/' .
                                                                         $invitationBoth['invitation_id2'],
                                                                 ) .
-                                                                '" class="btn btn-success form-control fw-bold">' .
+                                                                '" class="btn btn-outline-success form-control fw-bold">' .
                                                                 'Upload លិខិត</a>';
                                                         }
                                                     }
@@ -1187,7 +828,7 @@
                                                                                 '/' .
                                                                                 $next->id,
                                                                         ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
+                                                                        '" class="btn btn-outline-success form-control fw-bold">' .
                                                                         'Upload លិខិត</a>';
                                                                 }
                                                             }
@@ -1243,7 +884,7 @@
                                                                                 '/' .
                                                                                 $next->id,
                                                                         ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
+                                                                        '" class="btn btn-outline-success form-control fw-bold">' .
                                                                         'Upload លិខិត</a>';
                                                                 }
                                                             }
@@ -1254,21 +895,27 @@
                                             @endforeach
                                         @endif
                                     @endif
+
                                     <tr>
                                         <td><label
                                                 class="form-label blue fw-bold">{{ Num2Unicode(8) }}.ការផ្សះផ្សា</label>
                                         </td>
 
+                                        @php
+                                            $canShowLog6Info =
+                                                hasUploadedFile($invitationBoth['invitation_file1']) &&
+                                                !empty($showCaseLog6All['log6_data']['info']);
+                                        @endphp
+
                                         <td>
-                                            @if ($showCaseLog6All['num_log6'] > 0)
-                                            @else
+                                            @if ($canShowLog6Info)
                                                 {!! $showCaseLog6All['log6_data']['info'] !!}
                                             @endif
                                         </td>
                                         <td>
                                         </td>
                                         <td class="text-center">
-                                            @if ($showCaseLog6All['num_log6'] > 0)
+                                            @if (hasLog6UploadedFile($showCaseLog6All['log6_data']))
                                                 <img width="30" height="30"
                                                     src="{{ $imageUrl }}/check.png" />
                                             @endif
@@ -1292,7 +939,7 @@
                                                                                 class="form-group col-sm-12 fw-bold text-info">
                                                                                 @if ($hasFullAccess)
                                                                                     <a href="{{ url('uploads/all/84/' . $row->id . '/' . $showCaseLog6['log6_id']) }}"
-                                                                                        class="btn btn-success form-control fw-bold">កែប្រែព័ត៌មានសុំផ្សះផ្សាឡើងវិញ</a>
+                                                                                        class="btn btn-outline-success form-control fw-bold">កែប្រែព័ត៌មានសុំផ្សះផ្សាឡើងវិញ</a>
                                                                                 @endif
                                                                                 <br>
                                                                                 <span
@@ -1314,7 +961,7 @@
                                                                         @if ($hasFullAccess)
                                                                             <div class="form-group col-sm-6"><a
                                                                                     href="{{ url('uploads/all/82/' . $row->id . '/' . $showCaseLog6['log6_id']) }}"
-                                                                                    class="btn btn-success form-control fw-bold">សុំផ្សះផ្សាឡើងវិញ</a>
+                                                                                    class="btn btn-outline-success form-control fw-bold">សុំផ្សះផ្សាឡើងវិញ</a>
                                                                             </div>
                                                                         @endif
                                                                     @endif
@@ -1323,7 +970,7 @@
                                                                         <div class="form-group col-sm-12">
                                                                             @if ($hasFullAccess)
                                                                                 <a href="{{ url('uploads/all/83/' . $row->id . '/' . $showCaseLog6['log6_id']) }}"
-                                                                                    class="btn btn-success form-control fw-bold">កែប្រែព័ត៌មានសុំលើកពេលផ្សះផ្សា</a>
+                                                                                    class="btn btn-outline-success form-control fw-bold">កែប្រែព័ត៌មានសុំលើកពេលផ្សះផ្សា</a>
                                                                             @endif
                                                                             <br>
                                                                             <label
@@ -1369,7 +1016,7 @@
                                                                         @if ($hasFullAccess)
                                                                             <a href="#"
                                                                                 onClick="comfirm_sweetalert2('{{ url('log6/reopen/request/cancel/' . $showCaseLog6['detail']->case_id . '/' . $showCaseLog6['detail']->id) }}', 'តើអ្នកពិតជាចង់លុប មែនឫ?')"
-                                                                                class="btn btn-danger form-control">
+                                                                                class="btn btn-outline-danger form-control">
                                                                                 លុបការសុំផ្សះផ្សាឡើងវិញ
                                                                         @endif
                                                                         </a>
@@ -1406,7 +1053,7 @@
                                                                                 '/' .
                                                                                 $showCaseLog6['log6_id'],
                                                                         ) .
-                                                                        '" class="btn btn-success form-control fw-bold">' .
+                                                                        '" class="btn btn-outline-success form-control fw-bold">' .
                                                                         'Upload កំណត់ហេតុ</a>';
                                                                 }
                                                             }
@@ -1435,7 +1082,7 @@
                                                                         if ($showFile) {
                                                                             echo $showFile;
                                                                         } else {
-                                                                            echo '<button id="uploadButtonInvitationEmployee" class="btn btn-success form-control uploadButton fw-bold mb-1" value="' .
+                                                                            echo '<button id="uploadButtonInvitationEmployee" class="btn btn-outline-success form-control uploadButton fw-bold mb-1" value="' .
                                                                                 $showCaseLog6['detail']->id .
                                                                                 '" data-title="Upload លិខិតស្នើសុំផ្សះផ្សាឡើងវិញ ដែលបានចុះហត្ថលេខា" data-url="' .
                                                                                 url('log6/reopen/upload/file') .
@@ -1447,7 +1094,7 @@
                                                                                         '/' .
                                                                                         $showCaseLog6['detail']->id,
                                                                                 ) .
-                                                                                '" class="btn btn-success form-control fw-bold">' .
+                                                                                '" class="btn btn-outline-success form-control fw-bold">' .
                                                                                 'Upload កំណត់ហេតុ</a>';
                                                                         }
                                                                     }
@@ -1483,7 +1130,7 @@
                                                                                     '/' .
                                                                                     $showCaseLog6['detail']->id,
                                                                             ) .
-                                                                            '" class="btn btn-success form-control fw-bold">' .
+                                                                            '" class="btn btn-outline-success form-control fw-bold">' .
                                                                             'Upload កំណត់ហេតុ</a>';
                                                                     }
                                                                 }
@@ -1512,7 +1159,7 @@
                         @if ($hasFullAccess)
                             <div class="card-block row text-center mt-4">
                                 <div class="form-group  col-sm-12">
-                                    <a class="btn btn-danger text-hanuman-22"
+                                    <a class="btn btn-outline-danger text-hanuman-22"
                                         href="{{ url('close/case/' . $row->id) }}" title="ចុចបិទបញ្ចប់សំណុំរឿង"
                                         target="">ការបិទបញ្ចប់សំណុំរឿង</a>
                                 </div>
@@ -1536,7 +1183,7 @@
             window.telegramNotify = {
                 url: '{{ route('telegram.notify-upload') }}',
                 case_id: '{{ $row->id }}',
-                case_num: '{{ $row->case_num_str ?? $row->case_number ?? "" }}',
+                case_num: '{{ $row->case_num_str ?? ($row->case_number ?? '') }}',
                 csrf: '{{ csrf_token() }}'
             };
 
@@ -1669,13 +1316,16 @@
             // Notify telegram when user clicks any upload link on this page
             (function() {
                 var CASE_ID = '{{ $row->id }}';
-                var CASE_NUM = '{{ $row->case_num_str ?? $row->case_number ?? "" }}';
+                var CASE_NUM = '{{ $row->case_num_str ?? ($row->case_number ?? '') }}';
                 var notifyUrl = '{{ route('telegram.notify-upload') }}';
 
                 document.querySelectorAll('a[href*="/uploads/all/"]').forEach(function(el) {
                     el.addEventListener('click', function(evt) {
                         try {
-                            var payload = JSON.stringify({ case_id: CASE_ID, case_num: CASE_NUM });
+                            var payload = JSON.stringify({
+                                case_id: CASE_ID,
+                                case_num: CASE_NUM
+                            });
                             // Use keepalive so the request can continue during navigation
                             fetch(notifyUrl, {
                                 method: 'POST',

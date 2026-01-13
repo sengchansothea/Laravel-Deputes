@@ -28,13 +28,13 @@
                                     }
                                 @endphp
                                 <div class="form-group col-sm-4 mt-4">
-                                    <a href="{{ $urlBack }}" class="btn btn-info form-control fw-bold">
+                                    <a href="{{ $urlBack }}" class="btn btn-outline-info form-control fw-bold">
                                         ត្រឡប់ទៅកាន់ដំណើរការបណ្ដឹង
                                     </a>
                                 </div>
                                
                                 <div class="form-group col-sm-4 mt-4">
-                                    <button type="submit" class="btn btn-success form-control fw-bold">Upload</button>
+                                    <button type="submit" class="btn btn-outline-success form-control fw-bold">Upload</button>
                                 </div>
                             </div><br/>
                             <div class="row">

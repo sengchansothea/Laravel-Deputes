@@ -20,7 +20,7 @@
             </a>
         </li>
         <li>
-            <a class="active" href="{{ url('user/case/entry/'.Auth::id()) }}">
+            <a class="active" href="{{ url('user/case/entry/' . Auth::id()) }}">
                 <i class="fa fa-circle"></i>ពាក្យបណ្ដឹងដែលបានបញ្ចូល
             </a>
         </li>

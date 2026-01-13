@@ -88,12 +88,12 @@ class Log6Controller extends Controller
             $log6->status_letter = null;
             $log6->save();
 
-//        CaseLog6::where("id", $log6_id)->update([
-//            "reopen_status" => 0,
-//            "status_date" => null,
-//            "status_time" => null,
-//            "status_letter" => null
-//        ]);
+            //        CaseLog6::where("id", $log6_id)->update([
+            //            "reopen_status" => 0,
+            //            "status_date" => null,
+            //            "status_time" => null,
+            //            "status_letter" => null
+            //        ]);
 
             DB::commit();
             if(request("json_opt") == 1){ //if request from app
@@ -127,9 +127,9 @@ class Log6Controller extends Controller
             $status_letter = $fileName;
         }
         CaseLog6::where("id", $request->id)->update([
-//            "reopen_status" => 1,
-//            "status_date" => date2DB($request->status_date),
-//            "status_time" => $request->status_time,
+        //            "reopen_status" => 1,
+        //            "status_date" => date2DB($request->status_date),
+        //            "status_time" => $request->status_time,
             "log_file" => $status_letter
         ]);
 
@@ -162,7 +162,7 @@ class Log6Controller extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->all());
+        //        dd($request->all());
         //dd($request->input());
         $date_created = myDateTime();
         $case_id = $request->case_id;
@@ -180,7 +180,7 @@ class Log6Controller extends Controller
 
             /** =============== Upload File: translator_letter ======================== */
             $path_to_upload = pathToUploadFile("case_doc/log6");
-//        $translator_letter = uploadFileOnly($request, $path_to_upload, "translator_letter", $log_id);
+            //        $translator_letter = uploadFileOnly($request, $path_to_upload, "translator_letter", $log_id);
             $translator_letter = myUploadFileOnly($request, $path_to_upload, "translator_letter", $log_id, "translator_letter");
             /** ================== 2.Insert Log6 Data in tbl_case_log6 =================== */
             $log6_employee_status = 1;
@@ -398,7 +398,8 @@ class Log6Controller extends Controller
     }
 
     /** Insert Or Update Log620 */
-    private function insertOrUpdateLog620($caseID, $logID, $log620ID, $log620AgreePoint, $log620Solution){
+    private function insertOrUpdateLog620($caseID, $logID, $log620ID, $log620AgreePoint, $log620Solution)
+    {
         $dateCreated = myDateTime();
         if(!empty($log620AgreePoint)){
             $cUserID = Auth::id();
@@ -417,7 +418,7 @@ class Log6Controller extends Controller
                         "date_created" =>  $dateCreated,
                     ];
 
-//                    dd($search);
+        //                    dd($search);
                     $result = CaseLog620::updateOrCreate($log620Search, $log620Data);
                     if ($result->wasRecentlyCreated) {
                         $result->update([
@@ -432,7 +433,8 @@ class Log6Controller extends Controller
 
 
     /** Insert Or Update Log621 */
-    private function insertOrUpdateLog621($caseID, $logID, $log621ID , $log621DisagreePoint, $log621Solution){
+    private function insertOrUpdateLog621($caseID, $logID, $log621ID , $log621DisagreePoint, $log621Solution)
+    {
         $dateCreated = myDateTime();
         if(!empty($log621DisagreePoint)){
             $cUserID = Auth::id();
@@ -451,7 +453,7 @@ class Log6Controller extends Controller
                         "date_created" =>  $dateCreated,
                     ];
 
-//                    dd($search);
+            //                    dd($search);
                     $result = CaseLog621::updateOrCreate($log621Search, $log621Data);
                     if ($result->wasRecentlyCreated) {
                         $result->update([
@@ -463,7 +465,8 @@ class Log6Controller extends Controller
             }
         }
     }
-    private function insertLog620($case_id, $log_id, $log620_agree_point, $log20_solution){
+    private function insertLog620($case_id, $log_id, $log620_agree_point, $log20_solution)
+    {
         $date_created = myDateTime();
         foreach($log620_agree_point as $key => $val){
             if($log620_agree_point[$key] != ""){
@@ -480,7 +483,8 @@ class Log6Controller extends Controller
             }
         }
     }
-    private function insertLog621($case_id, $log_id, $log621_disagree_point, $log621_solution){
+    private function insertLog621($case_id, $log_id, $log621_disagree_point, $log621_solution)
+    {
         $date_created = myDateTime();
         foreach($log621_disagree_point as $key => $val){
             if($log621_disagree_point[$key] != ""){
@@ -498,7 +502,8 @@ class Log6Controller extends Controller
         }
     }
 
-    private function updateLog620($log620_id, $log620_agree_point, $log620_solution){
+    private function updateLog620($log620_id, $log620_agree_point, $log620_solution)
+    {
         $date_created = myDateTime();
         if(!empty($log620_agree_point)){
             foreach($log620_agree_point as $key => $val){
@@ -516,7 +521,8 @@ class Log6Controller extends Controller
         }
 
     }
-    private function updateLog621($log621_id, $log621_disagree_point, $log621_solution){
+    private function updateLog621($log621_id, $log621_disagree_point, $log621_solution)
+    {
         $date_created = myDateTime();
         if(!empty($log621_disagree_point)){
             foreach($log621_disagree_point as $key => $val){
@@ -584,7 +590,6 @@ class Log6Controller extends Controller
      */
     public function update(Request $request, string $id)
     {
-//        dd($request->all());
 
         $date_created = myDateTime();
         $case_id = $request->case_id;
@@ -592,7 +597,7 @@ class Log6Controller extends Controller
         $log6_id = $id;
         $caseYear = $request->case_year;
         $arrayAttendantType = getArrayAttendantType($request->case_type_id);
-//        dd($caseYear);
+
 
         DB::beginTransaction();
         try{
@@ -601,20 +606,20 @@ class Log6Controller extends Controller
 
             /** =============== Upload File: translator_letter ======================== */
             $path_to_upload = pathToUploadFile("case_doc/log6");
-//        $translator_letter_new = uploadFileOnly($request, $path_to_upload, "translator_letter", $log_id);
+            //        $translator_letter_new = uploadFileOnly($request, $path_to_upload, "translator_letter", $log_id);
             $translator_letter_new = myUploadFileOnly($request, $path_to_upload, "translator_letter", $log_id, "translator");
             //dd($translator_letter_new);
             $translator_letter = !empty($translator_letter_new)? $translator_letter_new : $request->translator_letter_old;
             $log6_employee_status = 1;
             $log6_company_status = 2;
-//        if($result->case_type_id == 1){
-//            $log6_employee_status = 1;
-//            $log6_company_status = 2;
-//        }
-//        elseif($request->case_type_id == 2){
-//            $log6_employee_status = 2;
-//            $log6_company_status = 1;
-//        }
+            //        if($result->case_type_id == 1){
+            //            $log6_employee_status = 1;
+            //            $log6_company_status = 2;
+            //        }
+            //        elseif($request->case_type_id == 2){
+            //            $log6_employee_status = 2;
+            //            $log6_company_status = 1;
+            //        }
             if($request->radio_status_id == 1 || $request->radio_status_id == 2){
                 //dd($request->radio_status_id);
                 $reopen_status = 0;
@@ -623,27 +628,27 @@ class Log6Controller extends Controller
                 $status_letter = null;
                 deleteFile($request->status_letter_old, pathToDeleteFile("case_doc/log6/status_letter/".$caseYear."/"));//delete file
             }
-//        elseif($request->radio_status_id == 2){
-//            //dd($request->radio_status_id);
-//            $reopen_status = !empty($request->reopen_status)? $request->reopen_status : 0;
-//            $status_date = null;
-//            $status_time = null;
-//            $status_letter = null;
-//            if($reopen_status == 1){
-//                $status_date = date2DB($request->status_date);
-//                $path_to_upload = pathToUploadFile("case_doc/log6/status_letter/");
-//                $status_letter_new = uploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
-//                $status_letter = !empty($status_letter_new)? $status_letter_new : $request->status_letter_old;
-//            }
-//            //dd($status_letter);
-//        }
+            //        elseif($request->radio_status_id == 2){
+            //            //dd($request->radio_status_id);
+            //            $reopen_status = !empty($request->reopen_status)? $request->reopen_status : 0;
+            //            $status_date = null;
+            //            $status_time = null;
+            //            $status_letter = null;
+            //            if($reopen_status == 1){
+            //                $status_date = date2DB($request->status_date);
+            //                $path_to_upload = pathToUploadFile("case_doc/log6/status_letter/");
+            //                $status_letter_new = uploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
+            //                $status_letter = !empty($status_letter_new)? $status_letter_new : $request->status_letter_old;
+            //            }
+            //            //dd($status_letter);
+            //        }
             elseif($request->radio_status_id == 3){
                 //dd($request->radio_status_id);
                 $path_to_upload = pathToUploadFile("case_doc/log6/status_letter/".$caseYear."/");
                 $reopen_status = 0;
                 $status_date = date2DB($request->status_date);
                 $status_time = $request->status_time;
-//            $status_letter_new = uploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
+            //            $status_letter_new = uploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
                 $status_letter_new = myUploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
                 $status_letter = !empty($status_letter_new)? $status_letter_new : $request->status_letter_old;
                 //dd($status_letter);
@@ -923,7 +928,8 @@ class Log6Controller extends Controller
         CaseLog621::where("id", $id)->delete();
         return redirect("log6/".$logID."/edit")->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
     }
-    function generateNewLog($log6ID, $log6StatusID){
+    function generateNewLog($log6ID, $log6StatusID)
+    {
         $id = $log6ID;
         if($log6StatusID == 2 || $log6StatusID == 3){
             $oldLog6 = CaseLog6::where("id", $log6ID)->first();
@@ -943,7 +949,7 @@ class Log6Controller extends Controller
             $arrayAttendantType = getArrayAttendantType($caseTypeID);
             //dd($arrayAttendantType["employee_main"]);
 
-//            dd($arrayAttendantType);
+            //            dd($arrayAttendantType);
             /** ================== 1.Insert Case Log6 in tbl_case_log ======== */
             $result = CaseLog::create([
                 "case_id" => $caseID,

@@ -37,6 +37,7 @@
                                         <thead class="table-light">
                                         <tr>
                                             <th width="1%">ល.រ</th>
+                                            
                                             <th width="13%" class="text-center text-nowrap">ប្រភេទពាក្យបណ្ដឹង</th>
                                             <th width="25%">ដើមបណ្ដឹង</th>
                                             <th width="25%">ចុងបណ្ដឹង</th>

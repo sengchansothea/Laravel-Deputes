@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/timepicker.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/select2.css') }}">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+        
 
         <style>
             #response_message_company {

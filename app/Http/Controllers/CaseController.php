@@ -42,64 +42,126 @@ class CaseController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    // public function index(Request $request)
+    // {
+    //     //        dd($request->all());
+    //     // ✅ Export Excel mode
+    //     if ($request->has('export_excel')) {
+    //         //            dd("Hello");
+    //         $exportController = new ExportExcelController();
+    //         return $exportController->exportCasesList($request);
+    //     }
+
+    //     $user = auth()->user();
+    //     $cases = $this->getOrSearchEloquent($user);
+    //     $caseIDs = $cases->pluck('id')->toArray(); // All visible case IDs
+    //     //        dd($caseIDs);
+
+    //     // Fetch officer IDs for all case IDs in one query
+    //     $officerIDsByCase = CaseOfficer::whereIn('case_id', $caseIDs)
+    //         ->get()
+    //         ->groupBy('case_id')
+    //         ->map(fn($group) => $group->pluck('officer_id')->toArray());
+
+    //     // Eager load the officer to prevent N+1
+    //     $caseOfficers = CaseOfficer::with('officer')
+    //         ->whereIn('case_id', $caseIDs)
+    //         ->whereIn('attendant_type_id', [6, 8]) // 6:CaseOfficer , 8:Noter
+    //         ->orderByDesc('id')
+    //         ->get()
+    //         ->groupBy(fn($item) => "{$item->case_id}_{$item->attendant_type_id}");
+
+
+    //     $userID = $user->id ?? 0;
+    //     $userOfficerID = $user->officer_id ?? 0;
+    //     $kCategory = (int) $user->k_category ?? 0;
+    //     $entryUserID = $cases->user_created ?? 0;
+    //     $officerRoleID = getOfficerRoleID($userOfficerID);
+
+    //     // Precompute allow access
+    //     $allowAccess = allowAccess($userID, $kCategory, $entryUserID, $officerRoleID);
+    //     $data = [
+    //         'opt_search' => request('opt_search') ? request('opt_search') : "quick",
+    //         'pagetitle' => "បញ្ជីពាក្យបណ្តឹង",
+    //         'cases' => $cases,
+    //         'user' => $user,
+    //         'userID' => $userID,
+    //         'userOfficerID' => $userOfficerID,
+    //         'totalRecord' => $cases->total(),
+    //         'allowAccess' => $allowAccess,
+    //         'officerIDsByCase' => $officerIDsByCase,
+    //         'caseOfficers' => $caseOfficers,
+    //     ];
+
+    //     $view = "case.list_case";
+    //     if (request("json_opt") == 1) { //if request from app
+    //         return response()->json(['status' => 200, 'message' => 'success', 'data' => $data]);
+    //     }
+
+    //     return view($view, ["adata" => $data]);
+    // }
+
     public function index(Request $request)
     {
-        //        dd($request->all());
-        // ✅ Export Excel mode
-        if ($request->has('export_excel')) {
-            //            dd("Hello");
-            $exportController = new ExportExcelController();
-            return $exportController->exportCasesList($request);
-        }
+        $user = Auth::user();
 
-        $user = auth()->user();
+        // 1️⃣ Fetch cases with optional search (your existing search/query logic)
         $cases = $this->getOrSearchEloquent($user);
-        $caseIDs = $cases->pluck('id')->toArray(); // All visible case IDs
-        //        dd($caseIDs);
+        $caseIDs = $cases->pluck('id')->toArray();
 
-        // Fetch officer IDs for all case IDs in one query
+        // 2️⃣ Preload officer IDs by case
         $officerIDsByCase = CaseOfficer::whereIn('case_id', $caseIDs)
             ->get()
             ->groupBy('case_id')
             ->map(fn($group) => $group->pluck('officer_id')->toArray());
 
-        // Eager load the officer to prevent N+1
+        // 3️⃣ Preload case officers (attendant types: 6 = Case Officer, 8 = Noter)
         $caseOfficers = CaseOfficer::with('officer')
             ->whereIn('case_id', $caseIDs)
-            ->whereIn('attendant_type_id', [6, 8]) // 6:CaseOfficer , 8:Noter
+            ->whereIn('attendant_type_id', [6, 8])
             ->orderByDesc('id')
             ->get()
             ->groupBy(fn($item) => "{$item->case_id}_{$item->attendant_type_id}");
 
-
+        // 4️⃣ User info
         $userID = $user->id ?? 0;
         $userOfficerID = $user->officer_id ?? 0;
-        $kCategory = (int) $user->k_category ?? 0;
-        $entryUserID = $cases->user_created ?? 0;
-        $officerRoleID = getOfficerRoleID($userOfficerID);
+        $kCategory = (int) ($user->k_category ?? 0);
+        $entryUserID = optional($cases->first())->user_created ?? 0;
+        $officerRoleID = getOfficerRoleID($userOfficerID); // Your helper function
 
-        // Precompute allow access
+        // 5️⃣ Compute allow access (boolean)
         $allowAccess = allowAccess($userID, $kCategory, $entryUserID, $officerRoleID);
-        $data = [
-            'opt_search' => request('opt_search') ? request('opt_search') : "quick",
-            'pagetitle' => "បញ្ជីពាក្យបណ្តឹង",
-            'cases' => $cases,
-            'user' => $user,
-            'userID' => $userID,
-            'userOfficerID' => $userOfficerID,
-            'totalRecord' => $cases->total(),
-            'allowAccess' => $allowAccess,
-            'officerIDsByCase' => $officerIDsByCase,
-            'caseOfficers' => $caseOfficers,
+
+        // 6️⃣ Prepare data for Blade
+        $adata = [
+            'opt_search'        => $request->input('opt_search', 'quick'),
+            'pagetitle'         => 'បញ្ជីពាក្យបណ្ដឹង',
+            'cases'             => $cases,
+            'user'              => $user,
+            'userID'            => $userID,
+            'userOfficerID'     => $userOfficerID,
+            'totalRecord'       => $cases->total(),
+            'allowAccess'       => $allowAccess,
+            'officerIDsByCase'  => $officerIDsByCase,
+            'caseOfficers'      => $caseOfficers,
         ];
 
-        $view = "case.list_case";
-        if (request("json_opt") == 1) { //if request from app
-            return response()->json(['status' => 200, 'message' => 'success', 'data' => $data]);
+        // 7️⃣ Optional JSON API response
+        if ($request->input('json_opt') == 1) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'success',
+                'data' => $adata
+            ]);
         }
 
-        return view($view, ["adata" => $data]);
+        // 8️⃣ Return Blade view (works with refactored Blade)
+        return view('case.list_case1', compact('adata'));
     }
+
+
 
     public function showTemplateFiles()
     {
@@ -162,8 +224,8 @@ class CaseController extends Controller
     }
     function getOrSearchEloquent($user)
     {
-//        dd(request()->all());
-//        dd(request('domainID'));
+        //        dd(request()->all());
+        //        dd(request('domainID'));
 
         /** In Case We Need To Sort By Disputant_Name  */
         /*
@@ -1109,7 +1171,7 @@ class CaseController extends Controller
             $caseYear = date2Display($resultCase->case_date, "Y");
             $caseID = $resultCase->id;//get caseID
 
-//            dd($company_option);
+            //            dd($company_option);
             /** ===============BlogC: Create or Update Company ======================== */
             if ($company_option == 1) { // found in tbl_company_api (LACMS), then Insert in to tbl_company
                 $adataCompanyInside = [
@@ -1851,7 +1913,7 @@ class CaseController extends Controller
             //            dd($result);
 
             $disputantID = !empty($resultDisputant) ? $resultDisputant->id : 0;//get disputant_id
-//            dd($disputant_id);
+        //            dd($disputant_id);
             /** ===============BlogB: Update Main Table: tbl_case ======================== */
             $adata = [
                 "case_number" => $request->case_number,
@@ -2238,9 +2300,4 @@ class CaseController extends Controller
             return back()->with("message", sweetalert()->addWarning("បរាជ័យ"));
         }
     }
-
-
-    
 }
-
-

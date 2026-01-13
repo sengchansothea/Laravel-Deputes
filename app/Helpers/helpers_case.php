@@ -291,7 +291,7 @@ function showHideButton2CreateInvitationLetter($case_id){
         elseif($case->case_type_id == 2){
             $invitation_type = 3;
         }
-        $str.= "<br><a href='".url('invitation/create/'.$case_id.'/'.$invitation_type)."' class='btn btn-info' target='_blank' >"
+        $str.= "<br><a href='".url('invitation/create/'.$case_id.'/'.$invitation_type)."' class='btn btn-outline-info' target='_blank' >"
             ."បង្កើតលិខិតអញ្ជើញក្រុមហ៊ុន</a><br>";
         /** 3.Show Button to Create invitation for both employee and company (ផ្សះផ្សា)
          */
@@ -306,7 +306,7 @@ function showHideButton2CreateInvitationLetter($case_id){
                 $invitation_type_company = 6;
             }
 
-            $str.= "<a href='".url('invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-warning' target='_blank' >"
+            $str.= "<a href='".url('invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-outline-warning' target='_blank' >"
                 ."បង្កើតលិខិតអញ្ជើញមកផ្សះផ្សា</a><br>";
         }
         return $str;
@@ -341,7 +341,7 @@ function showCollectivesInviationEMP($case){
         return ["invitation_id" => $invID, "invitation_file" => $invFile, "info" => $info, "export" => $export];
     }
     else{
-        $info = '<div class="form-group col-sm-4"><a class="btn btn-success form-control fw-bold" href="'
+        $info = '<div class="form-group col-sm-4"><a class="btn btn-outline-success form-control fw-bold" href="'
             .url('collectives_invitation/create/'.$caseID.'/'.$invType).'" target="_blank">បង្កើតលិខិតអញ្ជើញ</a></div>';
         return ["invitation_id" => 0, "invitation_file" => "", "info" => $info, "export" => ""];
     }
@@ -368,7 +368,7 @@ function showCollectivesInvitationCompany($case){
         return ["invitation_id" => $invID, "invitation_file"=> $invFile, "info" => $info, "export" => $export];
     }
     else{
-        $info = '<div class="form-group col-sm-4"><a class="btn btn-success form-control fw-bold" href="'
+        $info = '<div class="form-group col-sm-4"><a class="btn btn-outline-success form-control fw-bold" href="'
             .url('collectives_invitation/create/'.$caseID.'/'.$invType).'" target="_blank">បង្កើតលិខិតអញ្ជើញ</a></div>';
         return ["invitation_id" => 0,  "invitation_file"=> "", "info" => $info, "export" => ""];
     }
@@ -430,7 +430,7 @@ function showCollectivesInvitationBoth($case){
             $invTypeEmp = 9;
             $invTypeCom = 10;
 
-            $str.= "<div class='form-group col-sm-4'><a href='".url('collectives_invitation/create_both/'.$caseID.'/'.$invTypeEmp.'/'.$invTypeCom)."' class='btn btn-success fw-bold' target='_blank' >"
+            $str.= "<div class='form-group col-sm-4'><a href='".url('collectives_invitation/create_both/'.$caseID.'/'.$invTypeEmp.'/'.$invTypeCom)."' class='btn btn-outline-success fw-bold' target='_blank' >"
                 ."បង្កើតលិខិតអញ្ជើញមកផ្សះផ្សា</a></div><br>";
         }
     }
@@ -469,8 +469,8 @@ function showInvitationEmployee($case): array
                 </div>";
 
         $export = "<div class='form-group col-sm-4'>
-                    <a class='btn btn-info form-control mb-1 fw-bold' href='" . url('export/word/invitation/' . $inv->id) . "' target='_blank'>ទាញយកលិខិតអញ្ជើញ</a>
-                    <a class='btn btn-info form-control fw-bold' href='" . url('export/word/invitation/' . $inv->id . "/2") . "' target='_blank'>ទាញយកលិខិតដោះស្រាយ</a>
+                    <a class='btn btn-outline-info form-control mb-1 fw-bold' href='" . url('export/word/invitation/' . $inv->id) . "' target='_blank'>ទាញយកលិខិតអញ្ជើញ</a>
+                    <a class='btn btn-outline-info form-control fw-bold' href='" . url('export/word/invitation/' . $inv->id . "/2") . "' target='_blank'>ទាញយកលិខិតដោះស្រាយ</a>
                 </div>";
 
         return [
@@ -481,7 +481,7 @@ function showInvitationEmployee($case): array
         ];
     } else {
         $info = "<div class='form-group col-sm-4'>
-                    <a class='btn btn-success form-control fw-bold' href='" . url("invitation/create/{$caseID}/{$invType}") . "'>
+                    <a class='btn btn-outline-success form-control fw-bold' href='" . url("invitation/create/{$caseID}/{$invType}") . "'>
                         បង្កើតលិខិតអញ្ជើញ
                     </a>
                 </div>";
@@ -526,7 +526,7 @@ function showInvitationEmployeeX($case){
         return ["invitation_id" => $invatation_id, "invitation_file" => $invitation_file, "info" => $info, "export" => $export];
     }
     else{
-        $info = '<div class="form-group col-sm-4"><a class="btn btn-success form-control fw-bold" href="'
+        $info = '<div class="form-group col-sm-4"><a class="btn btn-outline-success form-control fw-bold" href="'
             .url('invitation/create/'.$case_id.'/'.$invitation_type).'" target="">បង្កើតលិខិតអញ្ជើញ</a></div>';
 
         return ["invitation_id" => 0, "invitation_file" => "", "info" => $info, "export" => ""];
@@ -570,10 +570,10 @@ function showInvitationCompany(
 
         // Export buttons
         $export = "<div class='form-group col-sm-4'>
-            <a class='btn btn-info form-control mb-1 fw-bold' href='" . url("export/word/invitation/$invID") . "' target='_blank'>
+            <a class='btn btn-outline-info form-control mb-1 fw-bold' href='" . url("export/word/invitation/$invID") . "' target='_blank'>
                 ទាញយកលិខិតអញ្ជើញ
             </a>
-            <a class='btn btn-info form-control fw-bold' href='" . url("export/word/invitation/$invID/2") . "' target='_blank'>
+            <a class='btn btn-outline-info form-control fw-bold' href='" . url("export/word/invitation/$invID/2") . "' target='_blank'>
                 ទាញយកលិខិតដោះស្រាយ
             </a>
         </div>";
@@ -587,7 +587,7 @@ function showInvitationCompany(
          
 
         $info .= "<div class='form-group col-sm-4'>
-            <a $createDisabled class='btn btn-success form-control fw-bold' href='" . url("invitation/create/$caseID/$invType") . "'>
+            <a $createDisabled class='btn btn-outline-success form-control fw-bold' href='" . url("invitation/create/$caseID/$invType") . "'>
                 បង្កើតលិខិតអញ្ជើញ
             </a>
         </div>";
@@ -680,14 +680,14 @@ function showInvitationCompanyX($case){
             return ["invitation_id" => $invitation_id, "invitation_file"=> $invitation_file, "info" => $info, "export" => $export];
         }
         else{
-            $info = '<div class="form-group col-sm-4"><a class="btn btn-success form-control fw-bold" href="'
+            $info = '<div class="form-group col-sm-4"><a class="btn btn-outline-success form-control fw-bold" href="'
                 .url('invitation/create/'.$case_id.'/'.$invitation_type).'">បង្កើតលិខិតអញ្ជើញ</a></div>';
 
             return ["invitation_id" => 0,  "invitation_file"=> "", "info" => $info, "export" => ""];
         }
     }
     else{
-        $info = '<div class="form-group col-sm-4"><a class="btn btn-success form-control" href="'
+        $info = '<div class="form-group col-sm-4"><a class="btn btn-outline-success form-control" href="'
             .url('invitation/create/'.$case_id.'/'.$invitation_type).'" target="_blank">បង្កើតលិខិតអញ្ជើញ</a></div>';
         return ["invitation_id" => 0, "invitation_file"=> "", "info" => $info, "export" => ""];
     }
@@ -726,7 +726,7 @@ function showInvitationBoth($case): array
                     </div>";
 
             $export = "<div class='form-group col-sm-4'>
-                        <a class='btn btn-info custom form-control fw-bold' href='" . url("export/word/invitation/{$invID}") . "' target='_blank'>
+                        <a class='btn btn-outline-info custom form-control fw-bold' href='" . url("export/word/invitation/{$invID}") . "' target='_blank'>
                             ទាញយកលិខិត
                         </a>
                     </div>";
@@ -752,7 +752,7 @@ function showInvitationBoth($case): array
 
         $createBtn = "<div class='form-group col-sm-4'>
                         <a href='" . url("invitation/create_both/{$caseID}/{$invTypeEmployee}/{$invTypeCompany}") . "'
-                           class='btn btn-success fw-bold' target='_blank'>
+                           class='btn btn-outline-success fw-bold' target='_blank'>
                            បង្កើតលិខិតអញ្ជើញមកផ្សះផ្សា
                         </a>
                     </div><br>";
@@ -825,7 +825,7 @@ function showInvitationBothX($case){
                 $invitation_type_employee = 6;
                 $invitation_type_company = 5;
             }
-            $str.= "<div class='form-group col-sm-4'><a href='".url('invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-success fw-bold' target='_blank' >"
+            $str.= "<div class='form-group col-sm-4'><a href='".url('invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-outline-success fw-bold' target='_blank' >"
                 ."បង្កើតលិខិតអញ្ជើញមកផ្សះផ្សា</a></div><br>";
 
         }
@@ -1142,7 +1142,7 @@ function showCollectivesLog6($case){
             $invitation_type_company = 6;
         }
         $label = "";
-        $str.= "<a href='".url('collectives_invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-warning fw-bold' target='_blank' >"
+        $str.= "<a href='".url('collectives_invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-outline-warning fw-bold' target='_blank' >"
             ."បង្កើតលិខិតអញ្ជើញមកផ្សះផ្សា</a><br>";
     }
     else{ // dont have log6
@@ -1203,12 +1203,12 @@ function showCaseLog34($case): array{
                 $str .= "<div class='form-group col-sm-4'>";
                 foreach ($letterEmployee as $row) {
                     if ($row->invitation_type_id == 1) {
-                        $str .= "<a href='".url('log34/create/'.$caseID.'/'.$row->id)."' class='btn btn-success form-control fw-bold' title='Create'>".$label ."</a><br>";
+                        $str .= "<a href='".url('log34/create/'.$caseID.'/'.$row->id)."' class='btn btn-outline-success form-control fw-bold' title='Create'>".$label ."</a><br>";
                     }
                 }
                 $str .= "</div>";
             } else {
-                $str .= "<div class='form-group col-sm-4'><a href='".url('log34/create/'.$caseID.'/0')."' class='btn btn-success form-control fw-bold' title='Create'>".$label ."</a></div><br>";
+                $str .= "<div class='form-group col-sm-4'><a href='".url('log34/create/'.$caseID.'/0')."' class='btn btn-outline-success form-control fw-bold' title='Create'>".$label ."</a></div><br>";
             }
         }
     } else {
@@ -1221,7 +1221,7 @@ function showCaseLog34($case): array{
                     . " ម៉ោង <span class='text-danger'>" . substr($detail->meeting_stime, 0, -3) . "</span>"
                     . " ដល់ម៉ោង <span class='text-danger'>" . substr($detail->meeting_etime, 0, -3) . "</span>";
                 $str .= "<div class='form-group col-sm-8'><a href='".url('log34/'.$log34ID.'/edit')."' class='fw-bold text-info' title='Update'>".$label ."</a></div>";
-                $export = '<div class="form-group col-sm-4"><a class="btn btn-info custom form-control fw-bold" href="' . url('export/word/case/log34/'.$log34ID) . '" title="Download" target="_blank">ទាញយកកំណត់ហេតុ</a></div>';
+                $export = '<div class="form-group col-sm-4"><a class="btn btn-outline-info custom form-control fw-bold" href="' . url('export/word/case/log34/'.$log34ID) . '" title="Download" target="_blank">ទាញយកកំណត់ហេតុ</a></div>';
             }
         }
     }
@@ -1306,12 +1306,12 @@ function showCaseLog5($case): array
                 $btns = "";
                 foreach ($letterCompany as $row) {
                     if ($row->invitation_type_id == 2) {
-                        $btns .= "<a href='" . url("log5/create/$caseID/{$row->id}") . "' class='btn btn-success form-control fw-bold' title='Create'>$label</a><br>";
+                        $btns .= "<a href='" . url("log5/create/$caseID/{$row->id}") . "' class='btn btn-outline-success form-control fw-bold' title='Create'>$label</a><br>";
                     }
                 }
                 $str = "<div class='form-group col-sm-4'>$btns</div>";
             } else {
-                $str = "<div class='form-group col-sm-4'><a href='" . url("log5/create/$caseID/0") . "' class='btn btn-success fw-bold' title='Create'>$label</a></div><br>";
+                $str = "<div class='form-group col-sm-4'><a href='" . url("log5/create/$caseID/0") . "' class='btn btn-outline-success fw-bold' title='Create'>$label</a></div><br>";
             }
         }
     } else {
@@ -1329,7 +1329,7 @@ function showCaseLog5($case): array
             $str .= "<div class='form-group col-sm-8'><a href='" . url("log5/$log5ID/edit") . "' class='fw-bold text-info' title='Update'>$label</a></div>";
 
             $export = '<div class="form-group col-sm-4">
-                        <a class="btn btn-info custom form-control fw-bold" href="' . url("export/word/case/log5/$log5ID") . '" title="Download" target="_blank">ទាញយកកំណត់ហេតុ</a>
+                        <a class="btn btn-outline-info custom form-control fw-bold" href="' . url("export/word/case/log5/$log5ID") . '" title="Download" target="_blank">ទាញយកកំណត់ហេតុ</a>
                        </div>';
         }
     }
@@ -1419,7 +1419,7 @@ function showCaseLog6($case)
 
             $info = "<a href='" . url("log6/{$log6ID}/edit") . "' class='fw-bold text-info' title='Edit'>{$label}</a><br>";
 
-            $export = "<a class='btn btn-info custom form-control fw-bold' href='"
+            $export = "<a class='btn btn-outline-info custom form-control fw-bold' href='"
                 . url("export/word/case/log6/{$log6ID}")
                 . "' title='Download' target='_blank'>ទាញយកកំណត់ហេតុ</a>";
 
@@ -1454,7 +1454,7 @@ function showCaseLog6($case)
             $label = "បង្កើតកំណត់ហេតុផ្សះផ្សា";
             $info = "<div class='form-group col-sm-4'><a href='"
                 . url("log6/create/{$caseID}/{$employeeInvitation->id}/{$companyInvitation->id}")
-                . "' class='btn btn-success form-control fw-bold' title='Create'>{$label}</a></div><br>";
+                . "' class='btn btn-outline-success form-control fw-bold' title='Create'>{$label}</a></div><br>";
 
             $result['log6_data'] = [
                 'num_log6' => 0,
@@ -1507,7 +1507,7 @@ function showCaseLog6X($case){
             if($letterEmployee->meeting_date == $letterCompany->meeting_date && $letterEmployee->meeting_time == $letterCompany->meeting_time){
                 $str.= "<div class='form-group col-sm-4'><a href='"
                     .url('log6/create/'.$case_id.'/'.$letterEmployee->id.'/'.$letterCompany->id)
-                    ."' class='btn btn-success form-control fw-bold' title='Create'>".$label ."</a></div><br>";
+                    ."' class='btn btn-outline-success form-control fw-bold' title='Create'>".$label ."</a></div><br>";
                 $result["log6_data"] = ["num_log6"=>$case->log6->count(),  "log6_id" => 0, "info" => $str, "export" => ""];
                 return $result;
             }
@@ -1533,7 +1533,7 @@ function showCaseLog6X($case){
             $log6_id = isset($row->detail6->id)? $row->detail6->id : 0;
             $log_file = isset($row->detail6->log_file)? $row->detail6->log_file : "";
             $info = "<a href='".url('log6/'.$log6_id.'/edit')."' class='fw-bold text-info' title='Edit'>".$label ."</a><br>";
-            $export = '<a class="btn btn-info custom form-control fw-bold" href="'
+            $export = '<a class="btn btn-outline-info custom form-control fw-bold" href="'
                 . url('export/word/case/log6/'.$log6_id)
                 .'" title="Download" target="_blank">ទាញយកកំណត់ហេតុ</a>';
             $result["log6_data"][] = ["log6_id" => $log6_id, "detail" => $row->detail6, "log_file" => $log_file, "info" => $info, "export" => $export, "log6" => $row->detail6];
@@ -1553,7 +1553,7 @@ function showCaseLog6X($case){
             $invitation_type_company = 6;
         }
         $label = "";
-        $str.= "<a href='".url('invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-warning fw-bold' target='_blank' >"
+        $str.= "<a href='".url('invitation/create_both/'.$case_id.'/'.$invitation_type_employee.'/'.$invitation_type_company)."' class='btn btn-outline-warning fw-bold' target='_blank' >"
             ."បង្កើតលិខិតអញ្ជើញមកផ្សះផ្សា</a><br>";
     }
     else{ // dont have log6
@@ -1572,11 +1572,11 @@ function showCaseLog6X($case){
             $label = "បង្កើតកំណត់ហេតុសាកសួរសហគ្រាស គ្រឹះស្ថាន";
             if($letterEmployee->count() > 0){
                 foreach($letterEmployee as $row){
-                    $str.= "<a href='".url('log6/create/'.$case_id.'/'.$row->id)."' class='btn btn-success fw-bold' target='_blank' title='Create'>".$label ."</a><br>";
+                    $str.= "<a href='".url('log6/create/'.$case_id.'/'.$row->id)."' class='btn btn-outline-success fw-bold' target='_blank' title='Create'>".$label ."</a><br>";
                 }
             }
             else{
-                $str.= "<a href='".url('log6/create/'.$case_id.'/0')."' class='btn btn-success fw-bold' target='_blank' title='Create'>".$label ."</a><br>";
+                $str.= "<a href='".url('log6/create/'.$case_id.'/0')."' class='btn btn-outline-success fw-bold' target='_blank' title='Create'>".$label ."</a><br>";
 
             }
         }
@@ -1589,7 +1589,7 @@ function showCaseLog6X($case){
                 ." ម៉ោង "."<label class='form-label text-danger'>".substr($row->detail5->meeting_stime, 0, -3)."</label>"
                 ." ដល់ "."<label class='form-label text-danger'>".substr($row->detail5->meeting_etime, 0, -3)."</label>";
             $str.= "<a href='".url('log5/'.$log6_id.'/edit')."' class='' target='_blank' title='Update'>".$label ."</a>";
-            $export = '<a class="btn btn-info custom form-control fw-bold" href="'
+            $export = '<a class="btn btn-outline-info custom form-control fw-bold" href="'
                 . url('export/word/case/log5/'.$log6_id)
                 .'" title="Download" target="_blank">ទាញយកកំណត់ហេតុ</a>';
         }
@@ -2882,4 +2882,18 @@ function arrayOfficerCaseInHandXX ($officer_id = 0, $showDefault=0, $defValue="0
 }
 
 
+function hasUploadedFile($file)
+{
+    return !empty($file);
+}
 
+function hasLog6UploadedFile($log6Data): bool
+{
+    foreach ($log6Data ?? [] as $log6) {
+        if (!empty($log6['log_file']) ||
+            (!empty($log6['detail']) && !empty($log6['detail']->status_letter))) {
+            return true;
+        }
+    }
+    return false;
+}

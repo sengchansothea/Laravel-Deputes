@@ -391,13 +391,14 @@ class UserController extends Controller
      */
     public function showEntryCase($userID)
     {
-//        dd($userID);
+        //        dd($userID);
         $data['pagetitle']= "បញ្ចីបណ្តឹងដែលបញ្ចូលដោយអ្នកប្រើប្រាស់";
         $data['page_title']= "បញ្ចីបណ្តឹងដែលបញ្ចូលដោយអ្នកប្រើប្រាស់";
         $data['cases'] = $this->queryCasesByUserID($userID);
         $data['opt_search'] = request('opt_search')? request('opt_search'): "quick";
         $data['user'] = User::where('id', $userID)->select('id', 'k_fullname')->first();
-        $view = "user.user_entry_case";
+        // $data['caseOfficerIDs'] = []; 
+        $view = "user.user_entry_case1";
         if(request("json_opt") == 1){ //if request from app
             return response()->json(['status'=>200,'result'=> $data]);
         }

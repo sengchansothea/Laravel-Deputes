@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use App\Models\BusinessActivity;
@@ -90,7 +91,7 @@ function chkUserIdentity()
 /** Push Notification About Case Status Action Via Telegram */
 function caseStatusTelegramNotification($case, $caseStepMsg)
 {
-//    dd($case, $caseStepMsg, $caseStepObj);
+    //    dd($case, $caseStepMsg, $caseStepObj);
     /**=================== Telegram Bot ============================  */
     // Accept either a Cases model instance or an ID
     if (is_numeric($case) || is_string($case)) {
@@ -322,6 +323,7 @@ function getOfficerRoleIDX($officerID)
     }
     return 0; // return empty array if officer or role not found
 }
+
 function arrCSIC1($showDefault = 0, $defValue = "0", $defLabel = "សូមជ្រើសរើស")
 {
     $data = DB::table('csic')
@@ -339,6 +341,7 @@ function arrCSIC1($showDefault = 0, $defValue = "0", $defLabel = "សូមជ�
     }
     return $data;
 }
+
 function arrCSIC2($csic1, $showDefault = 0, $defValue = 0, $defLabel = "សូមជ្រើសរើស")
 {
     $data = DB::table('csic')
@@ -356,6 +359,7 @@ function arrCSIC2($csic1, $showDefault = 0, $defValue = 0, $defLabel = "សូ�
     }
     return $data;
 }
+
 function arrCSIC3($csic1, $csic2)
 {
     return DB::table('csic')
@@ -369,6 +373,7 @@ function arrCSIC3($csic1, $csic2)
         //        ->prepend('សូមជ្រើសរើស', '0')
         ->toArray();
 }
+
 function arrCSIC4($csic1, $csic2, $csic3)
 {
     return DB::table('csic')
@@ -383,6 +388,7 @@ function arrCSIC4($csic1, $csic2, $csic3)
         //        ->prepend('សូមជ្រើសរើស', "0") // Add '0' => 'សូមជ្រើសរើស' at the beginning
         ->toArray(); // Convert to PHP array
 }
+
 function arrCSIC5($csic1, $csic2, $csic3, $csic4)
 {
     return DB::table('csic')
@@ -971,8 +977,17 @@ function myUploadMultiFilesOnly(Request $request, $pathToUpload = "", $field_nam
 
 
 
-function showFile($html_id, $file_name, $path, $delete_option, $table, $key_find
-    , $key_value, $field = "", $label = "បញ្ចូលឯកសារជោគជ័យ: ", $labelFileName = ""
+function showFile(
+    $html_id,
+    $file_name,
+    $path,
+    $delete_option,
+    $table,
+    $key_find,
+    $key_value,
+    $field = "",
+    $label = "បញ្ចូលឯកសារជោគជ័យ: ",
+    $labelFileName = ""
 ) {
     if (empty($file_name)) {
         return '';
@@ -1086,7 +1101,7 @@ function myUploadFileOnly(Request $request, $pathToUpload, $field_name, $key_id,
     // Check if file request exists
     if ($request->file($field_name)) {
         // Ensure the upload folder exists
-//        dd(public_path($pathToUpload));
+        //        dd(public_path($pathToUpload));
 
         /** If Directory is not Found, Let's create the new ONE */
         if (!is_dir($pathToUpload)) {
