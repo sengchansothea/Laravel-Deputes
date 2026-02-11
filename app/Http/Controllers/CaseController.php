@@ -106,17 +106,138 @@ class CaseController extends Controller
     {
         $user = Auth::user();
 
-        // 1️⃣ Fetch cases with optional search (your existing search/query logic)
-        $cases = $this->getOrSearchEloquent($user);
+        /*
+    |--------------------------------------------------------------------------
+    | 1️⃣ START QUERY (IMPORTANT: ONLY ONCE)
+    |--------------------------------------------------------------------------
+    */
+        $casesQuery = Cases::query()->with('disputant');
+
+        /*
+    |--------------------------------------------------------------------------
+    | 2️⃣ SEARCH SECTION
+    |--------------------------------------------------------------------------
+    */
+
+        // 🔎 Search by Case Number
+        if ($request->filled('case_number')) {
+            $casesQuery->where('tbl_case.case_number', 'like', '%' . $request->case_number . '%');
+        }
+
+        // 🔎 Search by Officer Khmer Name
+        if ($request->filled('caseofficer')) {
+            $casesQuery->whereHas('caseAllOfficers', function ($q) use ($request) {
+                $q->whereHas('officer', function ($qq) use ($request) {
+                    $qq->where('officer_name_khmer', 'like', '%' . $request->caseofficer . '%');
+                });
+            });
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 3️⃣ SORT SECTION
+    |--------------------------------------------------------------------------
+    */
+
+        $sortBy = $request->input('sort_by', 'case_number');
+        $order  = $request->input('order', 'asc');
+
+        $allowedSorts = ['case_number', 'case_date', 'disputant_name'];
+
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'case_number';
+        }
+
+        if (!in_array($order, ['asc', 'desc'])) {
+            $order = 'asc';
+        }
+
+        if ($sortBy == 'disputant_name') {
+            $casesQuery->leftJoin('tbl_disputant', 'tbl_case.disputant_id', '=', 'tbl_disputant.id')
+                ->select('tbl_case.*', 'tbl_disputant.name as disputant_name')
+                ->orderBy('disputant_name', $order);
+        } else {
+            $casesQuery->orderBy("tbl_case.$sortBy", $order);
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 4️⃣ FILTER SECTION
+    |--------------------------------------------------------------------------
+    */
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $casesQuery->where(function ($q) use ($search) {
+                $q->where('employee_name', 'like', "%{$search}%")
+                    ->orWhere('company_name', 'like', "%{$search}%")
+                    ->orWhere('registration_number', 'like', "%{$search}%")
+                    ->orWhere('TIN', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('domainID') && $request->domainID != 0) {
+            $casesQuery->where('domain_id', $request->domainID);
+        }
+
+        if ($request->filled('inOutDomain') && $request->inOutDomain != 0) {
+            $casesQuery->where('in_out_office', $request->inOutDomain);
+        }
+
+        if ($request->filled('statusID') && $request->statusID != 0) {
+            $casesQuery->where('status_id', $request->statusID);
+        }
+
+        if ($request->filled('stepID') && $request->stepID != 0) {
+            $casesQuery->where('step_id', $request->stepID);
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 5️⃣ DATE FILTER
+    |--------------------------------------------------------------------------
+    */
+
+        $startDate = $request->input('start_date');
+        $endDate   = $request->input('end_date');
+
+        if ($startDate) {
+            $startDate = Carbon::createFromFormat('d/m/Y', $startDate)->format('Y-m-d');
+        }
+
+        if ($endDate) {
+            $endDate = Carbon::createFromFormat('d/m/Y', $endDate)->format('Y-m-d');
+        }
+
+        if ($startDate && $endDate) {
+            $casesQuery->whereBetween('case_date', [$startDate, $endDate]);
+        } elseif ($startDate) {
+            $casesQuery->where('case_date', '>=', $startDate);
+        } elseif ($endDate) {
+            $casesQuery->where('case_date', '<=', $endDate);
+        }
+
+        /*
+    |--------------------------------------------------------------------------
+    | 6️⃣ PAGINATION
+    |--------------------------------------------------------------------------
+    */
+
+        $cases = $casesQuery->paginate(10)->withQueryString();
+
+        /*
+    |--------------------------------------------------------------------------
+    | 7️⃣ PRELOAD OFFICER DATA
+    |--------------------------------------------------------------------------
+    */
+
         $caseIDs = $cases->pluck('id')->toArray();
 
-        // 2️⃣ Preload officer IDs by case
         $officerIDsByCase = CaseOfficer::whereIn('case_id', $caseIDs)
             ->get()
             ->groupBy('case_id')
             ->map(fn($group) => $group->pluck('officer_id')->toArray());
 
-        // 3️⃣ Preload case officers (attendant types: 6 = Case Officer, 8 = Noter)
         $caseOfficers = CaseOfficer::with('officer')
             ->whereIn('case_id', $caseIDs)
             ->whereIn('attendant_type_id', [6, 8])
@@ -124,17 +245,31 @@ class CaseController extends Controller
             ->get()
             ->groupBy(fn($item) => "{$item->case_id}_{$item->attendant_type_id}");
 
-        // 4️⃣ User info
-        $userID = $user->id ?? 0;
-        $userOfficerID = $user->officer_id ?? 0;
-        $kCategory = (int) ($user->k_category ?? 0);
-        $entryUserID = optional($cases->first())->user_created ?? 0;
-        $officerRoleID = getOfficerRoleID($userOfficerID); // Your helper function
+        /*
+    |--------------------------------------------------------------------------
+    | 8️⃣ USER & ACCESS
+    |--------------------------------------------------------------------------
+    */
 
-        // 5️⃣ Compute allow access (boolean)
-        $allowAccess = allowAccess($userID, $kCategory, $entryUserID, $officerRoleID);
+        $userID         = $user->id ?? 0;
+        $userOfficerID  = $user->officer_id ?? 0;
+        $kCategory      = (int) ($user->k_category ?? 0);
+        $entryUserID    = optional($cases->first())->user_created ?? 0;
+        $officerRoleID  = getOfficerRoleID($userOfficerID);
 
-        // 6️⃣ Prepare data for Blade
+        $allowAccess = allowAccess(
+            $userID,
+            $kCategory,
+            $entryUserID,
+            $officerRoleID
+        );
+
+        /*
+    |--------------------------------------------------------------------------
+    | 9️⃣ SEND DATA TO VIEW
+    |--------------------------------------------------------------------------
+    */
+
         $adata = [
             'opt_search'        => $request->input('opt_search', 'quick'),
             'pagetitle'         => 'បញ្ជីពាក្យបណ្ដឹង',
@@ -148,18 +283,9 @@ class CaseController extends Controller
             'caseOfficers'      => $caseOfficers,
         ];
 
-        // 7️⃣ Optional JSON API response
-        if ($request->input('json_opt') == 1) {
-            return response()->json([
-                'status' => 200,
-                'message' => 'success',
-                'data' => $adata
-            ]);
-        }
-
-        // 8️⃣ Return Blade view (works with refactored Blade)
         return view('case.list_case1', compact('adata'));
     }
+
 
 
 
@@ -893,8 +1019,6 @@ class CaseController extends Controller
         return redirect()->route('cases.create.step3', ['case_id' => $caseID])
             ->with('success', 'Step 2 completed successfully.');
     }
-
-
 
     /**
      * Prepare company data from request
@@ -1678,6 +1802,8 @@ class CaseController extends Controller
         }
         return view($view, ["adata" => $data]);
     }
+
+
 
     public function ajaxDeleteFile(Request $request)
     {

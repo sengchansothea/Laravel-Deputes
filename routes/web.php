@@ -13,6 +13,7 @@ use App\Http\Controllers\CollectivesLog6Controller;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CpesController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\DisputantController;
 use App\Http\Controllers\DomainController;
 use App\Http\Controllers\ExportExcelController;
@@ -131,7 +132,7 @@ Route::middleware('throttle:60,1')->group(function () {
                 //Testing Import Excel
                 Route::get("excel/import", [ImportExcelController::class, "import_company_list"]);
 
-                Route::get('/find_company_autocomplete', [AjaxController::class, 'findCompanyAutocomplete']);
+                Route::get('/find_company_autocomplete', [AjaxController::class, 'findCompanyAutocomplete'])->name('ajax.findCompanyAutocomplete');
                 Route::get('/get-details', [AjaxController::class, 'getDetails']);
 
                 Route::get('/find_employee_autocomplete/{company_id?}', [AjaxController::class, 'findEmployeeAutocomplete']);
@@ -432,4 +433,7 @@ Route::middleware('throttle:60,1')->group(function () {
             abort(404);
         })->where('path', '.*')->name('storage.serve')->middleware('auth');
     });
+
+    // Route::get('/company/{id}', [CompanyController::class, 'show'])
+    // ->name('company.show');
 });

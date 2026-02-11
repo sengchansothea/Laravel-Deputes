@@ -1,16 +1,16 @@
 @php
     $arrInOrOutDomain = [
         '0' => 'មិនកំណត់',
-        '1' => "ក្នុងដែនការិយាល័យ",
-        '2' => "ក្រៅដែនការិយាល័យ",
-        ];
+        '1' => 'ក្នុងដែនការិយាល័យ',
+        '2' => 'ក្រៅដែនការិយាល័យ',
+    ];
     $arrDomain = [
         '0' => 'មិនកំណត់',
-        '1' => "ការិយាល័យវិវាទការងារទី១",
-        '2' => "ការិយាល័យវិវាទការងារទី២",
-        '3' => "ការិយាល័យវិវាទការងារទី៣",
-        '4' => "ការិយាល័យវិវាទការងារទី៤",
-        ];
+        '1' => 'ការិយាល័យវិវាទការងារទី១',
+        '2' => 'ការិយាល័យវិវាទការងារទី២',
+        '3' => 'ការិយាល័យវិវាទការងារទី៣',
+        '4' => 'ការិយាល័យវិវាទការងារទី៤',
+    ];
     $arrCaseStatus = [
         '0' => 'មិនកំណត់',
         '1' => 'កំពុងដំណើរការ',
@@ -27,7 +27,7 @@
         '7' => 'កំណត់ហេតុផ្សះផ្សា',
         '8' => 'លើកពេលផ្សះផ្សា',
         '9' => 'ផ្សះផ្សារចប់',
-        '10' => 'បានបិទបញ្ចប់'
+        '10' => 'បានបិទបញ្ចប់',
     ];
     $currentYear = date('Y');
     $yearRange = range($currentYear, 2017);
@@ -40,18 +40,23 @@
     $csic4 = old('csic4', request('csic4'));
 
     $arrCSIC2 = $csic1 ? arrCSIC2($csic1) : ['0' => 'សូមជ្រើសរើស'];
-    $arrCSIC3 = ($csic1 && $csic2) ? arrCSIC3($csic1, $csic2) : ['0' => 'សូមជ្រើសរើស'];
-    $arrCSIC4 = ($csic1 && $csic2 && $csic3) ? arrCSIC4($csic1, $csic2, $csic3) : ['0' => 'សូមជ្រើសរើស'];
-    $arrCSIC5 = ($csic1 && $csic2 && $csic3 && $csic4) ? arrCSIC5($csic1, $csic2, $csic3, $csic4) : ['0' => 'សូមជ្រើសរើស'];
+    $arrCSIC3 = $csic1 && $csic2 ? arrCSIC3($csic1, $csic2) : ['0' => 'សូមជ្រើសរើស'];
+    $arrCSIC4 = $csic1 && $csic2 && $csic3 ? arrCSIC4($csic1, $csic2, $csic3) : ['0' => 'សូមជ្រើសរើស'];
+    $arrCSIC5 =
+        $csic1 && $csic2 && $csic3 && $csic4 ? arrCSIC5($csic1, $csic2, $csic3, $csic4) : ['0' => 'សូមជ្រើសរើស'];
 @endphp
 <x-slot name="moreCss2">
     <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/select2.css') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <style>
         a.no-hover {
-            text-decoration: none !important; /* remove underline */
-            color: inherit !important;        /* keep same color */
+            text-decoration: none !important;
+            /* remove underline */
+            color: inherit !important;
+            /* keep same color */
         }
+
         a.no-hover:hover {
             text-decoration: none !important;
             color: inherit !important;
@@ -61,7 +66,7 @@
 <div class="d-flex justify-content-between align-items-center p-1 rounded shadow-sm mb-2">
     <!-- Left Title -->
     <h5 class="mb-0 d-flex align-items-center text-danger fw-bold text-hanuman-20">
-{{--        <span class="ms-2 bg-info p-2">🔍 ការតម្រង និងស្វែងរកបញ្ជីពាក្យបណ្តឹង</span>--}}
+        {{--        <span class="ms-2 bg-info p-2">🔍 ការតម្រង និងស្វែងរកបញ្ជីពាក្យបណ្តឹង</span> --}}
     </h5>
 
     <!-- Right Button with Icon -->
@@ -78,48 +83,57 @@
     <!-- Hidden section (initially hidden) -->
     <div id="advanceSearch" class="d-none">
         <div class="row mb-2">
-            @if(chkUserIdentity() <= 3)
-                <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-1">
-                    <label class="form-label fw-bold">ឈ្មោះកម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN:</label>
-                    <input type="text" name="search" placeholder="សូមវាយឈ្មោះ កម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN ដើម្បីស្វែងរក" value="{{ request('search') }}" class="form-control" />
+            @if (chkUserIdentity() <= 3)
+                <div class="col-12 mb-1">
+                    <label class="form-label fw-bold">
+                        ឈ្មោះកម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN:
+                    </label>
+                    <input type="text" name="search"
+                        placeholder="សូមវាយឈ្មោះ កម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN ដើម្បីស្វែងរក"
+                        value="{{ request('search') }}" class="form-control" />
                 </div>
+
                 <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">នាយកដ្ឋានវិវាទការងារ</label>
-                    {!! showSelect('domainID',$arrDomain, old('domainID', request('domainID')), "", "") !!}
+                    {!! showSelect('domainID', $arrDomain, old('domainID', request('domainID')), '', '') !!}
                 </div>
+
                 <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">ក្នុងឫក្រៅដែនការិយាល័យ</label>
-                    {!! showSelect('inOutDomain',$arrInOrOutDomain, old('inOutDomain', request('inOutDomain')), "", "") !!}
+                    {!! showSelect('inOutDomain', $arrInOrOutDomain, old('inOutDomain', request('inOutDomain')), '', '') !!}
+                </div>
+
+                <!-- ✅ Replace Year with Start and End Dates -->
+                <div class="form-group col-4 mt-3">
+                    <label class="form-label mb-1 fw-bold">កាលបរិច្ឆេទចាប់ផ្ដើម</label>
+                    <input type="date" name="start_date" value="{{ old('start_date', request('start_date')) }}"
+                        class="form-control" />
                 </div>
                 <div class="form-group col-4 mt-3">
-                    <label class="form-label mb-1 fw-bold">ឆ្នាំបណ្តឹង</label>
-                    {!! showSelect('year',$arrYear, old('year', request('year')), "", "") !!}
+                    <label class="form-label mb-1 fw-bold">កាលបរិច្ឆេទបញ្ចប់</label>
+                    <input type="date" name="end_date" value="{{ old('end_date', request('end_date')) }}"
+                        class="form-control" />
                 </div>
+
                 <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">ស្ថានភាពបណ្តឹង</label>
-                    {!! showSelect('statusID',$arrCaseStatus, old('statusID', request('statusID')), "", "") !!}
+                    {!! showSelect('statusID', $arrCaseStatus, old('statusID', request('statusID')), '', '') !!}
                 </div>
+
                 <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">ដំណើរការបណ្តឹង</label>
-                    {!! showSelect('stepID',$arrCaseStep, old('stepID', request('stepID')), "", "") !!}
+                    {!! showSelect('stepID', $arrCaseStep, old('stepID', request('stepID')), '', '') !!}
                 </div>
+
                 <div class="form-group col-4 mt-2">
                     <label class="form-label" style="visibility: hidden">x</label>
-                    {{--                    <div class="input-group">--}}
-                    {{--                        <button type="submit" class="btn btn-lg btn-success-gradien fw-bold">--}}
-                    {{--                            <span class="fa fa-search me-2 text-white"></span>--}}
-                    {{--                            ស្វែងរកពាក្យបណ្តឹង--}}
-                    {{--                        </button>--}}
-                    {{--                    </div>--}}
                     <div class="input-group justify-content-center">
-                        <!-- Existing Search Button -->
                         <button type="submit" class="btn btn-lg btn-success-gradien fw-bold">
                             <span class="fa fa-search me-2 text-white"></span>
                             ស្វែងរកពាក្យបណ្តឹង
                         </button>
-
-                        <!-- ✅ New Export Excel Button -->
-                        <button type="submit" name="export_excel" value="1" class="btn btn-lg btn-warning-gradien fw-bold ms-2">
+                        <button type="submit" name="export_excel" value="1"
+                            class="btn btn-lg btn-warning-gradien fw-bold ms-2">
                             <span class="fa fa-download me-2 text-white"></span>
                             ទាញយក Excel
                         </button>
@@ -127,42 +141,52 @@
                 </div>
             @else
                 <div class="form-group col-6">
-                    <label class="form-label fw-bold mb-1">ឈ្មោះកម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN:</label>
-                    <input type="text" name="search" placeholder="សូមវាយឈ្មោះ កម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN ដើម្បីស្វែងរក" value="{{ request('search') }}" class="form-control" />
+                    <label class="form-label fw-bold mb-1">
+                        ឈ្មោះកម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN:
+                    </label>
+                    <input type="text" name="search"
+                        placeholder="សូមវាយឈ្មោះ កម្មករនិយោជិត ឫ រោងចក្រ សហគ្រាស ឬ លេខចុះបញ្ជីពាណិជ្ជកម្ម ឬ លេខTIN ដើម្បីស្វែងរក"
+                        value="{{ request('search') }}" class="form-control" />
+                </div>
+
+                <!-- ✅ Replace Year with Start and End Dates -->
+                <div class="form-group col-3">
+                    <label class="form-label mb-1 fw-bold">កាលបរិច្ឆេទចាប់ផ្ដើម</label>
+                    <input type="text" id="start_date" name="start_date"
+                        value="{{ old('start_date', request('start_date')) }}" class="form-control"
+                        placeholder="dd/mm/yyyy" />
                 </div>
                 <div class="form-group col-3">
-                    <label class="form-label mb-1 fw-bold">ឆ្នាំបណ្តឹង</label>
-                    {!! showSelect('year',$arrYear, old('year', request('year')), "", "") !!}
+                    <label class="form-label mb-1 fw-bold">កាលបរិច្ឆេទបញ្ចប់</label>
+                    <input type="text" id="end_date" name="end_date"
+                        value="{{ old('end_date', request('end_date')) }}" class="form-control"
+                        placeholder="dd/mm/yyyy" />
                 </div>
-                <div class="form-group col-3">
+
+                <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">ក្នុងឫក្រៅដែនការិយាល័យ</label>
-                    {!! showSelect('inOutDomain',$arrInOrOutDomain, old('inOutDomain', request('inOutDomain')), "", "") !!}
+                    {!! showSelect('inOutDomain', $arrInOrOutDomain, old('inOutDomain', request('inOutDomain')), '', '') !!}
                 </div>
+
                 <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">ស្ថានភាពបណ្តឹង</label>
-                    {!! showSelect('statusID',$arrCaseStatus, old('statusID', request('statusID')), "", "") !!}
+                    {!! showSelect('statusID', $arrCaseStatus, old('statusID', request('statusID')), '', '') !!}
                 </div>
+
                 <div class="form-group col-4 mt-3">
                     <label class="form-label mb-1 fw-bold">ដំណើរការបណ្តឹង</label>
-                    {!! showSelect('stepID',$arrCaseStep, old('stepID', request('stepID')), "", "") !!}
+                    {!! showSelect('stepID', $arrCaseStep, old('stepID', request('stepID')), '', '') !!}
                 </div>
+
                 <div class="form-group col-4 mt-2">
                     <label class="form-label" style="visibility: hidden">x</label>
-                    {{--                    <div class="input-group">--}}
-                    {{--                        <button type="submit" class="btn btn-lg btn-success-gradien fw-bold">--}}
-                    {{--                            <span class="fa fa-search me-2 text-white"></span>--}}
-                    {{--                            ស្វែងរកពាក្យបណ្តឹង--}}
-                    {{--                        </button>--}}
-                    {{--                    </div>--}}
                     <div class="input-group justify-content-center">
-                        <!-- Existing Search Button -->
                         <button type="submit" class="btn btn-lg btn-success-gradien fw-bold">
                             <span class="fa fa-search me-2 text-white"></span>
                             ស្វែងរកពាក្យបណ្តឹង
                         </button>
-
-                        <!-- ✅ New Export Excel Button -->
-                        <button type="submit" name="export_excel" value="1" class="btn btn-lg btn-warning-gradien fw-bold ms-2">
+                        <button type="submit" name="export_excel" value="1"
+                            class="btn btn-lg btn-warning-gradien fw-bold ms-2">
                             <span class="fa fa-download me-2 text-white"></span>
                             ទាញយក Excel
                         </button>
@@ -172,6 +196,7 @@
         </div>
     </div>
 </form>
+
 @push('childScript')
     <script>
         $(document).ready(function() {
@@ -197,15 +222,19 @@
                 $.ajax({
                     url: "{{ url('ajaxGetCSIC2') }}/" + csic1,
                     type: 'get',
-                    data: { "_token": "{{ csrf_token() }}" },
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
                     dataType: 'json',
                     success: function(response) {
                         if (response['data'] !== null) {
-                            $("#csic2").append("<option value=''>សូមជ្រើសរើស</option>"); // Default option
+                            $("#csic2").append(
+                                "<option value=''>សូមជ្រើសរើស</option>"); // Default option
 
                             // Loop through JSON object using `for...in`
                             $.each(response['data'], function(id, name) {
-                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                var option = "<option value='" + id + "'>" + name +
+                                    "</option>";
                                 $("#csic2").append(option);
                             });
                         }
@@ -225,15 +254,19 @@
                 $.ajax({
                     url: "{{ url('ajaxGetCSIC3') }}/" + csic1 + "/" + csic2,
                     type: 'get',
-                    data : {"_token":"{{ csrf_token() }}"},
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
                     dataType: 'json',
-                    success: function(response){
+                    success: function(response) {
                         if (response['data'] !== null) {
-                            $("#csic3").append("<option value=''>សូមជ្រើសរើស</option>"); // Default option
+                            $("#csic3").append(
+                                "<option value=''>សូមជ្រើសរើស</option>"); // Default option
 
                             // Loop through JSON object using `for...in`
                             $.each(response['data'], function(id, name) {
-                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                var option = "<option value='" + id + "'>" + name +
+                                    "</option>";
                                 $("#csic3").append(option);
                             });
                         }
@@ -250,17 +283,21 @@
                 //$('#province_id').find('option').not(':first').remove();
                 // AJAX request
                 $.ajax({
-                    url: "{{ url('ajaxGetCSIC4') }}/"+ csic1 + "/" + csic2 + "/" + csic3,
+                    url: "{{ url('ajaxGetCSIC4') }}/" + csic1 + "/" + csic2 + "/" + csic3,
                     type: 'get',
-                    data : {"_token":"{{ csrf_token() }}"},
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
                     dataType: 'json',
-                    success: function(response){
+                    success: function(response) {
                         if (response['data'] !== null) {
-                            $("#csic4").append("<option value=''>សូមជ្រើសរើស</option>"); // Default option
+                            $("#csic4").append(
+                                "<option value=''>សូមជ្រើសរើស</option>"); // Default option
 
                             // Loop through JSON object using `for...in`
                             $.each(response['data'], function(id, name) {
-                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                var option = "<option value='" + id + "'>" + name +
+                                    "</option>";
                                 $("#csic4").append(option);
                             });
                         }
@@ -278,17 +315,22 @@
                 //$('#province_id').find('option').not(':first').remove();
                 // AJAX request
                 $.ajax({
-                    url: "{{ url('ajaxGetCSIC5') }}/"+ csic1 + "/" + csic2 + "/" + csic3 + "/" + csic4,
+                    url: "{{ url('ajaxGetCSIC5') }}/" + csic1 + "/" + csic2 + "/" + csic3 + "/" +
+                        csic4,
                     type: 'get',
-                    data : {"_token":"{{ csrf_token() }}"},
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
                     dataType: 'json',
-                    success: function(response){
+                    success: function(response) {
                         if (response['data'] !== null) {
-                            $("#csic5").append("<option value=''>សូមជ្រើសរើស</option>"); // Default option
+                            $("#csic5").append(
+                                "<option value=''>សូមជ្រើសរើស</option>"); // Default option
 
                             // Loop through JSON object using `for...in`
                             $.each(response['data'], function(id, name) {
-                                var option = "<option value='" + id + "'>" + name + "</option>";
+                                var option = "<option value='" + id + "'>" + name +
+                                    "</option>";
                                 $("#csic5").append(option);
                             });
                         }
@@ -296,7 +338,7 @@
                 });
             });
             $("#province_id").on('change', function() {
-                var province_id= $("#province_id").val();//main level
+                var province_id = $("#province_id").val(); //main level
 
                 //$("#district_id").select2("val", "");
                 $("#district_id > option").remove(); //first of all clear select items
@@ -305,19 +347,21 @@
                 get_district_data(province_id);
             });
             $("#district_id").on('change', function() {
-                var district_id= $("#district_id").val();//main level
+                var district_id = $("#district_id").val(); //main level
                 //$("#commune_id").select2("val", "");
                 $("#commune_id > option").remove(); //first of all clear select items
                 get_commune_data(district_id);
             });
-            function get_district_data(province_id){
+
+            function get_district_data(province_id) {
                 $.ajax({
                     url: "{{ url('ajaxGetDistrict') }}/" + province_id,
                     type: 'get',
-                    data : {"_token":"{{ csrf_token() }}"},
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
                     dataType: 'json',
-                    success: function(response)
-                    {
+                    success: function(response) {
                         // alert("Get Province");
                         // $.each(result,function(val,label)
                         // {
@@ -329,52 +373,54 @@
                         // });//end $.each
                         //alert("success");
                         var len = 0;
-                        if(response['data'] != null){
+                        if (response['data'] != null) {
                             len = response['data'].length;
                         }
-                        if(len > 0){
+                        if (len > 0) {
                             // Read data and create <option >
                             $("#district_id").append("<option value='0'>សូមជ្រើសរើស</option>");
-                            for(var i=0; i<len; i++){
+                            for (var i = 0; i < len; i++) {
                                 var id = response['data'][i].id;
                                 var name = response['data'][i].name;
-                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                var option = "<option value='" + id + "'>" + name + "</option>";
                                 $("#district_id").append(option);
                             }
                         }
-                    }//end success
-                });//end $.ajax
+                    } //end success
+                }); //end $.ajax
             }
-            function get_commune_data(district_id){
+
+            function get_commune_data(district_id) {
                 $.ajax({
                     url: "{{ url('ajaxGetCommune') }}/" + district_id,
                     type: 'get',
-                    data : {"_token":"{{ csrf_token() }}"},
+                    data: {
+                        "_token": "{{ csrf_token() }}"
+                    },
                     dataType: 'json',
-                    success: function(response)
-                    {
+                    success: function(response) {
                         var len = 0;
-                        if(response['data'] != null){
+                        if (response['data'] != null) {
                             len = response['data'].length;
                         }
-                        if(len > 0){
+                        if (len > 0) {
                             // Read data and create <option >
                             $("#commune_id").append("<option value='0'>សូមជ្រើសរើស</option>");
-                            for(var i=0; i<len; i++){
+                            for (var i = 0; i < len; i++) {
                                 var id = response['data'][i].id;
                                 var name = response['data'][i].name;
-                                var option = "<option value='"+id+"'>"+name+"</option>";
+                                var option = "<option value='" + id + "'>" + name + "</option>";
                                 $("#commune_id").append(option);
                             }
                         }
 
-                    }//end success
-                });//end $.ajax
+                    } //end success
+                }); //end $.ajax
             }
         });
     </script>
     <script>
-        $(document).on('click', '#toggleButton', function (e) {
+        $(document).on('click', '#toggleButton', function(e) {
             e.preventDefault();
 
             const $icon = $(this).find('.fa');
@@ -391,15 +437,27 @@
             $advanceSearch.toggleClass('d-none');
         });
     </script>
+    <script>
+        $(function() {
+            $("#start_date, #end_date").datepicker({
+                dateFormat: "dd/mm/yy", // display format
+                changeMonth: true,
+                changeYear: true
+            });
+
+            // Optional: Set min/max relationship
+            $("#start_date").on("change", function() {
+                $("#end_date").datepicker("option", "minDate", $(this).datepicker("getDate"));
+            });
+            $("#end_date").on("change", function() {
+                $("#start_date").datepicker("option", "maxDate", $(this).datepicker("getDate"));
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <!-- Plugins Select2-->
     <script src="{{ rurl('assets/js/select2/select2.full.min.js') }}"></script>
     <script src="{{ rurl('assets/js/select2/select2-custom.js') }}"></script>
+    
 @endpush
-
-
-
-
-
-
-
-

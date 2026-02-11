@@ -48,6 +48,7 @@ class AjaxController extends Controller
         }
         //return response()->json($data);
     }
+    
     public function getDetails(Request $request)
     {
         $tmp = explode("__", $request->input('name'));

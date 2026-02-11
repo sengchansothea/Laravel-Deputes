@@ -83,25 +83,7 @@
                         <input type="hidden" name="single_id" value="" id="single_id">
                         <input type="hidden" name="operation_status" value="" id="operation_status">
 
-                        {{-- <div class="stepwizard">
-                            <div class="stepwizard-row setup-panel">
-                                <div class="stepwizard-step">
-                                    <a href="#step-1" type="button"
-                                        class="btn btn-circle {{ $currentStep != 1 ? 'btn-default' : 'btn-primary' }} {{ $currentStep > 1 ? 'completed' : '' }}">1</a>
-                                    <p>Step 1</p>
-                                </div>
-                                <div class="stepwizard-step">
-                                    <a href="#step-2" type="button"
-                                        class="btn btn-circle {{ $currentStep != 2 ? 'btn-default' : 'btn-primary' }} {{ $currentStep > 2 ? 'completed' : '' }}">2</a>
-                                    <p>Step 2</p>
-                                </div>
-                                <div class="stepwizard-step">
-                                    <a href="#step-3" type="button"
-                                        class="btn btn-circle {{ $currentStep != 3 ? 'btn-default' : 'btn-primary' }}" disabled="disabled">3</a>
-                                    <p>Step 3</p>
-                                </div>
-                            </div>
-                        </div> --}}
+                        
 
                         <div class="card-body text-hanuman-17">
                             <div class="card-block row">

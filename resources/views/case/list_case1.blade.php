@@ -9,32 +9,39 @@
     </x-slot>
 
     <style>
-
+        /* Actions column layout */
         .actions-cell {
             display: flex;
             flex-direction: column;
-            /* Stack buttons vertically */
+            /* Stack vertically */
             gap: 8px;
             /* Space between buttons */
             align-items: center;
-            /* Center horizontally if needed */
+            /* Center horizontally */
         }
 
+        /* All buttons inside actions */
         .actions-cell .btn {
             width: 120px;
-            /* Optional: make all buttons same width */
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 5px;
-            /* Space between icon and text */
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        a:hover {
-            color: red;
-            text-decoration: underline;
+        /* Hover effect: white text + dark background */
+        .actions-cell .btn:hover {
+            color: white;
+            /* Text becomes white */
+            background-color: #0d6efd;
+            /* Bootstrap primary dark color */
+            text-decoration: none;
+            /* Remove underline */
         }
 
+        /* Table row hover */
         .table-hover tbody tr:hover {
             background-color: #f1f1f1;
         }
@@ -65,13 +72,47 @@
                             <div class="bg-primary text-center text-white py-2 text-hanuman-22 mb-2">
                                 {{ $adata['pagetitle'] }} : {{ number_format($adata['totalRecord']) }}
                             </div>
-                            <table class="table table-hover align-middle">
+
+                            <table class="table table-hover align-middle" id="complaintsTable">
                                 <thead class="table-light">
                                     <tr>
                                         <th width="1%">ល.រ</th>
-                                        <th width="10%">លេខសំណុំរឿង</th>
-                                        <th width="13%" class="text-center text-nowrap">ប្រភេទពាក្យបណ្ដឹង</th>
-                                        <th width="25%">ដើមបណ្ដឹង</th>
+                                        <th width="20%">
+                                            លេខសំណុំរឿង
+                                            <a href="{{ request()->fullUrlWithQuery([
+                                                'sort_by' => 'case_number',
+                                                'order' => request('sort_by') === 'case_number' && request('order') === 'asc' ? 'desc' : 'asc',
+                                            ]) }}"
+                                                style="color:black; text-decoration:none;">
+                                                {{ request('sort_by') === 'case_number' ? (request('order') === 'asc' ? '🔼' : '🔽') : '🔽' }}
+                                            </a>
+                                        </th>
+
+
+                                        <th width="13%" class="text-center text-nowrap">
+                                            ប្រភេទពាក្យបណ្ដឹង
+                                            <a href="{{ request()->fullUrlWithQuery([
+                                                'sort_by' => 'case_date',
+                                                'order' => request('sort_by') === 'case_date' && request('order') === 'asc' ? 'desc' : 'asc',
+                                            ]) }}"
+                                                style="color:black; text-decoration:none;">
+                                                {{ request('sort_by') === 'case_date' ? (request('order') === 'asc' ? '🔼' : '🔽') : '🔽' }}
+                                            </a>
+                                        </th>
+
+
+                                        <th width="15%">
+                                            ដើមបណ្ដឹង
+                                            <a href="{{ request()->fullUrlWithQuery([
+                                                'sort_by' => 'disputant_name',
+                                                'order' => request('sort_by') === 'disputant_name' && request('order') === 'asc' ? 'desc' : 'asc',
+                                            ]) }}"
+                                                style="color:black; text-decoration:none;">
+                                                {{ request('sort_by') === 'disputant_name' ? (request('order') === 'asc' ? '🔼' : '🔽') : '🔽' }}
+                                            </a>
+                                        </th>
+
+
                                         <th width="20%">ចុងបណ្ដឹង</th>
                                         <th width="10%">មន្ត្រីទទួលបន្ទុក</th>
                                         <th width="25%" class="center">ដំណើរការបណ្តឹង</th>
@@ -79,10 +120,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $userOfficerID = $adata['userOfficerID'];
-                                    @endphp
-
+                                    @php $userOfficerID = $adata['userOfficerID']; @endphp
                                     @foreach ($adata['cases'] as $row)
                                         @php
                                             $arrOfficerIDs = $adata['officerIDsByCase'][$row->id] ?? [];
@@ -99,8 +137,9 @@
                                             <td class="text-center">
                                                 {{ $row->caseType->case_type_name }}
                                                 @if (!empty($row->case_date))
-                                                    <span
-                                                        class="text-danger fw-bold d-block mt-1">[{{ date2Display($row->case_date) }}]</span>
+                                                    <span class="text-danger fw-bold d-block mt-1">
+                                                        [{{ date2Display($row->case_date) }}]
+                                                    </span>
                                                 @endif
                                                 @php
                                                     $showFile = showFile(
@@ -159,13 +198,14 @@
                                                 @endphp
                                                 <br>
                                                 <a class="btn btn-outline-success"
-                                                    href="{{ url('cases/' . $row->id) }}"
-                                                    target="_blank">មើលដំណើរការបណ្ដឹង</a>
+                                                    href="{{ url('cases/' . $row->id) }}" target="_blank">
+                                                    មើលដំណើរការបណ្ដឹង
+                                                </a>
                                             </td>
 
                                             {{-- Actions --}}
                                             <td class="text-center actions-cell">
-                                                {{-- Edit Button --}}
+                                                {{-- Edit --}}
                                                 @if ($chkAllowAccess || in_array($userOfficerID, $arrOfficerIDs) || $userID == $row->user_created)
                                                     <a href="{{ url('cases/' . $row->id . '/edit') }}" target="_blank"
                                                         class="btn btn-outline-primary" title="កែប្រែពាក្យបណ្ដឹង">
@@ -174,13 +214,13 @@
                                                     </a>
                                                 @endif
 
-                                                {{-- Delete Button --}}
+                                                {{-- Delete --}}
                                                 @if ($chkAllowAccess || $userID == $row->user_created)
                                                     <form action="{{ url('cases/' . $row->id) }}" method="POST"
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="btn btn-outline-danger"
+                                                        <button type="button" class="btn btn-outline-danger delete-btn"
                                                             title="លុបពាក្យបណ្ដឹង">
                                                             <i data-feather="trash"></i>
                                                             <span class="btn-label">លុប</span>
@@ -188,16 +228,13 @@
                                                     </form>
                                                 @endif
 
-                                                {{-- Download Button --}}
+                                                {{-- Download --}}
                                                 <a href="{{ url('export/word/case/' . $row->id) }}" target="_blank"
                                                     class="btn btn-outline-success" title="ទាញយកពាក្យបណ្ដឹង">
                                                     <i data-feather="download"></i>
                                                     <span class="btn-label">ទាញយក</span>
                                                 </a>
                                             </td>
-
-
-
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -234,7 +271,11 @@
                             cancelButtonColor: '#3085d6',
                             confirmButtonText: 'លុបចោល',
                             cancelButtonText: 'អត់ទេ'
-                        }).then(result => result.isConfirmed && button.closest('form').submit());
+                        }).then(result => {
+                            if (result.isConfirmed) {
+                                button.closest('form').submit();
+                            }
+                        });
                     });
                 });
 
@@ -278,6 +319,58 @@
                             response.data.forEach(c => $("#commune_id").append(
                                 `<option value='${c.id}'>${c.name}</option>`));
                         }
+                    });
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const table = document.getElementById('complaintsTable');
+                const headers = table.querySelectorAll('th.sortable');
+                let sortDirection = {};
+
+                headers.forEach((header, index) => {
+                    sortDirection[index] = true; // true = ascending
+
+                    header.addEventListener('click', () => {
+                        const type = header.getAttribute('data-type');
+                        sortTableByColumn(table, index, type, sortDirection[index]);
+                        sortDirection[index] = !sortDirection[index]; // toggle next click
+                    });
+                });
+
+                function sortTableByColumn(table, column, type, asc = true) {
+                    const tbody = table.tBodies[0];
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+                    const sortedRows = rows.sort((a, b) => {
+                        let aText = a.cells[column].textContent.trim();
+                        let bText = b.cells[column].textContent.trim();
+
+                        if (type === 'number') {
+                            return asc ? aText - bText : bText - aText;
+                        } else if (type === 'date') {
+                            return asc ?
+                                new Date(aText) - new Date(bText) :
+                                new Date(bText) - new Date(aText);
+                        } else { // string
+                            return asc ?
+                                aText.localeCompare(bText) :
+                                bText.localeCompare(aText);
+                        }
+                    });
+
+                    // remove old rows
+                    while (tbody.firstChild) {
+                        tbody.removeChild(tbody.firstChild);
+                    }
+
+                    // append sorted rows
+                    tbody.append(...sortedRows);
+
+                    // update ល.រ
+                    tbody.querySelectorAll('tr').forEach((row, i) => {
+                        row.cells[0].textContent = i + 1;
                     });
                 }
             });

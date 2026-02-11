@@ -135,13 +135,13 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="form-group col-sm-4 mt-3">
+                                    <div class="form-group col-sm-6 mt-3">
                                         <label class="fw-bold mb-1 required">ថ្ងៃខែឆ្នាំជួបប្រជុំ</label>
                                         <input type="text" name="meeting_date" id="meeting_date"
                                             value="{{ old('meeting_date', date2Display($log34->meeting_date)) }}"
                                             class="form-control" data-language="en" required>
                                     </div>
-                                    <div class="form-group col-sm-4 mt-3">
+                                    <div class="form-group col-sm-6 mt-3">
                                         <label class="fw-bold mb-1 required">ម៉ោងចាប់ផ្ដើម</label>
                                         <div class="input-group clockpicker" data-autoclose="true">
                                             <input name="meeting_stime" id="meeting_stime"
@@ -150,15 +150,7 @@
                                                 required>
                                         </div>
                                     </div>
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1 required">ម៉ោងបញ្ចប់</label>
-                                        <div class="input-group clockpicker" data-autoclose="true">
-                                            <input name="meeting_etime" id="meeting_etime"
-                                                value="{{ old('meeting_etime', date2Display($log34->meeting_etime, 'H:i')) }}"
-                                                class="form-control" type="text" data-bs-original-title=""
-                                                required>
-                                        </div>
-                                    </div>
+
 
                                     <div class="form-group col-sm-12 mt-3">
                                         <label class="fw-bold mb-1 required">បានផ្ដល់ព័ត៌មានស្ដីពី</label>
@@ -247,7 +239,7 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="form-group col-sm-12 mt-3">
+                                        <div class="form-group col-sm-4 mt-3">
                                             <label for="find_employee_autocomplete"
                                                 class="text-primary text-hanuman-20 mb-1">
                                                 ស្វែងរកឈ្មោះអមអ្នកប្តឹង</label>
@@ -347,10 +339,11 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="row mt-4">
                                     <div class="col-12 text-end">
                                         <button type="button" id="btn_next_to_defendant" class="btn btn-primary">
-                                            ទៅដំណាក់កាលបន្ទាប់ &gt;
+                                            ទៅដំណាក់កាលបន្ទាប់ &rarr;
                                         </button>
                                     </div>
                                 </div>
@@ -364,111 +357,120 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink"
                                             for="log34_1">១-អំពីសភាពការណ៍រួមរបស់សហគ្រាស</label>
                                         {!! showTextarea('log34_1', old('log34_1', $log34->log34_1)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_2">២-អំពីកិច្ចសន្យាការងារ</label>
                                         {!! showTextarea('log34_2', old('log34_2', $log34->log34_2)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_3">៣-អំពីថិរវេលាធ្វើការ</label>
                                         {!! showTextarea('log34_3', old('log34_3', $log34->log34_3)) !!}
                                     </div>
                                 </div>
+
                                 <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_4">៤-អំពីការងារពេលយប់</label>
                                         {!! showTextarea('log34_4', old('log34_4', $log34->log34_4)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink"
                                             for="log34_5">៥-អំពីការឈប់សម្រាកប្រចាំសប្ដាហ៍</label>
                                         {!! showTextarea('log34_5', old('log34_5', $log34->log34_5)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_6">៦-អំពីថ្ងៃបុណ្យជាតិ
                                             ឈប់សម្រាកប្រចាំឆ្នាំដែលត្រូវមានប្រាក់ឈ្នួល</label>
                                         {!! showTextarea('log34_6', old('log34_6', $log34->log34_6)) !!}
                                     </div>
                                 </div>
+
                                 <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_7">៧-អំពីប្រាក់ឈ្នួល
                                             ប្រាក់បន្ទុកគ្រួសារ និងប្រាក់រង្វាន់ផេ្សងៗ</label>
                                         {!! showTextarea('log34_7', old('log34_7', $log34->log34_7)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_8">៨-អំពីការរំលាយកិច្ចសន្យា
                                             មូលហេតុនៃការរំលាយកិច្ចសន្យា</label>
                                         {!! showTextarea('log34_8', old('log34_8', $log34->log34_8)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink"
                                             for="log34_9">៩-អំពីការជូនដំណឹងមុនផ្ដាច់កិច្ចសន្យាការងារ</label>
                                         {!! showTextarea('log34_9', old('log34_9', $log34->log34_9)) !!}
                                     </div>
                                 </div>
+
                                 <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink"
                                             for="log34_10">១០-អំពីប្រាក់បំណាច់ផ្ដាច់កិច្ចសន្យាការងារ</label>
                                         {!! showTextarea('log34_10', old('log34_10', $log34->log34_10)) !!}
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
+
+                                    <div class="form-group col-sm-4 mt-3">
                                         <label class="fw-bold mb-1 pink" for="log34_11">១១-សំណូមពរ</label>
                                         {!! showTextarea('log34_11', old('log34_11', $log34->log34_11)) !!}
                                     </div>
+
+                                    <div class="form-group col-sm-4 mt-3">
+                                        <label class="fw-bold mb-1 required">ម៉ោងបញ្ចប់</label>
+                                        <div class="input-group clockpicker" data-autoclose="true">
+                                            <input name="meeting_etime" id="meeting_etime"
+                                                value="{{ old('meeting_etime', date2Display($log34->meeting_etime, 'H:i')) }}"
+                                                class="form-control" type="text" data-bs-original-title=""
+                                                required>
+                                        </div>
+                                    </div>
                                 </div>
-                                @if ($chkAllowAccess || in_array($userOfficerID, $arrOfficerIDs) || auth()->user()->id == $row->user_created)
-                                    <div class="card shadow-sm border-0 mt-4">
-                                        <div class="card-body">
-                                            <div class="row align-items-center gy-2">
+                                <div class="row">
+                                    @if ($chkAllowAccess || in_array($userOfficerID, $arrOfficerIDs) || auth()->user()->id == $row->user_created)
+                                        <div class="form-group col-sm-12 mt-4">
+                                            <div class="card-body">
+                                                <div class="row align-items-center gy-2">
 
-                                                <!-- Back Button -->
-                                                <div class="col-sm-3">
-                                                    <button type="button" id="btn_back_to_plantiff_contract"
-                                                        class="btn btn-secondary w-100">
-                                                        &lt; ត្រឡប់ក្រោយ
-                                                    </button>
-                                                </div>
+                                                    <!-- Back Button -->
+                                                    <div class="col-sm-3">
+                                                        <button type="button" id="btn_back_to_plantiff_contract"
+                                                            class="btn btn-secondary w-100">
+                                                            &larr; ត្រឡប់ក្រោយ
+                                                        </button>
+                                                    </div>
 
-                                                <!-- Save Button -->
-                                                <div class="col-sm-3">
-                                                    <button type="submit" name="btnSubmit" value="save"
-                                                        class="btn btn-success fw-bold w-100">
-                                                        <i class="bi bi-save"></i> {{ __('btn.button_save') }}
-                                                    </button>
-                                                </div>
+                                                    <!-- Save Button -->
+                                                    <div class="col-sm-3">
+                                                        <button type="submit" name="btnSubmit" value="save"
+                                                            class="btn btn-success fw-bold w-100">
+                                                            <i class="bi bi-save"></i> {{ __('btn.button_save') }}
+                                                        </button>
+                                                    </div>
 
-                                                <!-- Save & Next Button -->
-                                                <div class="col-sm-4">
-                                                    <button type="submit" name="btnSubmit" value="next"
-                                                        class="btn btn-primary fw-bold w-100">
-                                                        <i class="bi bi-arrow-right-circle"></i>
-                                                        {{ __('btn.button_save2') }}
-                                                    </button>
+                                                    <!-- Save & Next Button -->
+                                                    <div class="col-sm-4">
+                                                        <button type="submit" name="btnSubmit" value="next"
+                                                            class="btn btn-primary fw-bold w-100">
+                                                            <i class="bi bi-arrow-right-circle"></i>
+                                                            {{ __('btn.button_save2') }}
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
+                                    @endif
+                                </div>
+
                             </div>
                         </div>
                     </form>
@@ -480,59 +482,166 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
+            /* =========================
+               Sections
+            ========================= */
             const sections = {
                 plantiff: document.getElementById('plantiff_block'),
                 contract: document.getElementById('contract_block'),
             };
 
-            const scrollToSection = (section) => {
-                section.scrollIntoView({
+            const btnNext = document.getElementById('btn_next_to_defendant');
+            const btnBack = document.getElementById('btn_back_to_plantiff_contract');
+
+            const form = document.querySelector('form');
+            const endTimeInput = document.getElementById('meeting_etime');
+
+            /* =========================
+               SweetAlert2 helper
+            ========================= */
+            const showAlert = (message) => {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ការជូនដំណឹង',
+                    html: `
+                <div style="
+                    font-family: Hanuman, Battambang, Khmer OS System;
+                    font-size:18px;
+                    text-align:center;
+                ">
+                    ${message}
+                </div>
+            `,
+                    position: 'center',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true
+                });
+            };
+
+            /* =========================
+               Scroll helper
+            ========================= */
+            const scrollToSection = (el) => {
+                el.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
             };
 
+            /* =========================
+               Validate required fields
+            ========================= */
             const validateInputs = (inputs) => {
                 let valid = true;
+                let firstInvalid = null;
+
                 inputs.forEach(input => {
-                    if (!input.value.trim()) {
+                    let value = input.value;
+
+                    // handle select2
+                    if (input.tagName === 'SELECT') {
+                        value = $(input).val();
+                    }
+
+                    if (!value || value.toString().trim() === '') {
                         input.classList.add('is-invalid');
                         valid = false;
+
+                        if (!firstInvalid) {
+                            firstInvalid = input;
+                        }
                     } else {
                         input.classList.remove('is-invalid');
                     }
                 });
+
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                    firstInvalid.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+                }
+
                 return valid;
             };
 
             /* =========================
-               NEXT: Plantiff → Contract
-               ========================= */
-            const btnNext = document.getElementById('btn_next_to_defendant');
+               NEXT: Step 1 → Step 2
+            ========================= */
             if (btnNext) {
-                btnNext.addEventListener('click', function() {
-                    const requiredFields =
-                        sections.plantiff.querySelectorAll('input[required], select[required]');
+                btnNext.addEventListener('click', function(e) {
+                    e.preventDefault();
 
-                    if (!validateInputs(requiredFields)) return;
+                    const requiredFields = sections.plantiff.querySelectorAll(
+                        'input[required], select[required], textarea[required]'
+                    );
+
+                    if (!validateInputs(requiredFields)) {
+                        showAlert('សូមបំពេញព័ត៌មានដែលមានសញ្ញាផ្កាយក្រហមទាំងអស់ជាមុនសិន');
+                        return;
+                    }
 
                     sections.plantiff.style.display = 'none';
                     sections.contract.style.display = 'block';
+
                     scrollToSection(sections.contract);
                 });
             }
 
             /* =========================
-               BACK: Contract → Plantiff
-               ========================= */
-            const btnBack = document.getElementById('btn_back_to_plantiff_contract');
+               BACK: Step 2 → Step 1
+            ========================= */
             if (btnBack) {
-                btnBack.addEventListener('click', function() {
+                btnBack.addEventListener('click', function(e) {
+                    e.preventDefault();
+
                     sections.contract.style.display = 'none';
                     sections.plantiff.style.display = 'block';
+
                     scrollToSection(sections.plantiff);
                 });
             }
+
+            /* =========================
+               SUBMIT: Validate End Time (Step 2)
+            ========================= */
+            if (form && endTimeInput) {
+                form.addEventListener('submit', function(e) {
+
+                    const endTime = endTimeInput.value;
+
+                    if (!endTime || endTime.trim() === '') {
+                        e.preventDefault();
+
+                        endTimeInput.classList.add('is-invalid');
+
+                        showAlert('សូមជ្រើសរើសម៉ោងបញ្ចប់');
+
+                        endTimeInput.focus();
+                        endTimeInput.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+
+                        return false;
+                    }
+                });
+            }
+
+            /* =========================
+               Live remove error
+            ========================= */
+            document.addEventListener('input', function(e) {
+                if (e.target.matches('input, textarea')) {
+                    e.target.classList.remove('is-invalid');
+                }
+            });
+
+            $(document).on('change', 'select', function() {
+                $(this).removeClass('is-invalid');
+            });
 
         });
     </script>
