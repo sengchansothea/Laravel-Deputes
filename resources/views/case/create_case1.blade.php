@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/timepicker.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/select2.css') }}">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        
+
 
         <style>
             #response_message_company {
@@ -83,7 +83,7 @@
                         <input type="hidden" name="single_id" value="" id="single_id">
                         <input type="hidden" name="operation_status" value="" id="operation_status">
 
-                        
+
 
                         <div class="card-body text-hanuman-17">
                             <div class="card-block row">
@@ -167,8 +167,6 @@
                                             <div class="form-group col-sm-6 mt-3">
                                                 <label for="sector_id" class="fw-bold required mb-1">វិស័យ</label>
                                                 {!! showSelect('sector_id', $arrSector, old('sector_id', request('sector_id')), ' select2', '', '', 'required') !!}
-                                                {{--                                                {!! showSelect('sector_id', myArraySector(1, 0), old('sector_id', request('sector_id')), " select2", "", "", "required") !!} --}}
-
                                             </div>
 
                                             <div class="form-group col-sm-6 mt-3">
@@ -193,7 +191,7 @@
                                                 -អាសយដ្ឋាន
                                             </label>
                                         </div>
-                                        
+
                                         <div class="row">
                                             <div class="form-group col-sm-4 mt-3">
                                                 <label class="fw-bold required mb-1">រាជធានី-ខេត្ត</label>
@@ -247,7 +245,10 @@
                                                 <input type="text" name="company_phone_number"
                                                     id="company_phone_number"
                                                     value="{{ old('company_phone_number') }}" class="form-control"
-                                                    minlength="9">
+                                                    minlength="9" required>
+                                                @error('company_phone_number')
+                                                    <div>{!! textRed($message) !!}</div>
+                                                @enderror
                                             </div>
                                             <div class="form-group col-sm-6 mt-3">
                                                 <label for="company_phone_number2"
@@ -256,12 +257,13 @@
                                                     value="{{ old('company_phone_number2') }}" class="form-control"
                                                     minlength="9">
                                             </div>
+
                                         </div>
                                         <div class="row mt-4">
                                             <div class="col-12 text-end">
                                                 <button type="button" id="btn_next_to_defendant"
                                                     class="btn btn-primary">
-                                                    ទៅដំណាក់កាលទី​​ ២ &gt;
+                                                    ទៅដំណាក់កាលទី​​ ២ &rarr;
                                                 </button>
                                             </div>
                                         </div>
@@ -494,12 +496,12 @@
                                             <div class="col-6 text-start">
                                                 <button type="button" id="btn_back_to_plantiff"
                                                     class="btn btn-secondary">
-                                                    &lt; ត្រឡប់ក្រោយ
+                                                    &lrarr; ត្រឡប់ក្រោយ
                                                 </button>
                                             </div>
                                             <div class="col-6 text-end">
                                                 <button type="button" id="btn_next_to_contract"
-                                                    class="btn btn-primary">បន្ទាប់ &gt;
+                                                    class="btn btn-primary">ទៅដំណាក់កាលបន្ទាប់ &rarr;
                                                 </button>
                                             </div>
                                         </div>
@@ -639,11 +641,11 @@
                                         <div class="row mt-4">
                                             <div class="col-6 text-start">
                                                 <button type="button" id="btn_back_to_plantiff_contract"
-                                                    class="btn btn-secondary">&lt; ត្រឡប់ក្រោយ</button>
+                                                    class="btn btn-secondary">&larr; ត្រឡប់ក្រោយ</button>
                                             </div>
 
-                                            <div class="col-6 text-end"> 
-                                                <button type="submit" class="btn btn-success">រក្សាទុក</button> 
+                                            <div class="col-6 text-end">
+                                                <button type="submit" class="btn btn-success">រក្សាទុក</button>
                                             </div>
                                         </div>
                                     </div>
@@ -658,6 +660,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
             const sections = {
                 plantiff: document.getElementById('plantiff_block'),
                 defendant: document.getElementById('defendant_block'),
@@ -671,131 +674,98 @@
                 });
             };
 
-            const validateInputs = (inputs) => {
+            // ✅ One clean validation function
+            const validateSection = (section) => {
                 let valid = true;
-                inputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        input.classList.add('is-invalid');
+                let firstInvalidField = null;
+
+                const requiredFields = section.querySelectorAll('[required]');
+
+                requiredFields.forEach(field => {
+
+                    let value = field.value;
+
+                    if (!value || value.trim() === '' || value === '0') {
+                        field.classList.add('is-invalid');
                         valid = false;
+
+                        if (!firstInvalidField) {
+                            firstInvalidField = field;
+                        }
+
                     } else {
-                        input.classList.remove('is-invalid');
+                        field.classList.remove('is-invalid');
                     }
                 });
-                return valid;
+
+                // ✅ Show SweetAlert if invalid
+                if (!valid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'ព័ត៌មានមិនគ្រប់គ្រាន់',
+                        text: 'សូមបំពេញព័ត៌មានដែលមានសញ្ញា * មុនបន្តទៅជំហានបន្ទាប់។',
+                        timer: 4000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+
+                    if (firstInvalidField) {
+                        firstInvalidField.focus();
+                    }
+                }
+
+                return valid; // ⭐ VERY IMPORTANT
             };
 
-            // Next from Plantiff -> Defendant
-            document.getElementById('btn_next_to_defendant').addEventListener('click', function() {
-                const requiredFields = sections.plantiff.querySelectorAll('input[required]');
-                if (!validateInputs(requiredFields)) return;
-                sections.plantiff.style.display = 'none';
-                sections.defendant.style.display = 'block';
-                scrollToSection(sections.defendant);
-            });
+            // Next: Plaintiff → Defendant
+            document.getElementById('btn_next_to_defendant')
+                .addEventListener('click', function() {
 
-            // Back from Defendant -> Plantiff
-            document.getElementById('btn_back_to_plantiff').addEventListener('click', function() {
-                sections.defendant.style.display = 'none';
-                sections.plantiff.style.display = 'block';
-                scrollToSection(sections.plantiff);
-            });
+                    if (!validateSection(sections.plantiff)) return;
 
-            // Next from Defendant -> Contract
-            document.getElementById('btn_next_to_contract').addEventListener('click', function() {
-                const requiredFields = sections.defendant.querySelectorAll(
-                    'input[required], select[required]');
-                if (!validateInputs(requiredFields)) return;
-                sections.defendant.style.display = 'none';
-                sections.contract.style.display = 'block';
-                scrollToSection(sections.contract);
-            });
+                    sections.plantiff.style.display = 'none';
+                    sections.defendant.style.display = 'block';
+                    scrollToSection(sections.defendant);
+                });
 
-            // Back from Contract -> Defendant using existing button
-            const btnBackFromContract = document.getElementById('btn_back_to_plantiff_contract');
+            // Back: Defendant → Plaintiff
+            document.getElementById('btn_back_to_plantiff')
+                .addEventListener('click', function() {
+
+                    sections.defendant.style.display = 'none';
+                    sections.plantiff.style.display = 'block';
+                    scrollToSection(sections.plantiff);
+                });
+
+            // Next: Defendant → Contract
+            document.getElementById('btn_next_to_contract')
+                .addEventListener('click', function() {
+
+                    if (!validateSection(sections.defendant)) return;
+
+                    sections.defendant.style.display = 'none';
+                    sections.contract.style.display = 'block';
+                    scrollToSection(sections.contract);
+                });
+
+            // Back: Contract → Defendant
+            const btnBackFromContract =
+                document.getElementById('btn_back_to_plantiff_contract');
+
             if (btnBackFromContract) {
                 btnBackFromContract.addEventListener('click', function() {
+
                     sections.contract.style.display = 'none';
                     sections.defendant.style.display = 'block';
                     scrollToSection(sections.defendant);
                 });
             }
+
         });
     </script>
 
-    {{-- no set up error --}}
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = {
-                plantiff: document.getElementById('plantiff_block'),
-                defendant: document.getElementById('defendant_block'),
-                contract: document.getElementById('contract_block')
-            };
-
-            const scrollToSection = (section) => {
-                section.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            };
-
-            // Next from Plantiff -> Defendant
-            document.getElementById('btn_next_to_defendant').addEventListener('click', function() {
-                sections.plantiff.style.display = 'none';
-                sections.defendant.style.display = 'block';
-                scrollToSection(sections.defendant);
-            });
-
-            // Back from Defendant -> Plantiff
-            document.getElementById('btn_back_to_plantiff').addEventListener('click', function() {
-                sections.defendant.style.display = 'none';
-                sections.plantiff.style.display = 'block';
-                scrollToSection(sections.plantiff);
-            });
-
-            // Next from Defendant -> Contract
-            document.getElementById('btn_next_to_contract').addEventListener('click', function() {
-                sections.defendant.style.display = 'none';
-                sections.contract.style.display = 'block';
-                scrollToSection(sections.contract);
-            });
-
-            // Back from Contract -> Defendant using existing button
-            const btnBackFromContract = document.getElementById('btn_back_to_plantiff_contract');
-            if (btnBackFromContract) {
-                btnBackFromContract.addEventListener('click', function() {
-                    sections.contract.style.display = 'none';
-                    sections.defendant.style.display = 'block';
-                    scrollToSection(sections.defendant);
-                });
-            }
-        });
-    </script> --}}
-
-
-
-    {{-- <script>
-        // Initially hide defendant block
-        document.getElementById('defendant_block').style.display = 'none';
-
-        // Next button
-        document.getElementById('btn_next_to_defendant').addEventListener('click', function() {
-            document.getElementById('plantiff_block').style.display = 'none';
-            document.getElementById('defendant_block').style.display = 'block';
-            document.getElementById('defendant_block').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-
-        // Back button
-        document.getElementById('btn_back_to_plantiff').addEventListener('click', function() {
-            document.getElementById('defendant_block').style.display = 'none';
-            document.getElementById('plantiff_block').style.display = 'block';
-            document.getElementById('plantiff_block').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    </script> --}}
     <x-slot name="moreAfterScript">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @include('case.script.case_script')
     </x-slot>
 </x-admin.layout-main>

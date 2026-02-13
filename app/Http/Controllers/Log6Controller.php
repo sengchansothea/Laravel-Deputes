@@ -451,73 +451,133 @@ class Log6Controller extends Controller
     }
 
     /** Insert Or Update Log620 */
-    private function insertOrUpdateLog620($caseID, $logID, $log620ID, $log620AgreePoint, $log620Solution)
+    private function insertOrUpdateLog620($caseID, $logID, $ids, $points, $solutions)
     {
-        $dateCreated = myDateTime();
-        if (!empty($log620AgreePoint)) {
-            $cUserID = Auth::id();
-            $cDateTime = myDateTime();
-            foreach ($log620AgreePoint as $key => $val) {
-                if (!empty($log620AgreePoint[$key]) && !empty($log620Solution[$key])) {
-                    $log620Search = [
-                        'id' => $log620ID[$key]
-                    ];
-                    $log620Data = [
-                        "case_id" => $caseID,
-                        "log_id" => $logID,
-                        "agree_point" => $log620AgreePoint[$key],
-                        "solution" => $log620Solution[$key],
-                        "user_created" => Auth::user()->id,
-                        "date_created" =>  $dateCreated,
-                    ];
+        if (empty($points)) return;
 
-                    //                    dd($search);
-                    $result = CaseLog620::updateOrCreate($log620Search, $log620Data);
-                    if ($result->wasRecentlyCreated) {
-                        $result->update([
-                            "user_created" => $cUserID,
-                            "date_created" => $cDateTime,
-                        ]);
-                    }
-                }
+        foreach ($points as $key => $val) {
+
+            $agree = trim($points[$key] ?? '');
+            $solution = trim($solutions[$key] ?? '');
+            $id = $ids[$key] ?? null;
+
+            if ($agree == '' || $solution == '') continue;
+
+            $data = [
+                'case_id' => $caseID,
+                'log_id' => $logID,
+                'agree_point' => $agree,
+                'solution' => $solution,
+            ];
+
+            if (!empty($id)) {
+                CaseLog620::where('id', $id)->update($data);
+            } else {
+                $data['user_created'] = Auth::id();
+                $data['date_created'] = myDateTime();
+                CaseLog620::create($data);
             }
         }
     }
+
+    // private function insertOrUpdateLog620($caseID, $logID, $log620ID, $log620AgreePoint, $log620Solution)
+    // {
+    //     $dateCreated = myDateTime();
+    //     if (!empty($log620AgreePoint)) {
+    //         $cUserID = Auth::id();
+    //         $cDateTime = myDateTime();
+    //         foreach ($log620AgreePoint as $key => $val) {
+    //             if (!empty($log620AgreePoint[$key]) && !empty($log620Solution[$key])) {
+    //                 $log620Search = [
+    //                     'id' => $log620ID[$key]
+    //                 ];
+    //                 $log620Data = [
+    //                     "case_id" => $caseID,
+    //                     "log_id" => $logID,
+    //                     "agree_point" => $log620AgreePoint[$key],
+    //                     "solution" => $log620Solution[$key],
+    //                     "user_created" => Auth::user()->id,
+    //                     "date_created" =>  $dateCreated,
+    //                 ];
+
+
+    //                 $result = CaseLog620::updateOrCreate($log620Search, $log620Data);
+    //                 if ($result->wasRecentlyCreated) {
+    //                     $result->update([
+    //                         "user_created" => $cUserID,
+    //                         "date_created" => $cDateTime,
+    //                     ]);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
 
     /** Insert Or Update Log621 */
-    private function insertOrUpdateLog621($caseID, $logID, $log621ID, $log621DisagreePoint, $log621Solution)
+    private function insertOrUpdateLog621($caseID, $logID, $ids, $points, $solutions)
     {
-        $dateCreated = myDateTime();
-        if (!empty($log621DisagreePoint)) {
-            $cUserID = Auth::id();
-            $cDateTime = myDateTime();
-            foreach ($log621DisagreePoint as $key => $val) {
-                if (!empty($log621DisagreePoint[$key]) && !empty($log621Solution[$key])) {
-                    $log621Search = [
-                        'id' => $log621ID[$key]
-                    ];
-                    $log621Data = [
-                        "case_id" => $caseID,
-                        "log_id" => $logID,
-                        "disagree_point" => $log621DisagreePoint[$key],
-                        "solution" => $log621Solution[$key],
-                        "user_created" => Auth::user()->id,
-                        "date_created" =>  $dateCreated,
-                    ];
+        if (empty($points)) return;
 
-                    //                    dd($search);
-                    $result = CaseLog621::updateOrCreate($log621Search, $log621Data);
-                    if ($result->wasRecentlyCreated) {
-                        $result->update([
-                            "user_created" => $cUserID,
-                            "date_created" => $cDateTime,
-                        ]);
-                    }
-                }
+        foreach ($points as $key => $val) {
+
+            $disagree = trim($points[$key] ?? '');
+            $solution = trim($solutions[$key] ?? '');
+            $id = $ids[$key] ?? null;
+
+            if ($disagree == '' || $solution == '') continue;
+
+            $data = [
+                'case_id' => $caseID,
+                'log_id' => $logID,
+                'disagree_point' => $disagree,
+                'solution' => $solution,
+            ];
+
+            if (!empty($id)) {
+                CaseLog621::where('id', $id)->update($data);
+            } else {
+                $data['user_created'] = Auth::id();
+                $data['date_created'] = myDateTime();
+                CaseLog621::create($data);
             }
         }
     }
+
+
+    // private function insertOrUpdateLog621($caseID, $logID, $log621ID, $log621DisagreePoint, $log621Solution)
+    // {
+    //     $dateCreated = myDateTime();
+    //     if (!empty($log621DisagreePoint)) {
+    //         $cUserID = Auth::id();
+    //         $cDateTime = myDateTime();
+    //         foreach ($log621DisagreePoint as $key => $val) {
+    //             if (!empty($log621DisagreePoint[$key]) && !empty($log621Solution[$key])) {
+    //                 $log621Search = [
+    //                     'id' => $log621ID[$key]
+    //                 ];
+    //                 $log621Data = [
+    //                     "case_id" => $caseID,
+    //                     "log_id" => $logID,
+    //                     "disagree_point" => $log621DisagreePoint[$key],
+    //                     "solution" => $log621Solution[$key],
+    //                     "user_created" => Auth::user()->id,
+    //                     "date_created" =>  $dateCreated,
+    //                 ];
+
+
+    //                 $result = CaseLog621::updateOrCreate($log621Search, $log621Data);
+    //                 if ($result->wasRecentlyCreated) {
+    //                     $result->update([
+    //                         "user_created" => $cUserID,
+    //                         "date_created" => $cDateTime,
+    //                     ]);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
     private function insertLog620($case_id, $log_id, $log620_agree_point, $log20_solution)
     {
         $date_created = myDateTime();
@@ -642,84 +702,272 @@ class Log6Controller extends Controller
 
     public function update(Request $request, string $id)
     {
+        //        dd($request->all());
+
+        $date_created = myDateTime();
+        $case_id = $request->case_id;
+        $log_id = $request->log_id;
+        $log6_id = $id;
+        $caseYear = $request->case_year;
+        $arrayAttendantType = getArrayAttendantType($request->case_type_id);
+        //        dd($caseYear);
+
         DB::beginTransaction();
         try {
-            $case_id = $request->case_id;
-            $log_id = $id;
-            $caseYear = date('Y'); // adjust as needed
-            $date_created = now();
 
-            /** ================== 0. Validation ================== */
-            $rules = [
-                'log620_agree_point.*' => 'required|string|max:500',
-                'log620_solution.*' => 'required|string|max:500',
-                'log621_disagree_point.*' => 'required|string|max:500',
-                'log621_solution.*' => 'required|string|max:500',
-            ];
+            /** ================== 1.Update Log6 Data in tbl_case_log6 and Upload File =================== */
 
-            $messages = [
-                'log620_agree_point.*.required' => 'ចំណុចព្រមព្រៀង #:index ត្រូវបានបញ្ចូល!',
-                'log620_solution.*.required' => 'ដំណោះស្រាយ #:index ត្រូវបានបញ្ចូល!',
-                'log621_disagree_point.*.required' => 'ចំណុចមិនសះជា #:index ត្រូវបានបញ្ចូល!',
-                'log621_solution.*.required' => 'ដំណោះស្រាយ #:index ត្រូវបានបញ្ចូល!',
-            ];
-
-            $validator = Validator::make($request->all(), $rules, $messages);
-
-            if ($validator->fails()) {
-                // Format errors with proper index
-                $formattedErrors = [];
-                foreach ($validator->errors()->getMessages() as $field => $messages) {
-                    foreach ($messages as $key => $msg) {
-                        if (preg_match('/\.(\d+)$/', $field, $match)) {
-                            $index = $match[1] + 1; // 1-based numbering
-                            $msg = str_replace(':index', $index, $msg);
-                        }
-                        $formattedErrors[] = $msg;
-                    }
-                }
-                return back()->withErrors($validator)->with('popup_errors', $formattedErrors)->withInput();
+            /** =============== Upload File: translator_letter ======================== */
+            $path_to_upload = pathToUploadFile("case_doc/log6");
+            //        $translator_letter_new = uploadFileOnly($request, $path_to_upload, "translator_letter", $log_id);
+            $translator_letter_new = myUploadFileOnly($request, $path_to_upload, "translator_letter", $log_id, "translator");
+            //dd($translator_letter_new);
+            $translator_letter = !empty($translator_letter_new) ? $translator_letter_new : $request->translator_letter_old;
+            $log6_employee_status = 1;
+            $log6_company_status = 2;
+            //        if($result->case_type_id == 1){
+            //            $log6_employee_status = 1;
+            //            $log6_company_status = 2;
+            //        }
+            //        elseif($request->case_type_id == 2){
+            //            $log6_employee_status = 2;
+            //            $log6_company_status = 1;
+            //        }
+            if ($request->radio_status_id == 1 || $request->radio_status_id == 2) {
+                //dd($request->radio_status_id);
+                $reopen_status = 0;
+                $status_date = null;
+                $status_time = null;
+                $status_letter = null;
+                deleteFile($request->status_letter_old, pathToDeleteFile("case_doc/log6/status_letter/" . $caseYear . "/")); //delete file
+            }
+            //        elseif($request->radio_status_id == 2){
+            //            //dd($request->radio_status_id);
+            //            $reopen_status = !empty($request->reopen_status)? $request->reopen_status : 0;
+            //            $status_date = null;
+            //            $status_time = null;
+            //            $status_letter = null;
+            //            if($reopen_status == 1){
+            //                $status_date = date2DB($request->status_date);
+            //                $path_to_upload = pathToUploadFile("case_doc/log6/status_letter/");
+            //                $status_letter_new = uploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
+            //                $status_letter = !empty($status_letter_new)? $status_letter_new : $request->status_letter_old;
+            //            }
+            //            //dd($status_letter);
+            //        }
+            elseif ($request->radio_status_id == 3) {
+                //dd($request->radio_status_id);
+                $path_to_upload = pathToUploadFile("case_doc/log6/status_letter/" . $caseYear . "/");
+                $reopen_status = 0;
+                $status_date = date2DB($request->status_date);
+                $status_time = $request->status_time;
+                //            $status_letter_new = uploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
+                $status_letter_new = myUploadFileOnly($request, $path_to_upload, "status_letter", $log6_id, "status_letter");
+                $status_letter = !empty($status_letter_new) ? $status_letter_new : $request->status_letter_old;
+                //dd($status_letter);
             }
 
-            /** ================== 1. Update Log6 Data ================== */
-            $path_to_upload = pathToUploadFile("case_doc/log6");
-            $translator_letter_new = myUploadFileOnly($request, $path_to_upload, "translator_letter", $log_id, "translator");
-            $translator_letter = !empty($translator_letter_new) ? $translator_letter_new : $request->translator_letter_old;
-
             $adataLog6 = [
+                //"case_id" => $case_id,
+                //"log_id" => $log_id,
+                "reopen_status" => $reopen_status,
+                "status_id" => $request->radio_status_id,
+                "status_date" => $status_date,
+                "status_time" => $status_time,
+                "status_letter" => $status_letter,
+
                 "log6_date" => date2DB($request->log6_date),
                 "log6_stime" => $request->log6_stime,
                 "log6_etime" => $request->log6_etime,
-                "log6_22" => $request->log6_22,
-                "translator" => $request->translator,
-                "translator_letter" => $translator_letter,
-                "user_updated" => Auth::user()->id,
-                "date_updated" => $date_created,
-            ];
+                "invitation_id_employee" => $request->invitation_id_employee,
+                "invitation_id_company" => $request->invitation_id_company,
 
+                "log6_meeting_place_id" => $request->log6_meeting_place_id,
+                "log6_meeting_other" => $request->log6_meeting_other,
+                "log6_meeting_about" => $request->log6_meeting_about,
+                //"log6_employee_status" => $log6_employee_status,
+                //"log6_company_status" => $log6_company_status,
+
+                "log6_17" => $request->log6_17,
+                "log6_181"  => $request->log6_181,
+                "log6_182"  => $request->log6_182,
+                "log6_19"  => $request->log6_19,
+                "log6_19a"  => $request->log6_19a,
+                //20, 21 in sub table
+                "log6_22"  => $request->log6_22,
+                "translator"  => $request->translator,
+                "translator_letter" => $translator_letter,
+                "log624_cause_id"  => $request->log624_cause_id,
+                "log624_cause_other"  => $request->log624_cause_id == 11 ? $request->log624_cause_other : null,
+                "log625_solution_id"  => $request->log625_solution_id,
+
+                "log6_comment"  => $request->log6_comment,
+                "log6_contact"  => $request->log6_contact,
+
+                "user_updated" => Auth::user()->id,
+                "date_updated" =>  $date_created,
+            ];
+            //dd($adataLog6);
             CaseLog6::where("id", $id)->update($adataLog6);
 
-            /** ================== 2. Insert/Update log620 ================== */
+            /** ================== 2.Insert/Update Log6 Sub: log6_20 in tbl_case_log6_20agree ========== */
             $this->insertOrUpdateLog620($case_id, $log_id, $request->log620_id, $request->log620_agree_point, $request->log620_solution);
-
-            /** ================== 3. Insert/Update log621 ================== */
+            /** ================== 4.Insert/Update Log6 Sub: log6_21 in tbl_case_log6_21disagree ========== */
             $this->insertOrUpdateLog621($case_id, $log_id, $request->log621_id, $request->log621_disagree_point, $request->log621_solution);
 
-            // ... continue your existing code for employee, company, officer etc.
+            /** ================== 6.Insert/Update Employee Sub in tbl_disputant, tbl_case_disputant ====== */
 
-            DB::commit();
+            foreach ($request->sub_employee_id_number as $key => $val) {
+                $disputant_id = insertUpdateDisputantAll(
+                    $request->sub_employee_name[$key],
+                    $request->sub_employee_gender[$key],
+                    $request->sub_employee_dob[$key],
+                    $request->sub_employee_nationality[$key],
+                    $request->sub_employee_id_number[$key],
+                    $request->sub_employee_phone_number[$key],
+                    $request->sub_employee_phone2_number[$key],
+                    $request->sub_employee_occupation[$key],
 
-            return saveRedirect($request->input("btnSubmit"), $request->input("case_id"));
-        } catch (\Exception $e) {
-            DB::rollback();
+                    $request->sub_employee_addr_house_no[$key],
+                    $request->sub_employee_addr_street[$key],
 
-            if (app()->environment('local')) {
-                $fullError = "Error: {$e->getMessage()} <br>File: {$e->getFile()} <br>Line: {$e->getLine()}";
-            } else {
-                $fullError = "Something went wrong. Please contact the administrator.";
+                    isset($request->sub_employee_village[$key]) ? $request->sub_employee_village[$key] : 0,
+                    isset($request->sub_employee_commune[$key]) ? $request->sub_employee_commune[$key] : 0,
+                    isset($request->sub_employee_district[$key]) ? $request->sub_employee_district[$key] : 0,
+                    $request->sub_employee_province[$key],
+
+                    isset($request->sub_employee_pob_commune_id[$key]) ? $request->sub_employee_pob_commune_id[$key] : 0,
+                    isset($request->sub_employee_pob_district_id[$key]) ? $request->sub_employee_pob_district_id[$key] : 0,
+                    $request->sub_employee_pob_province_id[$key],
+                ); //1
+                insertUpdateCaseDisputant(
+                    $request->case_id,
+                    $disputant_id,
+                    $arrayAttendantType['employee_sub'],
+
+                    $request->sub_employee_addr_house_no[$key],
+                    $request->sub_employee_addr_street[$key],
+
+                    isset($request->sub_employee_village[$key]) ? $request->sub_employee_village[$key] : 0,
+                    isset($request->sub_employee_commune[$key]) ? $request->sub_employee_commune[$key] : 0,
+                    isset($request->sub_employee_district[$key]) ? $request->sub_employee_district[$key] : 0,
+                    $request->sub_employee_province[$key],
+
+                    $request->sub_employee_phone_number[$key],
+                    $request->sub_employee_phone2_number[$key],
+                    $request->sub_employee_occupation[$key],
+                ); //2
+                insertUpdateCaseLogAttendant($case_id, $log_id, $disputant_id, $arrayAttendantType["employee_sub"]); //3
             }
 
-            return back()->with("message", sweetalert()->addError($fullError));
+            /** ================== 7.Insert/Update Represent Company in tbl_disputant, tbl_case_disputant ====== */
+            $disputant_id = insertUpdateDisputantAll(
+                $request->represent_company_name,
+                $request->represent_company_gender,
+                $request->represent_company_dob,
+                $request->represent_company_nationality,
+                $request->represent_company_id_number,
+                $request->represent_company_phone_number,
+                $request->represent_company_phone2_number,
+                $request->represent_company_occupation,
+
+                $request->represent_company_addr_house_no,
+                $request->represent_company_addr_street,
+                isset($request->represent_company_village) ? $request->represent_company_village : 0,
+                isset($request->represent_company_commune) ? $request->represent_company_commune : 0,
+                isset($request->represent_company_district) ? $request->represent_company_district : 0,
+                $request->represent_company_province,
+
+                isset($request->represent_company_pob_commune_id) ? $request->represent_company_pob_commune_id : 0,
+                isset($request->represent_company_pob_district_id) ? $request->represent_company_pob_district_id : 0,
+                $request->represent_company_pob_province_id,
+            ); //1
+            insertUpdateCaseDisputant(
+                $request->case_id,
+                $disputant_id,
+                $arrayAttendantType['company_main'],
+
+                $request->represent_company_addr_house_no,
+                $request->represent_company_addr_street,
+                isset($request->represent_company_village) ? $request->represent_company_village : 0,
+                isset($request->represent_company_commune) ? $request->represent_company_commune : 0,
+                isset($request->represent_company_district) ? $request->represent_company_district : 0,
+                $request->represent_company_province,
+                $request->represent_company_phone_number,
+                $request->represent_company_phone2_number,
+                $request->represent_company_occupation,
+            ); //2
+            insertUpdateCaseLogAttendant($case_id, $log_id, $disputant_id, $arrayAttendantType["company_main"]);//3
+            //dd($disputant_id);
+            /** ================== 8.Insert/Update Sub Represent Company in tbl_disputant, tbl_case_disputant ====== */
+            foreach ($request->sub_company_id_number as $key => $val) {
+                //dd( $request->sub_company_gender[$key]);
+                $disputant_id = insertUpdateDisputantAll(
+                    $request->sub_company_name[$key],
+                    $request->sub_company_gender[$key],
+                    $request->sub_company_dob[$key],
+                    $request->sub_company_nationality[$key],
+                    $request->sub_company_id_number[$key],
+                    $request->sub_company_phone_number[$key],
+                    $request->sub_company_phone2_number[$key],
+                    $request->sub_company_occupation[$key],
+
+                    $request->sub_company_addr_house_no[$key],
+                    $request->sub_company_addr_street[$key],
+
+                    isset($request->sub_company_village[$key]) ? $request->sub_company_village[$key] : 0,
+                    isset($request->sub_company_commune[$key]) ? $request->sub_company_commune[$key] : 0,
+                    isset($request->sub_company_district[$key]) ? $request->sub_company_district[$key] : 0,
+                    $request->sub_company_province[$key],
+
+                    isset($request->sub_company_pob_commune_id[$key]) ? $request->sub_company_pob_commune_id[$key] : 0,
+                    isset($request->sub_company_pob_district_id[$key]) ? $request->sub_company_pob_district_id[$key] : 0,
+                    $request->sub_company_pob_province_id[$key],
+                ); //1
+                insertUpdateCaseDisputant(
+                    $request->case_id,
+                    $disputant_id,
+                    $arrayAttendantType['company_sub'],
+
+                    $request->sub_company_addr_house_no[$key],
+                    $request->sub_company_addr_street[$key],
+
+                    isset($request->sub_company_village[$key]) ? $request->sub_company_village[$key] : 0,
+                    isset($request->sub_company_commune[$key]) ? $request->sub_company_commune[$key] : 0,
+                    isset($request->sub_company_district[$key]) ? $request->sub_company_district[$key] : 0,
+                    $request->sub_company_province[$key],
+
+                    $request->sub_company_phone_number[$key],
+                    $request->sub_company_phone2_number[$key],
+                    $request->sub_company_occupation[$key],
+                ); //2
+                insertUpdateCaseLogAttendant($case_id, $log_id, $disputant_id, $arrayAttendantType["company_sub"]); //3
+            }
+
+            /** ================== 8.Update Officer Attendant in tbl_case_log_attendant ====== */
+            $attendantTypeID = 8; //Officer: Noter
+            insertUpdateCaseOfficer($case_id, $log_id, $request->noter, $attendantTypeID);
+
+            /** ================== 9.Insert/Update Sub Officer Attendant in tbl_case_log_attendant ====== */
+            $attendant_type_id = 7; //Sub Officer
+            foreach ($request->sub_officer as $key => $val) {
+                insertUpdateCaseLogAttendant($case_id, $log_id, $request->sub_officer[$key], $attendant_type_id);
+            }
+
+            $msgTitle = 'បានកែប្រែកំណត់ហេតុផ្សះផ្សា';
+            $currentCase = Cases::find($request->case_id);
+            caseStatusTelegramNotification($currentCase, $msgTitle);
+
+            DB::commit();
+            if (request("json_opt") == 1) { //if request from app
+                //return response()->json(['status' => 200, 'message' => 'success', 'data'=> $data]);
+            }
+            return saveRedirect($request->input("btnSubmit"), $request->input("case_id"));
+            //return redirect("log6/".$id."/edit")->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
+        } catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
+            return back()->with("message", sweetalert()->addWarning("បរាជ័យ"));
         }
     }
 

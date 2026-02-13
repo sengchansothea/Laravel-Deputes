@@ -25,8 +25,6 @@
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/timepicker.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/select2.css') }}">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <link href="{{ rurl('assets/wizard.css') }}" rel="stylesheet" id="bootstrap-css">
-
         <style>
             #response_message_company {
                 display: none;
@@ -49,9 +47,6 @@
                     opacity: 1;
                 }
             }
-
-            
-
         </style>
     </x-slot>
     <div class="container-fluid">
@@ -79,34 +74,12 @@
                         <input type="hidden" name="nssf_number" value=""  id="nssf_number">
                         <input type="hidden" name="single_id" value="" id="single_id">
                         <input type="hidden" name="operation_status" value="" id="operation_status">
-
-                         {{-- <div class="stepwizard">
-                            <div class="stepwizard-row setup-panel">
-                                <div class="stepwizard-step">
-                                    <a href="#step-1" type="button"
-                                        class="btn btn-circle {{ $currentStep != 1 ? 'btn-default' : 'btn-primary' }} {{ $currentStep > 1 ? 'completed' : '' }}">1</a>
-                                    <p>Step 1</p>
-                                </div>
-                                <div class="stepwizard-step">
-                                    <a href="#step-2" type="button"
-                                        class="btn btn-circle {{ $currentStep != 2 ? 'btn-default' : 'btn-primary' }} {{ $currentStep > 2 ? 'completed' : '' }}">2</a>
-                                    <p>Step 2</p>
-                                </div>
-                                <div class="stepwizard-step">
-                                    <a href="#step-3" type="button"
-                                        class="btn btn-circle {{ $currentStep != 3 ? 'btn-default' : 'btn-primary' }}" disabled="disabled">3</a>
-                                    <p>Step 3</p>
-                                </div>
-                            </div>
-                        </div> --}}
-
                         <div class="card-body text-hanuman-17">
                             <div class="card-block row">
                                 <div class="col-sm-12 col-lg-12 col-xl-12">
                                     <div class="form-group col-12">
                                         <div id="response_message_company" style="display: none;">Waiting for response...</div>
                                     </div>
-
 {{--                                    {{ dd($caseIndex) }};--}}
                                     <div class="row">
                                         <div class="form-group col-sm-6 mt-4">
@@ -138,7 +111,7 @@
                                                 <button type="button" id="btn_search_company" value="0" class="btn btn-danger mb-3 text-hanuman-16">បិទព័ត៌មានលម្អិតរបស់សហគ្រាស គ្រឹះស្ថាន</button>
                                             </div>
                                             <div class="form-group col-sm-12" id="div_company_result">
-                                                <textarea rows=10 name="company_result" id="company_result" class="form-control" readonly>
+                                                <textarea rows=10" name="company_result" id="company_result" class="form-control" readonly>
                                                 </textarea>
                                             </div>
                                         </div>
@@ -164,14 +137,14 @@
                                             <div class="form-group col-sm-6 mt-3">
                                                 <label for="sector_id" class="fw-bold required mb-1">វិស័យ</label>
                                                 {!! showSelect('sector_id', $arrSector, old('sector_id', request('sector_id')), " select2", "", "", "required") !!}
-                                                {{--                                                {!! showSelect('sector_id', myArraySector(1, 0), old('sector_id', request('sector_id')), " select2", "", "", "required") !!}--}}
+{{--                                                {!! showSelect('sector_id', myArraySector(1, 0), old('sector_id', request('sector_id')), " select2", "", "", "required") !!}--}}
 
                                             </div>
 
                                             <div class="form-group col-sm-6 mt-3">
                                                 <label class="fw-bold required mb-1">ប្រភេទសហគ្រាស</label>
                                                 {!! showSelect('company_type_id', $arrCompanyType, old('company_type_id', request('company_type_id')), " select2", "", "", "required") !!}
-                                                {{--                                                {!! showSelect('company_type_id', arrayCompanyType(1,0), old('company_type_id', request('company_type_id')), " select2", "", "", "required") !!}--}}
+{{--                                                {!! showSelect('company_type_id', arrayCompanyType(1,0), old('company_type_id', request('company_type_id')), " select2", "", "", "required") !!}--}}
 
                                             </div>
 
@@ -185,7 +158,7 @@
                                             <div class="form-group col-sm-4 mt-3">
                                                 <label class="fw-bold required mb-1">រាជធានី-ខេត្ត</label>
                                                 {!! showSelect('province_id', $arrProvince, old('province_id', request('province_id')), " select2", "", "", "required") !!}
-                                                {{--                                                {!! showSelect('province_id', arrayProvince(1, ""), old('province_id', request('province_id')), " select2", "", "", "required") !!}--}}
+{{--                                                {!! showSelect('province_id', arrayProvince(1, ""), old('province_id', request('province_id')), " select2", "", "", "required") !!}--}}
                                             </div>
                                             <div class="form-group col-sm-4 mt-3">
                                                 <label class="fw-bold required mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
@@ -227,10 +200,7 @@
                                         </div>
                                     </div>
 
-                                    
-
-
-                                    {{--                                    Defendant Block--}}
+{{--                                    Defendant Block--}}
                                     <div id="defendant_block">
                                         <div class="row col-12  mt-5">
                                             <label class="text-purple text-hanuman-24">
@@ -265,7 +235,7 @@
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <label for="" class="fw-bold required mb-1">សញ្ជាតិ</label>
-                                                {{--                                                {!! showSelect('nationality', arrayNationality(1), old('nationality'), " select2") !!}--}}
+{{--                                                {!! showSelect('nationality', arrayNationality(1), old('nationality'), " select2") !!}--}}
                                                 {!! showSelect('nationality', $arrNationality, old('nationality'), " select2") !!}
                                             </div>
                                             <div class="form-group col-sm-4 mt-3">
@@ -314,12 +284,12 @@
                                             <div class="form-group col-sm-3">
                                                 <label for="" class="fw-bold mb-1">ប្រទេស</label>
                                                 {!! showSelect('pob_country_id', $arrNationality, old('pob_country_id'), " select2") !!}
-                                                {{--                                                {!! showSelect('pob_country_id', arrayNationality(1), old('pob_country_id'), " select2") !!}--}}
+{{--                                                {!! showSelect('pob_country_id', arrayNationality(1), old('pob_country_id'), " select2") !!}--}}
                                             </div>
                                             <div class="form-group col-sm-3">
                                                 <label class="fw-bold mb-1 required">រាជធានី-ខេត្ត</label>
                                                 {!! showSelect('pob_province_id', $arrProvince, old('pob_province_id', request('pob_province_id')), " select2") !!}
-                                                {{--                                                {!! showSelect('pob_province_id', arrayProvince(1,0), old('pob_province_id', request('pob_province_id')), " select2") !!}--}}
+{{--                                                {!! showSelect('pob_province_id', arrayProvince(1,0), old('pob_province_id', request('pob_province_id')), " select2") !!}--}}
                                             </div>
                                             <div class="form-group col-sm-3">
                                                 <label class="fw-bold mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
@@ -339,7 +309,7 @@
                                             <div class="form-group col-sm-4">
                                                 <label class="fw-bold required mb-1">រាជធានី-ខេត្ត</label>
                                                 {!! showSelect('province', $arrProvince, old('province', request('province')), " select2", "", "", "required") !!}
-                                                {{--                                                {!! showSelect('province', arrayProvince(1,0), old('province', request('province')), " select2", "", "", "required") !!}--}}
+{{--                                                {!! showSelect('province', arrayProvince(1,0), old('province', request('province')), " select2", "", "", "required") !!}--}}
                                             </div>
                                             <div class="form-group col-sm-4">
                                                 <label class="fw-bold required mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
@@ -377,7 +347,7 @@
                                         <div class="form-group col-sm-6 mt-3">
                                             <label class="fw-bold required mb-1">កម្មវត្ថុបណ្ដឹង</label>
                                             {!! showSelect('case_objective_id', $arrObjectiveCase, old('case_objective_id', request('case_objective_id')), " select2", "", "", "required") !!}
-                                            {{--                                            {!! showSelect('case_objective_id', arrayObjectiveCase(1), old('case_objective_id', request('case_objective_id')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('case_objective_id', arrayObjectiveCase(1), old('case_objective_id', request('case_objective_id')), " select2", "", "", "required") !!}--}}
                                         </div>
                                         <div class="form-group col-sm-6 mt-3">
                                             <label class="fw-bold mb-1">កម្មវត្ថុបណ្ដឹងផ្សេងៗ</label>
@@ -429,7 +399,7 @@
                                         <div class="form-group col-sm-4 mt-3">
                                             <label class="fw-bold required mb-1">ប្រភេទកិច្ចសន្យាការងារ</label>
                                             {!! showSelect('disputant_contract_type', $arrContractType, old('disputant_contract_type', request('disputant_contract_type')), " select2", "", "", "required") !!}
-                                            {{--                                            {!! showSelect('disputant_contract_type', array(1 =>"កំណត់", 2 => "មិនកំណត់", 3 => "សាកល្បង"), old('disputant_contract_type', request('disputant_contract_type')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('disputant_contract_type', array(1 =>"កំណត់", 2 => "មិនកំណត់", 3 => "សាកល្បង"), old('disputant_contract_type', request('disputant_contract_type')), " select2", "", "", "required") !!}--}}
                                         </div>
                                     </div>
                                     <div class="row col-12 mt-4">
@@ -440,12 +410,12 @@
                                     <div class="row">
                                         <div class="form-group col-sm-4 mt-3">
                                             <label class="mb-2 fw-bold required mb-1">ចំនួនម៉ោងធ្វើការក្នុងមួយថ្ងៃ</label>
-                                            {{--                                            {!! showSelect('disputant_work_hour_day', array(8=>"8ម៉ោង", 9=> "9ម៉ោង"), old('disputant_work_hour_day', request('disputant_work_hour_day')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('disputant_work_hour_day', array(8=>"8ម៉ោង", 9=> "9ម៉ោង"), old('disputant_work_hour_day', request('disputant_work_hour_day')), " select2", "", "", "required") !!}--}}
                                             <input type="number" step="0.01" name="disputant_work_hour_day" id="disputant_work_hour_day" value="{{ old('disputant_work_hour_day') }}" class="form-control" required/>
                                         </div>
                                         <div class="form-group col-sm-4 mt-3">
                                             <label class="mb-2 fw-bold required mb-1">ចំនួនម៉ោងធ្វើការក្នុងមួយសប្ដាហ៍</label>
-                                            {{--                                            {!! showSelect('disputant_work_hour_week', array(40=>"40ម៉ោង", 48=> "48ម៉ោង"), old('disputant_contract_type', request('disputant_work_hour_week')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('disputant_work_hour_week', array(40=>"40ម៉ោង", 48=> "48ម៉ោង"), old('disputant_contract_type', request('disputant_work_hour_week')), " select2", "", "", "required") !!}--}}
                                             <input type="number" step="0.01"  name="disputant_work_hour_week" id="disputant_work_hour_week" value="{{ old('disputant_work_hour_week') }}" class="form-control" required/>
                                         </div>
                                         <div class="form-group col-sm-4 mt-3">
@@ -463,17 +433,17 @@
                                         <div class="form-group col-sm-4 mt-3">
                                             <label class="fw-bold required mb-1">ការងារវេនយប់</label>
                                             {!! showSelect('disputant_night_work', $arrNightWork, old('disputant_night_work', request('disputant_night_work')), " select2", "", "", "required") !!}
-                                            {{--                                            {!! showSelect('disputant_night_work', array(1=>"ធ្លាប់ធ្វើ", 2=> "ម្ដងម្កាល", 3=> "មិនធ្លាប់ធ្វើ"), old('disputant_night_work', request('disputant_night_work')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('disputant_night_work', array(1=>"ធ្លាប់ធ្វើ", 2=> "ម្ដងម្កាល", 3=> "មិនធ្លាប់ធ្វើ"), old('disputant_night_work', request('disputant_night_work')), " select2", "", "", "required") !!}--}}
                                         </div>
                                         <div class="form-group col-sm-4 mt-3">
                                             <label class="fw-bold required mb-1">ការឈប់សម្រាកប្រចាំសប្ដាហ៍</label>
                                             {!! showSelect('disputant_holiday_week', $arrHolidayWeek, old('disputant_holiday_week', request('disputant_holiday_week')), " select2", "", "", "required") !!}
-                                            {{--                                            {!! showSelect('disputant_holiday_week', array(1=>"ឈប់តាមប្រកាស", 2=> "ម្ដងម្កាល", 3=> "មិនធ្លាប់បានឈប់"), old('disputant_holiday_week', request('disputant_holiday_week')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('disputant_holiday_week', array(1=>"ឈប់តាមប្រកាស", 2=> "ម្ដងម្កាល", 3=> "មិនធ្លាប់បានឈប់"), old('disputant_holiday_week', request('disputant_holiday_week')), " select2", "", "", "required") !!}--}}
                                         </div>
                                         <div class="form-group col-sm-8 mt-3">
                                             <label class="fw-bold required mb-1">ថ្ងៃបុណ្យជាតិ  និងការឈប់សម្រាកប្រចាំឆ្នាំដោយមានប្រាក់ឈ្នួល</label>
                                             {!! showSelect('disputant_holiday_year', $arrHolidayYear, old('disputant_holiday_year', request('disputant_holiday_year')), " select2", "", "", "required") !!}
-                                            {{--                                            {!! showSelect('disputant_holiday_year', array(1=>"ឈប់តាមប្រកាស", 2=> "ធ្លាប់បានឈប់ម្ដងម្កាល", 3=> "មិនធ្លាប់បានឈប់"), old('disputant_holiday_year', request('disputant_holiday_year')), " select2", "", "", "required") !!}--}}
+{{--                                            {!! showSelect('disputant_holiday_year', array(1=>"ឈប់តាមប្រកាស", 2=> "ធ្លាប់បានឈប់ម្ដងម្កាល", 3=> "មិនធ្លាប់បានឈប់"), old('disputant_holiday_year', request('disputant_holiday_year')), " select2", "", "", "required") !!}--}}
                                         </div>
                                     </div>
 
@@ -522,12 +492,12 @@
                                     <div class="row">
                                         <div class="form-group col-sm-6 mt-3">
                                             <label class="fw-bold mb-1 required">អ្នកផ្សះផ្សា</label>
-                                            {{--                                            {!! showSelect('officer_id', arrayOfficer(0,1, ""), old('officer_id'), " select2", "", "", "") !!}--}}
+{{--                                            {!! showSelect('officer_id', arrayOfficer(0,1, ""), old('officer_id'), " select2", "", "", "") !!}--}}
                                             {!! showSelect('officer_id', $arrOfficersInHand, old('officer_id'), " select2", "", "", "required") !!}
                                         </div>
                                         <div class="form-group col-sm-6 mt-3">
                                             <label class="fw-bold mb-1">លេខាកត់ត្រា</label>
-                                            {{--                                            {!! showSelect('officer_id8', arrayOfficer(0,1, ""), old('officer_id8'), " select2", "", "", "") !!}--}}
+{{--                                            {!! showSelect('officer_id8', arrayOfficer(0,1, ""), old('officer_id8'), " select2", "", "", "") !!}--}}
                                             {!! showSelect('officer_id8', $arrOfficersInHand, old('officer_id8'), " select2", "", "", "") !!}
                                         </div>
                                     </div>

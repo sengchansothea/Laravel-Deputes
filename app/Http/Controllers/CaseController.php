@@ -107,17 +107,17 @@ class CaseController extends Controller
         $user = Auth::user();
 
         /*
-    |--------------------------------------------------------------------------
-    | 1️⃣ START QUERY (IMPORTANT: ONLY ONCE)
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 1️⃣ START QUERY
+        |--------------------------------------------------------------------------
+        */
         $casesQuery = Cases::query()->with('disputant');
 
         /*
-    |--------------------------------------------------------------------------
-    | 2️⃣ SEARCH SECTION
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 2️⃣ SEARCH SECTION
+        |--------------------------------------------------------------------------
+        */
 
         // 🔎 Search by Case Number
         if ($request->filled('case_number')) {
@@ -134,37 +134,46 @@ class CaseController extends Controller
         }
 
         /*
-    |--------------------------------------------------------------------------
-    | 3️⃣ SORT SECTION
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 3️⃣ SORT SECTION (DEFAULT: NEWEST ON TOP)
+        |--------------------------------------------------------------------------
+        */
 
-        $sortBy = $request->input('sort_by', 'case_number');
-        $order  = $request->input('order', 'asc');
+        $sortBy = $request->input('sort_by');
+        $order  = $request->input('order');
 
         $allowedSorts = ['case_number', 'case_date', 'disputant_name'];
 
-        if (!in_array($sortBy, $allowedSorts)) {
-            $sortBy = 'case_number';
-        }
+        if (!$sortBy) {
 
-        if (!in_array($order, ['asc', 'desc'])) {
-            $order = 'asc';
-        }
-
-        if ($sortBy == 'disputant_name') {
-            $casesQuery->leftJoin('tbl_disputant', 'tbl_case.disputant_id', '=', 'tbl_disputant.id')
-                ->select('tbl_case.*', 'tbl_disputant.name as disputant_name')
-                ->orderBy('disputant_name', $order);
+            // 👉 Default sort (Newest first)
+            $casesQuery->orderByDesc('tbl_case.id');
         } else {
-            $casesQuery->orderBy("tbl_case.$sortBy", $order);
+
+            if (!in_array($sortBy, $allowedSorts)) {
+                $sortBy = 'case_number';
+            }
+
+            if (!in_array($order, ['asc', 'desc'])) {
+                $order = 'asc';
+            }
+
+            if ($sortBy == 'disputant_name') {
+
+                $casesQuery->leftJoin('tbl_disputant', 'tbl_case.disputant_id', '=', 'tbl_disputant.id')
+                    ->select('tbl_case.*', 'tbl_disputant.name as disputant_name')
+                    ->orderBy('disputant_name', $order);
+            } else {
+
+                $casesQuery->orderBy("tbl_case.$sortBy", $order);
+            }
         }
 
         /*
-    |--------------------------------------------------------------------------
-    | 4️⃣ FILTER SECTION
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 4️⃣ FILTER SECTION
+        |--------------------------------------------------------------------------
+        */
 
         if ($request->filled('search')) {
             $search = $request->input('search');
@@ -193,10 +202,10 @@ class CaseController extends Controller
         }
 
         /*
-    |--------------------------------------------------------------------------
-    | 5️⃣ DATE FILTER
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 5️⃣ DATE FILTER
+        |--------------------------------------------------------------------------
+        */
 
         $startDate = $request->input('start_date');
         $endDate   = $request->input('end_date');
@@ -218,18 +227,18 @@ class CaseController extends Controller
         }
 
         /*
-    |--------------------------------------------------------------------------
-    | 6️⃣ PAGINATION
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 6️⃣ PAGINATION
+        |--------------------------------------------------------------------------
+        */
 
         $cases = $casesQuery->paginate(10)->withQueryString();
 
         /*
-    |--------------------------------------------------------------------------
-    | 7️⃣ PRELOAD OFFICER DATA
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 7️⃣ PRELOAD OFFICER DATA
+        |--------------------------------------------------------------------------
+        */
 
         $caseIDs = $cases->pluck('id')->toArray();
 
@@ -246,10 +255,10 @@ class CaseController extends Controller
             ->groupBy(fn($item) => "{$item->case_id}_{$item->attendant_type_id}");
 
         /*
-    |--------------------------------------------------------------------------
-    | 8️⃣ USER & ACCESS
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 8️⃣ USER & ACCESS
+        |--------------------------------------------------------------------------
+        */
 
         $userID         = $user->id ?? 0;
         $userOfficerID  = $user->officer_id ?? 0;
@@ -265,10 +274,10 @@ class CaseController extends Controller
         );
 
         /*
-    |--------------------------------------------------------------------------
-    | 9️⃣ SEND DATA TO VIEW
-    |--------------------------------------------------------------------------
-    */
+        |--------------------------------------------------------------------------
+        | 9️⃣ SEND DATA TO VIEW
+        |--------------------------------------------------------------------------
+        */
 
         $adata = [
             'opt_search'        => $request->input('opt_search', 'quick'),
@@ -285,9 +294,6 @@ class CaseController extends Controller
 
         return view('case.list_case1', compact('adata'));
     }
-
-
-
 
     public function showTemplateFiles()
     {
@@ -1135,15 +1141,11 @@ class CaseController extends Controller
         ];
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request, TelegramService $telegramService)
     {
-        //        dd($request->all());
-
         $dateCreated = myDateTime();
         $companyID = $request->company_id;
         $company_option = $request->company_option;
@@ -1230,9 +1232,9 @@ class CaseController extends Controller
                     "phone_number" => $request->phone_number,
                 ];
                 $adataDisputant = [
-                    //                    "name" => $request->name,
+
                     "gender" => $request->gender,
-                    //                    "dob" => date2DB($request->dob),
+
                     "nationality" => $request->nationality,
                     //"id_number" => $request->id_number,
                     "phone_number2" => $request->phone_number2,
@@ -1295,7 +1297,7 @@ class CaseController extends Controller
             $caseYear = date2Display($resultCase->case_date, "Y");
             $caseID = $resultCase->id;//get caseID
 
-            //            dd($company_option);
+
             /** ===============BlogC: Create or Update Company ======================== */
             if ($company_option == 1) { // found in tbl_company_api (LACMS), then Insert in to tbl_company
                 $adataCompanyInside = [
@@ -1341,7 +1343,7 @@ class CaseController extends Controller
                 $resultCompany = Company::updateOrCreate($searchCompany, $adataCompanyInside);
                 $companyID = !empty($resultCompany) ? $resultCompany->id : 0;
                 Company::where("id", $companyID)->update(["company_id" => $companyID]); //Update company_id
-                //            CompanyApi::where("company_id", $company_id_lacms)->update(["ready_add_2case" => 1]);
+
             } elseif ($company_option == 2) { // found in tbl_company, update info tbl_company
                 $adataCompanyInside = [
                     "company_name_khmer" => $company_name_khmer,
@@ -1383,7 +1385,7 @@ class CaseController extends Controller
                 $company_option = 2;
                 $adataCompanyInside = [
                     "company_option" => 2, // from lacms or inside this system
-                    //                    "company_name_khmer" => $company_name_khmer,
+
                     "company_name_latin" => $request->company_name_latin,
                     "sector_id" => $request->sector_id,
                     "building_no" => $request->building_no,
@@ -1406,7 +1408,7 @@ class CaseController extends Controller
             /** ===============BlogD: Update Remain Case Data and Upload File ======================== */
             $pathToUpload = pathToUploadFile("case_doc/form1/" . $caseYear . "/");
             $caseFile = myUploadFileOnly($request, $pathToUpload, "case_file", $caseID, "case_file");
-            //            $case_file = uploadFileOnly($request, $path_to_upload, "case_file", $case_id);
+
             Cases::where("id", $caseID)->update([
                 "company_id" => $companyID,
                 "company_option" => $company_option,
@@ -1497,7 +1499,7 @@ class CaseController extends Controller
 
             DB::commit();
 
-            //            return redirect("cases");
+
             return redirect("cases")->with("message", sweetalert()->addSuccess("រក្សាទុកជោគជ័យ"));
         } catch (\Exception $e) {
             DB::rollback();
@@ -1691,15 +1693,18 @@ class CaseController extends Controller
      */
     public function show(string $id)
     {
-
-        if (Request()->in_out_domain) {
+        if (request()->in_out_domain) {
             DB::table('tbl_case')
                 ->where('id', $id)
-                ->update(['in_out_domain' => Request()->in_out_domain]);
-            return redirect("cases/" . $id)->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
+                ->update(['in_out_domain' => request()->in_out_domain]);
+
+            return redirect("cases/" . $id)
+                ->with("message", sweetalert()->addSuccess("ជោគជ័យ"));
         }
 
-        // Eager load all related models to reduce N+1
+        // ==============================
+        // Load Single Case (Main Record)
+        // ==============================
         $case = Cases::with([
             'caseType',
             'disputant',
@@ -1715,67 +1720,53 @@ class CaseController extends Controller
             'invitationCompany',
             'invitationCompany.invitationType',
             'log34',
-            //            'log34.detail34',
             'log5',
-            //            'log5.detail5',
             'invitationForConcilation',
             'invitationForConcilationEmployee',
             'invitationForConcilationCompany',
             'log6',
         ])->findOrFail($id);
 
+        // ====================================
+        // Load All Cases Sorted by Newest First
+        // ====================================
+        $cases = Cases::orderBy('case_date', 'desc')->get();
+
         $user = auth()->user();
         $userID = $user->id ?? 0;
         $userOfficerID = $user->officer_id ?? 0;
-        $kCategory = (int) $user->k_category ?? 0;
+        $kCategory = (int) ($user->k_category ?? 0);
         $entryUserID = $case->user_created ?? 0;
         $officerRoleID = getOfficerRoleID($userOfficerID);
 
-        // Preload case officer IDs once
-        $caseOfficerIDs = CaseOfficer::where('case_id', $id)->pluck('officer_id')->toArray();
+        $caseOfficerIDs = CaseOfficer::where('case_id', $id)
+            ->pluck('officer_id')
+            ->toArray();
 
-        // Precompute domain checks
         $caseDomain = $case->caseDomain->domain_id ?? null;
         $domainOfficer = $case->entryUser->officerRole->domain_id ?? null;
 
-        //        $lastOfficer = getLastOfficer($id, 6); // Case Officer
-        //        $lastOfficerInfo = $lastOfficer->officer;
-        //        $lastNoter = getLastOfficer($id, 8); // Case Noter
-
         $attendants = getLastAttendants($id);
-        $lastOfficer = $attendants[6] ?? 0; // Case Officer
-        $lastOfficerInfo = $lastOfficer->officer;
-        $lastNoter = $attendants[8] ?? 0; // Case Noter
+        $lastOfficer = $attendants[6] ?? 0;
+        $lastOfficerInfo = $lastOfficer->officer ?? null;
+        $lastNoter = $attendants[8] ?? 0;
 
-        // Precompute allow access
         $allowAccess = allowAccess($userID, $kCategory, $entryUserID, $officerRoleID);
 
-        //Get Case Domain ID
         $domainID = $case->caseDomain->domain_id ?? getCaseDomainControl($id);
-
         $caseOfficerList = arrayOfficerCaseInHandByDomainCtrlOptimized($domainID);
 
-        // Prepare Invitation Employee Data
         $invEmployee = showInvitationEmployee($case);
-
-        // Prepare Log34 Data
         $log34Data = showCaseLog34($case);
-
-        // Prepare Invitation Company Data
         $invCompany = showInvitationCompany($case);
-
-        //Prepare Log5 Data
         $log5Data = showCaseLog5($case);
-
-        //Prepare Invitation For Both Employee & Company
         $invitationBoth = showInvitationBoth($case);
-
-        //Prepare Log6 Data
         $log6Data = showCaseLog6($case);
 
         $data = [
             'pagetitle' => "ដំណើរការបណ្ដឹង",
             'case' => $case,
+            'cases' => $cases, // <-- Sorted here
             'caseDomain' => $caseDomain,
             'domainOfficer' => $domainOfficer,
             'userOfficerID' => $userOfficerID,
@@ -1793,17 +1784,18 @@ class CaseController extends Controller
             'log5Data' => $log5Data,
             'invitationBoth' => $invitationBoth,
             'log6Data' => $log6Data,
-
         ];
 
-        $view = "case.show_case";
-        if (request("json_opt") == 1) { //if request from app
-            return response()->json(['status' => 200, 'message' => 'success', 'data' => $data]);
+        if (request("json_opt") == 1) {
+            return response()->json([
+                'status' => 200,
+                'message' => 'success',
+                'data' => $data
+            ]);
         }
-        return view($view, ["adata" => $data]);
+
+        return view("case.show_case", ["adata" => $data]);
     }
-
-
 
     public function ajaxDeleteFile(Request $request)
     {
@@ -1816,8 +1808,6 @@ class CaseController extends Controller
         }
         return response()->json(['success' => false]);
     }
-
-
 
     // public function listStep()
     // {
@@ -2299,7 +2289,6 @@ class CaseController extends Controller
      */
     public function destroy(string $id, TelegramService $telegramService)
     {
-
         $case = Cases::where("id", $id)->first();
         $caseID = $case->id;
         //        $companyID = $case->company_id;

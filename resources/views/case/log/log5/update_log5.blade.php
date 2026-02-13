@@ -308,171 +308,196 @@
                                     @endif
                                 </div>
 
-                                <div class="form-group col-12">
-                                    <div id="response-message" style="display: none;">Waiting for response...</div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
-                                        <label for="case_type" class="text-primary text-hanuman-20 mb-1">
-                                            ស្វែងរកឈ្មោះចុងបណ្ដឹង (អ្នកតំណាងក្រុមហ៊ុន)</label>
-                                        <input type="text" name="find_represent_company_autocomplete"
-                                            minlength="2" value="{{ old('find_represent_company_autocomplete') }}"
-                                            class="form-control" id="find_represent_company_autocomplete">
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label for="case_type" class="required2 fw-bold mb-1">ឈ្មោះចុងបណ្ដឹង</label>
-                                        <input type="text" name="name[]" value="{{ old('name[]') }}"
-                                            class="form-control" id="represent_company_name">
-                                    </div>
-                                    <div class="form-group col-sm-2 mt-3">
-                                        <label class="fw-bold mb-1 required2">ភេទ</label>
-                                        {!! showSelect(
-                                            'gender[]',
-                                            ['1' => 'ប្រុស', '2' => 'ស្រី'],
-                                            old('gender[]'),
-                                            ' select2',
-                                            '',
-                                            'represent_company_gender',
-                                        ) !!}
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="required2 fw-bold mb-1">ថ្ងៃខែឆ្នាំកំណើត</label>
-                                        <input type="text" name="dob[]" id="represent_company_dob"
-                                            value="{{ old('dob[]') }}" class="form-control" data-language="en">
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="required2 fw-bold mb-1">សញ្ជាតិ</label>
-                                        {!! showSelect(
-                                            'nationality[]',
-                                            arrayNationality(1),
-                                            old('nationality'),
-                                            ' select2',
-                                            '',
-                                            'represent_company_nationality',
-                                        ) !!}
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label for="id_number" class="fw-bold mb-1">
-                                            លេខអត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន</label>
-                                        <input type="text" name="id_number[]" value="{{ old('id_number[]') }}"
-                                            class="form-control" id="represent_company_id_number">
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label for="phone_number"
-                                            class="required2 fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី១</label>
-                                        <input type="text" name="phone_number[]"
-                                            id="represent_company_phone_number" value="{{ old('phone_number[]') }}"
-                                            class="form-control">
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label for="phone_number" class="fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី២</label>
-                                        <input type="text" name="phone2_number[]"
-                                            id="represent_company_phone2_number" value="{{ old('phone2_number[]') }}"
-                                            class="form-control">
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="fw-bold mb-1 required2" for="occupation">មុខងារ</label>
-                                        <input type="text" name="occupation[]" id="represent_company_occupation"
-                                            value="{{ old('occupation[]') }}" class="form-control">
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="fw-bold mb-1 required2">ទីកន្លែងកំណើត ប្រទេស</label>
-                                        {!! showSelect(
-                                            'pob_country_id[]',
-                                            arrayNationality(1),
-                                            old('pob_country_id', request('pob_country_id')),
-                                            ' select2',
-                                            '',
-                                            'represent_company_pob_country_id',
-                                            '',
-                                        ) !!}
-                                    </div>
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="fw-bold mb-1 required2">ទីកន្លែងកំណើត រាជធានី-ខេត្ត</label>
-                                        {!! showSelect(
-                                            'pob_province_id[]',
-                                            arrayProvince(1, 0),
-                                            old('pob_province_id', request('pob_province_id')),
-                                            ' select2',
-                                            '',
-                                            'represent_company_pob_province_id',
-                                            '',
-                                        ) !!}
-                                    </div>
+                                <div class="row col-12 mt-3">
+                                    <div class="form-group col-sm-6 mt-3">
+                                        <label
+                                            class="fw-bold mb-1 required2 text-hanuman-20 blue">តើមានវត្តមានចុងបណ្ដឹងចូលរួមដែរឬទេ?</label>
+                                        <span class="ms-2 text-hanuman-20 pink">
+                                            <input type="checkbox" id="show_represent_company" class="me-1"
+                                                style="width: 18px; height:18px">
+                                            <label for="show" class="me-2">មានវត្តមាន</label>
 
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="fw-bold mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
-                                        {!! showSelect(
-                                            'pob_district_id[]',
-                                            [],
-                                            old('pob_district_id[]'),
-                                            ' select2',
-                                            '',
-                                            'represent_company_pob_district_id',
-                                            '',
-                                        ) !!}
-                                    </div>
-
-                                    <div class="form-group col-sm-3 mt-3">
-                                        <label class="fw-bold mb-1">ឃុំ-សង្កាត់</label>
-                                        {!! showSelect(
-                                            'pob_commune_id[]',
-                                            [],
-                                            old('pob_commune_id[]'),
-                                            ' select2',
-                                            '',
-                                            'represent_company_pob_commune_id',
-                                            '',
-                                        ) !!}
-                                    </div>
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1 required2">អាសយដ្ឋានបច្ចុប្បន្ន
-                                            រាជធានី-ខេត្ត</label>
-                                        {!! showSelect(
-                                            'province[]',
-                                            arrayProvince(1, 0),
-                                            old('province[]'),
-                                            ' select2',
-                                            '',
-                                            'represent_company_province',
-                                            '',
-                                        ) !!}
-                                    </div>
-
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1 required2">ក្រុង-ស្រុក-ខណ្ឌ</label>
-                                        {!! showSelect('district[]', [], old('pob_district[]'), ' select2', '', 'represent_company_district', '') !!}
-                                    </div>
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1 required2">ឃុំ-សង្កាត់</label>
-                                        {!! showSelect('commune[]', [], old('commune[]'), ' select2', '', 'represent_company_commune', '') !!}
-                                    </div>
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1">ភូមិ</label>
-                                        {!! showSelect('village[]', [], old('village[]'), ' select2', '', 'represent_company_village', '') !!}
-                                    </div>
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1" for="case_type">ផ្ទះលេខ</label>
-                                        <input type="text" name="addr_house_no[]"
-                                            id="represent_company_addr_house_no" value="{{ old('addr_house_no') }}"
-                                            class="form-control">
-                                    </div>
-                                    <div class="form-group col-sm-4 mt-3">
-                                        <label class="fw-bold mb-1">ផ្លូវ</label>
-                                        <input type="text" name="addr_street[]" id="represent_company_addr_street"
-                                            value="{{ old('addr_street[]') }}" class="form-control" />
+                                            <input type="checkbox" id="hidden_represent_company" class="me-1"
+                                                style="width: 18px; height:18px">
+                                            <label for="hidden">អវត្តមាន</label>
+                                        </span>
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="form-group col-sm-12 mt-3">
-                                        <label for="contact_phone"
-                                            class="fw-bold mb-1">យោបល់របស់ប្រធានអង្គប្រជុំ</label>
-                                        {!! showTextarea('head_officer_comment', old('head_officer_comment', $log5->head_officer_comment)) !!}
+
+                                <div id="information_represent_company" style="display: none">
+                                    <div class="form-group col-12">
+                                        <div id="response-message" style="display: none;">Waiting for response...
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 mt-3">
+                                            <label for="case_type" class="text-primary text-hanuman-20 mb-1">
+                                                ស្វែងរកឈ្មោះចុងបណ្ដឹង (អ្នកតំណាងក្រុមហ៊ុន)</label>
+                                            <input type="text" name="find_represent_company_autocomplete"
+                                                minlength="2"
+                                                value="{{ old('find_represent_company_autocomplete') }}"
+                                                class="form-control" id="find_represent_company_autocomplete">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label for="case_type"
+                                                class="required2 fw-bold mb-1">ឈ្មោះចុងបណ្ដឹង</label>
+                                            <input type="text" name="name[]" value="{{ old('name[]') }}"
+                                                class="form-control" id="represent_company_name">
+                                        </div>
+                                        <div class="form-group col-sm-2 mt-3">
+                                            <label class="fw-bold mb-1 required2">ភេទ</label>
+                                            {!! showSelect(
+                                                'gender[]',
+                                                ['1' => 'ប្រុស', '2' => 'ស្រី'],
+                                                old('gender[]'),
+                                                ' select2',
+                                                '',
+                                                'represent_company_gender',
+                                            ) !!}
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="required2 fw-bold mb-1">ថ្ងៃខែឆ្នាំកំណើត</label>
+                                            <input type="text" name="dob[]" id="represent_company_dob"
+                                                value="{{ old('dob[]') }}" class="form-control" data-language="en">
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="required2 fw-bold mb-1">សញ្ជាតិ</label>
+                                            {!! showSelect(
+                                                'nationality[]',
+                                                arrayNationality(1),
+                                                old('nationality'),
+                                                ' select2',
+                                                '',
+                                                'represent_company_nationality',
+                                            ) !!}
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label for="id_number" class="fw-bold mb-1">
+                                                លេខអត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន</label>
+                                            <input type="text" name="id_number[]"
+                                                value="{{ old('id_number[]') }}" class="form-control"
+                                                id="represent_company_id_number">
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label for="phone_number"
+                                                class="required2 fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី១</label>
+                                            <input type="text" name="phone_number[]"
+                                                id="represent_company_phone_number"
+                                                value="{{ old('phone_number[]') }}" class="form-control">
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label for="phone_number" class="fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី២</label>
+                                            <input type="text" name="phone2_number[]"
+                                                id="represent_company_phone2_number"
+                                                value="{{ old('phone2_number[]') }}" class="form-control">
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1 required2" for="occupation">មុខងារ</label>
+                                            <input type="text" name="occupation[]"
+                                                id="represent_company_occupation" value="{{ old('occupation[]') }}"
+                                                class="form-control">
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1 required2">ទីកន្លែងកំណើត ប្រទេស</label>
+                                            {!! showSelect(
+                                                'pob_country_id[]',
+                                                arrayNationality(1),
+                                                old('pob_country_id', request('pob_country_id')),
+                                                ' select2',
+                                                '',
+                                                'represent_company_pob_country_id',
+                                                '',
+                                            ) !!}
+                                        </div>
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1 required2">ទីកន្លែងកំណើត រាជធានី-ខេត្ត</label>
+                                            {!! showSelect(
+                                                'pob_province_id[]',
+                                                arrayProvince(1, 0),
+                                                old('pob_province_id', request('pob_province_id')),
+                                                ' select2',
+                                                '',
+                                                'represent_company_pob_province_id',
+                                                '',
+                                            ) !!}
+                                        </div>
+
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
+                                            {!! showSelect(
+                                                'pob_district_id[]',
+                                                [],
+                                                old('pob_district_id[]'),
+                                                ' select2',
+                                                '',
+                                                'represent_company_pob_district_id',
+                                                '',
+                                            ) !!}
+                                        </div>
+
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1">ឃុំ-សង្កាត់</label>
+                                            {!! showSelect(
+                                                'pob_commune_id[]',
+                                                [],
+                                                old('pob_commune_id[]'),
+                                                ' select2',
+                                                '',
+                                                'represent_company_pob_commune_id',
+                                                '',
+                                            ) !!}
+                                        </div>
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label class="fw-bold mb-1 required2">អាសយដ្ឋានបច្ចុប្បន្ន
+                                                រាជធានី-ខេត្ត</label>
+                                            {!! showSelect(
+                                                'province[]',
+                                                arrayProvince(1, 0),
+                                                old('province[]'),
+                                                ' select2',
+                                                '',
+                                                'represent_company_province',
+                                                '',
+                                            ) !!}
+                                        </div>
+
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label class="fw-bold mb-1 required2">ក្រុង-ស្រុក-ខណ្ឌ</label>
+                                            {!! showSelect('district[]', [], old('pob_district[]'), ' select2', '', 'represent_company_district', '') !!}
+                                        </div>
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label class="fw-bold mb-1 required2">ឃុំ-សង្កាត់</label>
+                                            {!! showSelect('commune[]', [], old('commune[]'), ' select2', '', 'represent_company_commune', '') !!}
+                                        </div>
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label class="fw-bold mb-1">ភូមិ</label>
+                                            {!! showSelect('village[]', [], old('village[]'), ' select2', '', 'represent_company_village', '') !!}
+                                        </div>
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label class="fw-bold mb-1" for="case_type">ផ្ទះលេខ</label>
+                                            <input type="text" name="addr_house_no[]"
+                                                id="represent_company_addr_house_no"
+                                                value="{{ old('addr_house_no') }}" class="form-control">
+                                        </div>
+                                        <div class="form-group col-sm-4 mt-3">
+                                            <label class="fw-bold mb-1">ផ្លូវ</label>
+                                            <input type="text" name="addr_street[]"
+                                                id="represent_company_addr_street" value="{{ old('addr_street[]') }}"
+                                                class="form-control" />
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group col-sm-12 mt-3">
+                                            <label for="contact_phone"
+                                                class="fw-bold mb-1">យោបល់របស់ប្រធានអង្គប្រជុំ</label>
+                                            {!! showTextarea('head_officer_comment', old('head_officer_comment', $log5->head_officer_comment)) !!}
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="row mt-4">
                                     <div class="col-12 text-end">
                                         <button type="button" id="btn_next_to_defendant" class="btn btn-primary">

@@ -15,6 +15,7 @@
 
         <link rel="stylesheet" type="text/css" href="{{ rurl('assets/css/select2.css') }}">
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
         <style>
             #response_message {
                 display: none;
@@ -46,15 +47,6 @@
                                 href="{{ url('export/word/case/log6/' . $log6->id) }}" title="Download"
                                 target="_blank">ទាញយកកំណត់ហេតុ
                             </a>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            {{--                            @if ($log6->status_id == 2) --}}
-                            {{--                            <a href='#' class='btn btn-success form-control' style='margin-bottom: 3px;' --}}
-                            {{--                               onClick="comfirm_sweetalert2('{{ url("log6/generate/new/log/".$log6->id."/".$log6->status_id) }}', 'Are You Sure?')" >បង្កើតកំណត់ហេតុសុំផ្សះផ្សាឡើងវិញ</a> --}}
-                            {{--                            @elseif($log6->status_id == 3) --}}
-                            {{--                                <a href='#' class='btn btn-success form-control' style='margin-bottom: 3px;' --}}
-                            {{--                                   onClick="comfirm_sweetalert2('{{ url("log6/generate/new/log/".$log6->id."/".$log6->status_id) }}', 'Are You Sure?')" >បង្កើតកំណត់ហេតុលើកពេលផ្សះផ្សា</a> --}}
-                            {{--                            @endif --}}
                         </div>
                         @if ($chkAllowAccess || in_array($userOfficerID, $arrOfficerIDs) || auth()->user()->id == $row->user_created)
                             <div class="form-group col-sm-4">
@@ -89,7 +81,7 @@
                             value="{{ $log6->status_id }}">
 
                         <div class="card-body text-hanuman-17">
-                            {{--                                    Company Blog --}}
+                            {{--  Company Blog --}}
                             <div class="row col-12" style="display: none;">
                                 <div class="form-group col-sm-4 mt-3">
                                     <label>ឈ្មោះក្រុមហ៊ុន</label>
@@ -107,7 +99,7 @@
                                         class="form-control" disabled />
                                 </div>
                             </div>
-                            {{--                                    Employee Blog --}}
+                            {{-- Employee Blog --}}
                             <div class="row col-12" style="display: none;">
                                 <div class="form-group col-sm-2 mt-3">
                                     <label>ឈ្មោះកម្មករ</label>
@@ -323,10 +315,12 @@
                                         </span>
 
                                         <span class="ms-2" style="font-size: 17px">
-                                            <input type="checkbox" id="show_employee" class="me-1" style="width: 18px; height:18px;">
+                                            <input type="checkbox" id="show_employee" class="me-1"
+                                                style="width: 18px; height:18px;">
                                             <label for="show" class="me-2">មាន</label>
 
-                                            <input type="checkbox" id="hidden_employee" class="me-1" style="width: 18px; height:18px;">
+                                            <input type="checkbox" id="hidden_employee" class="me-1"
+                                                style="width: 18px; height:18px;">
                                             <label for="hidden">មិនមាន</label>
                                         </span>
                                     </div>
@@ -383,90 +377,93 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="form-group col-sm-4 mt-3">
-                                            <label
-                                                class="required2 fw-bold mb-1 fw-bold mb-1">ឈ្មោះអ្នកអមកម្មករ</label>
+                                            <label class="required2 fw-bold mb-1">ឈ្មោះអ្នកអមកម្មករ</label>
                                             <input type="text" name="sub_employee_name[]"
-                                                value="{{ old('sub_employee_name[]') }}" class="form-control"
-                                                id="sub_employee_name">
+                                                value="{{ old('sub_employee_name.0') }}" class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
                                             <label class="fw-bold mb-1 required2">ភេទ</label>
                                             {!! showSelect(
                                                 'sub_employee_gender[]',
                                                 ['1' => 'ប្រុស', '2' => 'ស្រី'],
-                                                old('sub_employee_gender[]'),
+                                                old('sub_employee_gender.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_gender',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="required2 fw-bold mb-1">ថ្ងៃខែឆ្នាំកំណើត</label>
-                                            <input type="text" name="sub_employee_dob[]" id="sub_employee_dob"
-                                                value="{{ old('sub_employee_dob[]') }}" class="form-control"
+                                            <input type="text" name="sub_employee_dob[]"
+                                                value="{{ old('sub_employee_dob.0') }}" class="form-control"
                                                 data-language="en">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="required2 fw-bold mb-1">សញ្ជាតិ</label>
                                             {!! showSelect(
                                                 'sub_employee_nationality[]',
                                                 arrayNationality(1),
-                                                old('sub_employee_nationality[]'),
+                                                old('sub_employee_nationality.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_nationality',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label for="id_number" class="fw-bold mb-1">
-                                                លេខអត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន</label>
+                                            <label class="fw-bold mb-1">
+                                                លេខអត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន
+                                            </label>
                                             <input type="text" name="sub_employee_id_number[]"
-                                                value="{{ old('sub_employee_id_number[]') }}" class="form-control"
-                                                id="sub_employee_id_number">
+                                                value="{{ old('sub_employee_id_number.0') }}" class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label for="phone_number"
-                                                class="required2 fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី១</label>
+                                            <label class="required2 fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី១</label>
                                             <input type="text" name="sub_employee_phone_number[]"
-                                                id="sub_employee_phone_number"
-                                                value="{{ old('sub_employee_phone_number[0]') }}"
+                                                value="{{ old('sub_employee_phone_number.0') }}"
                                                 class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label for="phone_number" class="fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី២</label>
+                                            <label class="fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី២</label>
                                             <input type="text" name="sub_employee_phone2_number[]"
-                                                id="sub_employee_phone2_number"
-                                                value="{{ old('sub_employee_phone2_number[0]') }}"
+                                                value="{{ old('sub_employee_phone2_number.0') }}"
                                                 class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label for="occupation" class="fw-bold mb-1 required2">មុខងារ</label>
+                                            <label class="fw-bold mb-1 required2">មុខងារ</label>
                                             <input type="text" name="sub_employee_occupation[]"
-                                                id="sub_employee_occupation"
-                                                value="{{ old('sub_employee_occupation[]') }}" class="form-control">
+                                                value="{{ old('sub_employee_occupation.0') }}" class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label class="fw-bold mb-1 required2">ទីកន្លែងកំណើត រាជធានី-ខេត្ត</label>
+                                            <label class="fw-bold mb-1 required2">
+                                                ទីកន្លែងកំណើត រាជធានី-ខេត្ត
+                                            </label>
                                             {!! showSelect(
                                                 'sub_employee_pob_province_id[]',
                                                 arrayProvince(1, 0),
-                                                old('sub_employee_pob_province_id'),
+                                                old('sub_employee_pob_province_id.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_pob_province_id',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
                                             {!! showSelect(
                                                 'sub_employee_pob_district_id[]',
                                                 [],
-                                                old('sub_employee_pob_district_id[]'),
+                                                old('sub_employee_pob_district_id.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_pob_district_id',
-                                                '',
                                             ) !!}
                                         </div>
 
@@ -475,24 +472,24 @@
                                             {!! showSelect(
                                                 'sub_employee_pob_commune_id[]',
                                                 [],
-                                                old('sub_employee_pob_commune_id[]'),
+                                                old('sub_employee_pob_commune_id.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_pob_commune_id',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label class="fw-bold mb-1 required2">អាសយដ្ឋានបច្ចុប្បន្ន
-                                                រាជធានី-ខេត្ត</label>
+                                            <label class="fw-bold mb-1 required2">
+                                                អាសយដ្ឋានបច្ចុប្បន្ន រាជធានី-ខេត្ត
+                                            </label>
                                             {!! showSelect(
                                                 'sub_employee_province[]',
                                                 arrayProvince(1, 0),
-                                                old('sub_employee_province[]'),
+                                                old('sub_employee_province.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_province',
-                                                '',
                                             ) !!}
                                         </div>
 
@@ -501,51 +498,52 @@
                                             {!! showSelect(
                                                 'sub_employee_district[]',
                                                 [],
-                                                old('sub_employee_district[]'),
+                                                old('sub_employee_district.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_district',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1 required2">ឃុំ-សង្កាត់</label>
                                             {!! showSelect(
                                                 'sub_employee_commune[]',
                                                 [],
-                                                old('sub_employee_commune[]'),
+                                                old('sub_employee_commune.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_commune',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
                                             <label class="fw-bold mb-1">ភូមិ</label>
                                             {!! showSelect(
                                                 'sub_employee_village[]',
                                                 [],
-                                                old('sub_employee_village[]'),
+                                                old('sub_employee_village.0'),
                                                 ' select2',
                                                 '',
                                                 'sub_employee_village',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
-                                            <label for="case_type" class="fw-bold mb-1">ផ្ទះលេខ</label>
+                                            <label class="fw-bold mb-1">ផ្ទះលេខ</label>
                                             <input type="text" name="sub_employee_addr_house_no[]"
-                                                id="sub_employee_addr_house_no"
-                                                value="{{ old('sub_employee_addr_house_no') }}" class="form-control">
+                                                value="{{ old('sub_employee_addr_house_no.0') }}"
+                                                class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
                                             <label class="fw-bold mb-1">ផ្លូវ</label>
                                             <input type="text" name="sub_employee_addr_street[]"
-                                                id="sub_employee_addr_street"
-                                                value="{{ old('sub_employee_addr_street[]') }}"
-                                                class="form-control" />
+                                                value="{{ old('sub_employee_addr_street.0') }}" class="form-control">
                                         </div>
+
                                     </div>
+
                                 </div>
 
                                 <div class="row mt-4">
@@ -556,7 +554,6 @@
                                     </div>
                                 </div>
                             </div>
-
 
                             <!--Defendant Block -->
                             <div id="defendant_block" style="display:none;">
@@ -649,10 +646,12 @@
                                         </span>
 
                                         <span class="ms-2" style="font-size: 17px">
-                                            <input type="checkbox" id="show_company" class="me-1" style="width: 18px; height:18px;">
+                                            <input type="checkbox" id="show_company" class="me-1"
+                                                style="width: 18px; height:18px;">
                                             <label for="show" class="me-2">មាន</label>
 
-                                            <input type="checkbox" id="hidden_company" class="me-1" style="width: 18px; height:18px;">
+                                            <input type="checkbox" id="hidden_company" class="me-1"
+                                                style="width: 18px; height:18px;">
                                             <label for="hidden">មិនមាន</label>
                                         </span>
                                     </div>
@@ -889,10 +888,12 @@
                                         </span>
 
                                         <span class="ms-2" style="font-size: 17px">
-                                            <input type="checkbox" id="show_sub_company" class="me-1" style="width: 18px; height:18px;">
+                                            <input type="checkbox" id="show_sub_company" class="me-1"
+                                                style="width: 18px; height:18px;">
                                             <label for="show" class="me-2">មាន</label>
 
-                                            <input type="checkbox" id="hidden_sub_company" class="me-1" style="width: 18px; height:18px;">
+                                            <input type="checkbox" id="hidden_sub_company" class="me-1"
+                                                style="width: 18px; height:18px;">
                                             <label for="hidden">មិនមាន</label>
                                         </span>
                                     </div>
@@ -946,167 +947,175 @@
                                                 class="form-control" id="find_sub_company_autocomplete">
                                         </div>
                                     </div>
+                                    @php $i = 0; @endphp
+
                                     <div class="row mt-3">
+
                                         <div class="form-group col-sm-4 mt-3">
                                             <label class="required2 fw-bold mb-1">ឈ្មោះអ្នកអមនិយោជក</label>
                                             <input type="text" name="sub_company_name[]"
-                                                value="{{ old('sub_company_name[]') }}" class="form-control"
-                                                id="sub_company_name">
+                                                value="{{ old('sub_company_name.' . $i) }}" class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
                                             <label class="fw-bold mb-1 required2">ភេទ</label>
                                             {!! showSelect(
                                                 'sub_company_gender[]',
                                                 ['1' => 'ប្រុស', '2' => 'ស្រី'],
-                                                old('sub_company_gender[]'),
+                                                old('sub_company_gender.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_gender',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label class="required2 fw-bold mb-1 required2">ថ្ងៃខែឆ្នាំកំណើត</label>
-                                            <input type="text" name="sub_company_dob[]" id="sub_company_dob"
-                                                value="{{ old('sub_company_dob[]') }}" class="form-control"
-                                                data-language="en">
+                                            <label class="required2 fw-bold mb-1">ថ្ងៃខែឆ្នាំកំណើត</label>
+                                            <input type="text" name="sub_company_dob[]"
+                                                value="{{ old('sub_company_dob.' . $i) }}" class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label class="required2 fw-bold mb-1 required2">សញ្ជាតិ</label>
+                                            <label class="required2 fw-bold mb-1">សញ្ជាតិ</label>
                                             {!! showSelect(
                                                 'sub_company_nationality[]',
                                                 arrayNationality(1),
-                                                old('sub_company_nationality[]'),
+                                                old('sub_company_nationality.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_nationality',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label for="id_number" class="fw-bold mb-1">
-                                                លេខអត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន</label>
+                                            <label class="fw-bold mb-1">លេខអត្តសញ្ញាណប័ណ្ណ/លិខិតឆ្លងដែន</label>
                                             <input type="text" name="sub_company_id_number[]"
-                                                value="{{ old('sub_company_id_number[]') }}" class="form-control"
-                                                id="sub_company_id_number">
-                                        </div>
-                                        <div class="form-group col-sm-3 mt-3">
-                                            <label for="phone_number"
-                                                class="required2 fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី១</label>
-                                            <input type="text" name="sub_company_phone_number[]"
-                                                id="sub_company_phone_number"
-                                                value="{{ old('sub_company_phone_number[]') }}" class="form-control">
-                                        </div>
-                                        <div class="form-group col-sm-3 mt-3">
-                                            <label for="phone_number" class="fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី២</label>
-                                            <input type="text" name="sub_company_phone2_number[]"
-                                                id="sub_company_phone2_number"
-                                                value="{{ old('sub_company_phone2_number[]') }}"
+                                                value="{{ old('sub_company_id_number.' . $i) }}"
                                                 class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
-                                            <label for="occupation" class="fw-bold mb-1 required2">មុខងារ</label>
-                                            <input type="text" name="sub_company_occupation[]"
-                                                id="sub_company_occupation"
-                                                value="{{ old('sub_company_occupation[]') }}" class="form-control">
+                                            <label class="required2 fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី១</label>
+                                            <input type="text" name="sub_company_phone_number[]"
+                                                value="{{ old('sub_company_phone_number.' . $i) }}"
+                                                class="form-control">
                                         </div>
+
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1">លេខទូរស័ព្ទខ្សែទី២</label>
+                                            <input type="text" name="sub_company_phone2_number[]"
+                                                value="{{ old('sub_company_phone2_number.' . $i) }}"
+                                                class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-sm-3 mt-3">
+                                            <label class="fw-bold mb-1 required2">មុខងារ</label>
+                                            <input type="text" name="sub_company_occupation[]"
+                                                value="{{ old('sub_company_occupation.' . $i) }}"
+                                                class="form-control">
+                                        </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1 required2">ទីកន្លែងកំណើត រាជធានី-ខេត្ត</label>
                                             {!! showSelect(
                                                 'sub_company_pob_province_id[]',
                                                 arrayProvince(1, 0),
-                                                old('sub_company_pob_province_id'),
+                                                old('sub_company_pob_province_id.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_pob_province_id',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1">ក្រុង-ស្រុក-ខណ្ឌ</label>
                                             {!! showSelect(
                                                 'sub_company_pob_district_id[]',
                                                 [],
-                                                old('sub_company_pob_district_id[]'),
+                                                old('sub_company_pob_district_id.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_pob_district_id',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1">ឃុំ-សង្កាត់</label>
                                             {!! showSelect(
                                                 'sub_company_pob_commune_id[]',
                                                 [],
-                                                old('sub_company_pob_commune_id[]'),
+                                                old('sub_company_pob_commune_id.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_pob_commune_id',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1 required2">អាសយដ្ឋានបច្ចុប្បន្ន
                                                 រាជធានី-ខេត្ត</label>
                                             {!! showSelect(
                                                 'sub_company_province[]',
                                                 arrayProvince(1, 0),
-                                                old('sub_company_province[]'),
+                                                old('sub_company_province.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_province',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1 required2">ក្រុង-ស្រុក-ខណ្ឌ</label>
                                             {!! showSelect(
                                                 'sub_company_district[]',
                                                 [],
-                                                old('sub_company_district[]'),
+                                                old('sub_company_district.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_district',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-3 mt-3">
                                             <label class="fw-bold mb-1 required2">ឃុំ-សង្កាត់</label>
                                             {!! showSelect(
                                                 'sub_company_commune[]',
                                                 [],
-                                                old('sub_company_commune[]'),
+                                                old('sub_company_commune.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_commune',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
                                             <label class="fw-bold mb-1">ភូមិ</label>
                                             {!! showSelect(
                                                 'sub_company_village[]',
                                                 [],
-                                                old('sub_company_village[]'),
+                                                old('sub_company_village.' . $i),
                                                 ' select2',
                                                 '',
                                                 'sub_company_village',
-                                                '',
                                             ) !!}
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
-                                            <label for="case_type" class="fw-bold mb-1">ផ្ទះលេខ</label>
+                                            <label class="fw-bold mb-1">ផ្ទះលេខ</label>
                                             <input type="text" name="sub_company_addr_house_no[]"
-                                                id="sub_company_addr_house_no"
-                                                value="{{ old('sub_company_addr_house_no') }}" class="form-control">
+                                                value="{{ old('sub_company_addr_house_no.' . $i) }}"
+                                                class="form-control">
                                         </div>
+
                                         <div class="form-group col-sm-2 mt-3">
                                             <label class="fw-bold mb-1">ផ្លូវ</label>
                                             <input type="text" name="sub_company_addr_street[]"
-                                                id="sub_company_addr_street"
-                                                value="{{ old('sub_company_addr_street[]') }}"
-                                                class="form-control" />
+                                                value="{{ old('sub_company_addr_street.' . $i) }}"
+                                                class="form-control">
                                         </div>
+
                                     </div>
+
                                 </div>
 
                                 <div class="row col-12  mt-5">
@@ -1276,175 +1285,89 @@
 
                                 {{-- ==================== Log620: Agree Points ==================== --}}
                                 <div class="row col-12 mt-3">
-                                    <label class="fw-bold mb-1">២០. ចំណុចព្រមព្រៀងរបស់គូភាគី
-                                        <span class="text-danger">(ប្រសិនបើមាន សូមបំពេញទាំងចំណុចព្រមព្រៀង និង
-                                            ដំណោះស្រាយ)</span>
+                                    <label class="fw-bold mb-1">
+                                        ២០. ចំណុចព្រមព្រៀងរបស់គូភាគី
                                     </label>
                                 </div>
 
-                                <div class="row mt-3">
-                                    <div class="form-group col-sm-5">
-                                        <label class="fw-bold mb-1 pink required">ចំណុចព្រមព្រៀង</label>
-                                    </div>
-                                    <div class="form-group col-sm-5">
-                                        <label class="fw-bold mb-1 blue required">ដំណោះស្រាយ</label>
-                                    </div>
+                                <div class="row mt-2">
+                                    <div class="col-sm-5 fw-bold pink">ចំណុចព្រមព្រៀង</div>
+                                    <div class="col-sm-5 fw-bold blue">ដំណោះស្រាយ</div>
                                 </div>
 
-                                <div class="row">
-                                    @if ($log6->log620->count() > 0)
-                                        @foreach ($log6->log620 as $index => $log620)
-                                            <div class="form-group col-sm-5 mt-2">
-                                                <div class="row py-1">
-                                                    <div style="width:96%">
-                                                        <input type="hidden" name="log620_id[]"
-                                                            value="{{ $log620->id }}">
-                                                        <textarea rows="4" name="log620_agree_point[]" class="form-control">{{ old('log620_agree_point.' . $index, $log620->agree_point) }}</textarea>
-                                                        @error('log620_agree_point.' . $index)
-                                                            <div class="text-danger small">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-sm-5 mt-2">
-                                                <div class="row py-1">
-                                                    <div style="width:96%">
-                                                        <textarea rows="4" name="log620_solution[]" class="form-control">{{ old('log620_solution.' . $index, $log620->solution) }}</textarea>
-                                                        @error('log620_solution.' . $index)
-                                                            <div class="text-danger small">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group col-sm-2 mt-2">
-                                                @if ($chkAllowAccess || in_array($userOfficerID, $arrOfficerIDs) || auth()->user()->id == $row->user_created)
-                                                    @php
-                                                        $deleteUrl = url(
-                                                            'log6/delete/log620/' . $log620->id . '_' . $log6->id,
-                                                        );
-                                                        $onClick = "comfirm_delete_steetalert2('$deleteUrl','តើអ្នកពិតជាចង់លុប មែនឫ?')";
-                                                    @endphp
-                                                    <button type="button" class="btn btn-danger"
-                                                        onClick="{{ $onClick }}" title="Delete">
-                                                        <i data-feather="trash"></i>
-                                                    </button>
-                                                @endif
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                </div>
+                                <div id="log620_container">
 
-                                {{-- Add New Log620 --}}
-                                <div id="log620_1" class="row">
-                                    <div class="form-group col-sm-5">
-                                        <div class="row py-1">
-                                            <div style="width:96%">
-                                                <input type="hidden" name="log620_id[]" value="0">
-                                                <textarea rows="4" name="log620_agree_point[]" class="form-control">{{ old('log620_agree_point.0') }}</textarea>
+                                    {{-- Existing Data --}}
+                                    @foreach ($log6->log620 as $log620)
+                                        <div class="row mt-2 log620-row">
+                                            <div class="col-sm-5">
+                                                <input type="hidden" name="log620_id[]"
+                                                    value="{{ $log620->id }}">
+                                                <textarea name="log620_agree_point[]" class="form-control" required>{{ $log620->agree_point }}</textarea>
+                                            </div>
+
+                                            <div class="col-sm-5">
+                                                <textarea name="log620_solution[]" class="form-control" required>{{ $log620->solution }}</textarea>
+                                            </div>
+
+                                            <div class="col-sm-2">
+                                                <button type="button" class="btn btn-danger btn-remove-log620">
+                                                    លុប
+                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group col-sm-5">
-                                        <div class="row py-1">
-                                            <div style="width:96%">
-                                                <textarea rows="4" name="log620_solution[]" class="form-control">{{ old('log620_solution.0') }}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-1 mt-1">
-                                        <button type="button" id="btn_add_log620"
-                                            class="btn btn-info form-control">បន្ថែម</button>
-                                    </div>
-                                    <div class="form-group col-sm-1 mt-1">
-                                        <button type="button" id="btn_remove_log620"
-                                            class="btn btn-danger form-control">លុប</button>
+                                    @endforeach
+
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-sm-2">
+                                        <button type="button" id="btn_add_log620" class="btn btn-info">
+                                            បន្ថែម
+                                        </button>
                                     </div>
                                 </div>
 
-                                {{-- ==================== Log621: Disagree Points ==================== --}}
-                                <div class="row col-12 mt-3">
-                                    <label class="fw-bold mb-1">២១. ចំណុចមិនសះជារបស់គូភាគី
-                                        <span class="text-danger">(ប្រសិនបើមាន សូមបំពេញទាំងចំណុចមិនសះជា និង
-                                            ដំណោះស្រាយ)</span>
+                                <div class="row col-12 mt-4">
+                                    <label class="fw-bold mb-1">
+                                        ២១. ចំណុចមិនសះជា
                                     </label>
                                 </div>
 
-                                <div class="row mt-3">
-                                    <div class="form-group col-sm-5">
-                                        <label class="fw-bold mb-1 pink required">ចំណុចមិនសះជា</label>
-                                    </div>
-                                    <div class="form-group col-sm-5">
-                                        <label class="fw-bold mb-1 blue required">ដំណោះស្រាយ</label>
-                                    </div>
+                                <div class="row mt-2">
+                                    <div class="col-sm-5 fw-bold pink">ចំណុចមិនសះជា</div>
+                                    <div class="col-sm-5 fw-bold blue">ដំណោះស្រាយ</div>
                                 </div>
 
-                                <div class="row">
-                                    @if ($log6->log621->count() > 0)
-                                        @foreach ($log6->log621 as $index => $log621)
-                                            <div class="form-group col-sm-5 mt-3">
-                                                <div class="row py-1">
-                                                    <div style="width:96%">
-                                                        <input type="hidden" name="log621_id[]"
-                                                            value="{{ $log621->id }}">
-                                                        <textarea rows="4" name="log621_disagree_point[]" class="form-control">{{ old('log621_disagree_point.' . $index, $log621->disagree_point) }}</textarea>
-                                                        @error('log621_disagree_point.' . $index)
-                                                            <div class="text-danger small">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
+                                <div id="log621_container">
+
+                                    @foreach ($log6->log621 as $log621)
+                                        <div class="row mt-2 log621-row">
+                                            <div class="col-sm-5">
+                                                <input type="hidden" name="log621_id[]"
+                                                    value="{{ $log621->id }}">
+                                                <textarea name="log621_disagree_point[]" class="form-control" required>{{ $log621->disagree_point }}</textarea>
                                             </div>
-                                            <div class="form-group col-sm-5 mt-3">
-                                                <div class="row py-1">
-                                                    <div style="width:96%">
-                                                        <textarea rows="4" name="log621_solution[]" class="form-control">{{ old('log621_solution.' . $index, $log621->solution) }}</textarea>
-                                                        @error('log621_solution.' . $index)
-                                                            <div class="text-danger small">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
+
+                                            <div class="col-sm-5">
+                                                <textarea name="log621_solution[]" class="form-control" required>{{ $log621->solution }}</textarea>
                                             </div>
-                                            <div class="form-group col-sm-2 mt-4">
-                                                @if ($chkAllowAccess || in_array($userOfficerID, $arrOfficerIDs) || auth()->user()->id == $row->user_created)
-                                                    @php
-                                                        $deleteUrl = url(
-                                                            'log6/delete/log621/' . $log621->id . '_' . $log6->id,
-                                                        );
-                                                        $onClick = "comfirm_delete_steetalert2('$deleteUrl','តើអ្នកពិតជាចង់លុប មែនឬ?')";
-                                                    @endphp
-                                                    <button type="button" class="btn btn-danger"
-                                                        onClick="{{ $onClick }}" title="Delete">
-                                                        <i data-feather="trash"></i>
-                                                    </button>
-                                                @endif
+
+                                            <div class="col-sm-2">
+                                                <button type="button" class="btn btn-danger btn-remove-log621">
+                                                    លុប
+                                                </button>
                                             </div>
-                                        @endforeach
-                                    @endif
+                                        </div>
+                                    @endforeach
+
                                 </div>
 
-                                {{-- Add New Log621 --}}
-                                <div id="log621_1" class="row">
-                                    <div class="form-group col-sm-5">
-                                        <div class="row py-1">
-                                            <div style="width:96%">
-                                                <input type="hidden" name="log621_id[]" value="0">
-                                                <textarea rows="4" name="log621_disagree_point[]" class="form-control">{{ old('log621_disagree_point.0') }}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-5">
-                                        <div class="row py-1">
-                                            <div style="width:96%">
-                                                <textarea rows="4" name="log621_solution[]" class="form-control">{{ old('log621_solution.0') }}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-sm-1 mt-1">
-                                        <button type="button" id="btn_add_log621"
-                                            class="btn btn-info form-control">បន្ថែម</button>
-                                    </div>
-                                    <div class="form-group col-sm-1 mt-1">
-                                        <button type="button" id="btn_remove_log621"
-                                            class="btn btn-danger form-control">លុប</button>
+                                <div class="row mt-2">
+                                    <div class="col-sm-2">
+                                        <button type="button" id="btn_add_log621" class="btn btn-info">
+                                            បន្ថែម
+                                        </button>
                                     </div>
                                 </div>
 
@@ -1578,17 +1501,6 @@
                                     </div>
                                 </div>
                                 <div id="div_reopen_upload_file" class="">
-                                    {{--                                <div id="check_reopen_status" class="form-group col-sm-2"> --}}
-                                    {{--                                    <label style="color:#FFFFFF">x</label> --}}
-                                    {{--                                    <div class="form-inline"> --}}
-                                    {{--                                        <div class="form-check checkbox checkbox-solid-danger mb-0" > --}}
-                                    {{--                                            <input type="checkbox" name="reopen_status" id="reopen_status" value="{{ $log6->reopen_status }}" @if ($log6->reopen_status == 1) checked @endif  /> --}}
-                                    {{--                                            <label class="form-check-label text-hanuman-18 fw-bold" for="reopen_status"> --}}
-                                    {{--                                                សុំផ្សះផ្សាឡើងវិញ --}}
-                                    {{--                                            </label> --}}
-                                    {{--                                        </div> --}}
-                                    {{--                                    </div> --}}
-                                    {{--                                </div> --}}
                                     <div id="show_upload_status_letter" class="row">
                                         <div class="form-group col-sm-3">
                                             <label class="fw-bold">កាលបរិច្ឆេទណាត់ជួប</label>
@@ -1664,7 +1576,6 @@
                                         </div>
                                     </div>
                                 @endif
-
                             </div>
                         </div>
                     </form>
@@ -1673,73 +1584,109 @@
         </div>
     </div>
 
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = {
-                plantiff: document.getElementById('plantiff_block'),
-                defendant: document.getElementById('defendant_block'),
-                contract: document.getElementById('contract_block')
-            };
+    <script>
+        document.getElementById('btn_add_log621').addEventListener('click', function() {
 
-            const scrollToSection = (section) => {
-                section.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            };
+            let html = `
+        <div class="row mt-2 log621-row">
+            <div class="col-sm-5">
+                <input type="hidden" name="log621_id[]" value="">
+                <textarea name="log621_disagree_point[]" class="form-control" required></textarea>
+            </div>
+            <div class="col-sm-5">
+                <textarea name="log621_solution[]" class="form-control" required></textarea>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-danger btn-remove-log621">លុប</button>
+            </div>
+        </div>
+    `;
+            document.getElementById('log621_container').insertAdjacentHTML('beforeend', html);
+        });
 
-            const validateInputs = (inputs) => {
-                let valid = true;
-                inputs.forEach(input => {
-                    if (!input.value.trim()) {
-                        input.classList.add('is-invalid');
-                        valid = false;
-                    } else {
-                        input.classList.remove('is-invalid');
-                    }
-                });
-                return valid;
-            };
-
-            // Next from Plantiff -> Defendant
-            document.getElementById('btn_next_to_defendant').addEventListener('click', function() {
-                const requiredFields = sections.plantiff.querySelectorAll('input[required]');
-                if (!validateInputs(requiredFields)) return;
-                sections.plantiff.style.display = 'none';
-                sections.defendant.style.display = 'block';
-                scrollToSection(sections.defendant);
-            });
-
-            // Back from Defendant -> Plantiff
-            document.getElementById('btn_back_to_plantiff').addEventListener('click', function() {
-                sections.defendant.style.display = 'none';
-                sections.plantiff.style.display = 'block';
-                scrollToSection(sections.plantiff);
-            });
-
-            // Next from Defendant -> Contract
-            document.getElementById('btn_next_to_contract').addEventListener('click', function() {
-                const requiredFields = sections.defendant.querySelectorAll(
-                    'input[required], select[required]');
-                if (!validateInputs(requiredFields)) return;
-                sections.defendant.style.display = 'none';
-                sections.contract.style.display = 'block';
-                scrollToSection(sections.contract);
-            });
-
-            // Back from Contract -> Defendant using existing button
-            const btnBackFromContract = document.getElementById('btn_back_to_plantiff_contract');
-            if (btnBackFromContract) {
-                btnBackFromContract.addEventListener('click', function() {
-                    sections.contract.style.display = 'none';
-                    sections.defendant.style.display = 'block';
-                    scrollToSection(sections.defendant);
-                });
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-remove-log621')) {
+                e.target.closest('.log621-row').remove();
             }
         });
-    </script> --}}
+    </script>
+
+    <script>
+        document.getElementById('btn_add_log620').addEventListener('click', function() {
+
+            let html = `
+        <div class="row mt-2 log620-row">
+            <div class="col-sm-5">
+                <input type="hidden" name="log620_id[]" value="">
+                <textarea name="log620_agree_point[]" class="form-control" required></textarea>
+            </div>
+            <div class="col-sm-5">
+                <textarea name="log620_solution[]" class="form-control" required></textarea>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-danger btn-remove-log620">លុប</button>
+            </div>
+        </div>
+    `;
+            document.getElementById('log620_container').insertAdjacentHTML('beforeend', html);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-remove-log620')) {
+                e.target.closest('.log620-row').remove();
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            @if ($errors->any())
+
+                // 1️⃣ Show contract block
+                const contractBlock = document.getElementById('contract_block');
+                if (contractBlock) {
+                    contractBlock.style.display = 'block';
+                }
+
+                // 2️⃣ Collect error messages
+                let messages = [];
+                @foreach ($errors->all() as $error)
+                    messages.push("{{ $error }}");
+                @endforeach
+
+                // 3️⃣ SweetAlert popup in center
+                Swal.fire({
+                    icon: 'error',
+                    title: 'មានបញ្ហាក្នុងការបញ្ចូលទិន្នន័យ',
+                    html: messages.join("<br>"),
+                    confirmButtonText: 'បិទ',
+                    width: '600px',
+                    padding: '2rem',
+                    backdrop: true,
+                    position: 'center', // Center popup
+                    allowOutsideClick: false
+                }).then(() => {
+
+                    // 4️⃣ Scroll to contract block after close
+                    if (contractBlock) {
+                        contractBlock.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            @endif
+
+        });
+    </script>
+
+
+
+
 
     <x-slot name="moreAfterScript">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @include('case.script.log6_6_script')
         @include('case.script.log6_script')
         @include('script.my_sweetalert2')
