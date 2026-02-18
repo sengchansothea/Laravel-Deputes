@@ -328,8 +328,6 @@
 
         });
 
-
-
     });
 </script>
 @include('script.my_sweetalert2')

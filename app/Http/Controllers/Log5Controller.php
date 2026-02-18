@@ -201,6 +201,7 @@ class Log5Controller extends Controller
                 "contract_type_with_employee" => $request->contract_type_with_employee,
                 "dispute_cause" => $request->dispute_cause,
                 "dispute_more_info" => $request->dispute_more_info,
+                "defendant_absent" => $request->defendant_absent ?? 0,
 
                 "user_created" => Auth::user()->id,
                 "date_created" =>  $date_created,

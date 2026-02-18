@@ -167,7 +167,7 @@
                                             <div class="col-12 text-end">
                                                 <button type="button" id="btn_next_to_defendant"
                                                     class="btn btn-primary">
-                                                    ទៅដំណាក់កាលទី​​ ២ &gt;
+                                                    ទៅដំណាក់កាលទី​​ ២ &rarr;
                                                 </button>
                                             </div>
                                         </div>
@@ -346,12 +346,12 @@
                                             <div class="col-6 text-start">
                                                 <button type="button" id="btn_back_to_plantiff"
                                                     class="btn btn-secondary">
-                                                    &lt; ទៅដំណាក់កាលទី១
+                                                    &larr; ទៅដំណាក់កាលទី១
                                                 </button>
                                             </div>
                                             <div class="col-6 text-end">
                                                 <button type="button" id="btn_next_to_contract"
-                                                    class="btn btn-primary">ទៅដំណាក់កាលទី៣ &gt;
+                                                    class="btn btn-primary">ទៅដំណាក់កាលទី៣ &rarr;
                                                 </button>
                                             </div>
                                         </div>
@@ -500,7 +500,7 @@
                                         <div class="row mt-4">
                                             <div class="col-6 text-start">
                                                 <button type="button" id="btn_back_to_plantiff_contract"
-                                                    class="btn btn-secondary">&lt; ទៅដំណាក់កាលទី២</button>
+                                                    class="btn btn-secondary">&larr; ទៅដំណាក់កាលទី២</button>
                                             </div>
 
                                             <div class="col-6 text-end"> 
@@ -583,6 +583,6 @@
         });
     </script>
     <x-slot name="moreAfterScript">
-        @include('case.script.case_script')
+        @include('case.script.case_script1')
     </x-slot>
 </x-admin.layout-main>

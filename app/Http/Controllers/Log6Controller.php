@@ -453,13 +453,29 @@ class Log6Controller extends Controller
     /** Insert Or Update Log620 */
     private function insertOrUpdateLog620($caseID, $logID, $ids, $points, $solutions)
     {
-        if (empty($points)) return;
+        // Get all existing IDs from DB
+        $existingIds = CaseLog620::where('log_id', $logID)
+            ->pluck('id')
+            ->toArray();
+
+        $submittedIds = $ids ?? [];
+
+        if (empty($points)) {
+            CaseLog620::where('log_id', $logID)->delete();
+            return;
+        }
+
+        $idsToDelete = array_diff($existingIds, $submittedIds);
+
+        if (!empty($idsToDelete)) {
+            CaseLog620::whereIn('id', $idsToDelete)->delete();
+        }
 
         foreach ($points as $key => $val) {
 
             $agree = trim($points[$key] ?? '');
             $solution = trim($solutions[$key] ?? '');
-            $id = $ids[$key] ?? null;
+            $id = $submittedIds[$key] ?? null;
 
             if ($agree == '' || $solution == '') continue;
 
@@ -479,7 +495,6 @@ class Log6Controller extends Controller
             }
         }
     }
-
     // private function insertOrUpdateLog620($caseID, $logID, $log620ID, $log620AgreePoint, $log620Solution)
     // {
     //     $dateCreated = myDateTime();
@@ -513,17 +528,31 @@ class Log6Controller extends Controller
     //     }
     // }
 
-
     /** Insert Or Update Log621 */
     private function insertOrUpdateLog621($caseID, $logID, $ids, $points, $solutions)
     {
-        if (empty($points)) return;
+        $existingIds = CaseLog621::where('log_id', $logID)
+            ->pluck('id')
+            ->toArray();
+
+        $submittedIds = $ids ?? [];
+
+        if (empty($points)) {
+            CaseLog621::where('log_id', $logID)->delete();
+            return;
+        }
+
+        $idsToDelete = array_diff($existingIds, $submittedIds);
+
+        if (!empty($idsToDelete)) {
+            CaseLog621::whereIn('id', $idsToDelete)->delete();
+        }
 
         foreach ($points as $key => $val) {
 
             $disagree = trim($points[$key] ?? '');
             $solution = trim($solutions[$key] ?? '');
-            $id = $ids[$key] ?? null;
+            $id = $submittedIds[$key] ?? null;
 
             if ($disagree == '' || $solution == '') continue;
 
@@ -543,7 +572,6 @@ class Log6Controller extends Controller
             }
         }
     }
-
 
     // private function insertOrUpdateLog621($caseID, $logID, $log621ID, $log621DisagreePoint, $log621Solution)
     // {
@@ -703,7 +731,15 @@ class Log6Controller extends Controller
     public function update(Request $request, string $id)
     {
         //        dd($request->all());
+        $request->validate([
+            'log620_agree_point' => 'required|array|min:1',
+            'log620_agree_point.*' => 'required|string',
+            'log620_solution.*' => 'required|string',
 
+            'log621_disagree_point' => 'required|array|min:1',
+            'log621_disagree_point.*' => 'required|string',
+            'log621_solution.*' => 'required|string',
+        ]);
         $date_created = myDateTime();
         $case_id = $request->case_id;
         $log_id = $request->log_id;

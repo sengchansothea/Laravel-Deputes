@@ -435,7 +435,6 @@
                                                         {!! $showCaseLog34['info'] !!}
                                                         {!! $showCaseLog34['export'] !!}
                                                     @endif
-
                                                 </div>
                                             @endif
                                         </td>
@@ -625,19 +624,31 @@
                                     @endif
 
                                     <tr>
-                                        <td><label
-                                                class="form-label fw-bold blue">{{ Num2Unicode(6) }}.សាកសួរព័ត៌មានភាគីចុងចោទ</label>
+                                        <td>
+                                            <label
+                                                class="form-label fw-bold blue">{{ Num2Unicode(6) }}.សាកសួរព័ត៌មានភាគីចុងចោទ</label><br>
+
+                                            <span class="form-label fw-bold pink">
+                                                {{-- pro_information = provide information ; npro_information = not to provide information --}}
+                                                <input type="checkbox" id="pro_information"
+                                                    {{ ($showCaseLog5['pro_information'] ?? 0) == 1 ? 'checked' : '' }}>
+                                                <label for="show" class="me-2">មកផ្ដល់ព័ត៌មាន</label>
+
+                                                <input type="checkbox" id="npro_information"
+                                                    {{ ($showCaseLog5['npro_information'] ?? 0) == 1 ? 'checked' : '' }}>
+                                                <label for="hidden">មិនមកផ្ដល់ព័ត៌មាន</label>
+                                            </span>
                                         </td>
 
                                         <td>
-                                            <div class="row">
+                                            <div class="row btn_created" style="display: none">
                                                 @if (!empty($showFile) && $invitationCompany['invitation_id'] > 0)
                                                     {!! $showCaseLog5['info'] !!}
                                                     {!! $showCaseLog5['export'] !!}
                                                 @endif
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="btn_created">
                                             @php
                                                 if ($hasFullAccess) {
                                                     if ($showCaseLog5['log5_id'] > 0) {
@@ -669,7 +680,7 @@
                                                 }
                                             @endphp
                                         </td>
-                                        <td class="text-center">
+                                       <td class="text-center btn_created">
                                             @if ($showCaseLog5['log5_id'] > 0 && !empty($showFile))
                                                 <img width="30" height="30"
                                                     src="{{ $imageUrl }}/check.png" />
@@ -677,6 +688,7 @@
                                         </td>
 
                                     </tr>
+
                                     <tr>
                                         <td><label
                                                 class="form-label fw-bold blue">{{ Num2Unicode(7) }}.អញ្ជើញភាគីទាំង២មកផ្សះផ្សា</label>
@@ -1178,6 +1190,7 @@
         <script src="{{ rurl('assets/js/select2/select2.full.min.js') }}"></script>
         <script src="{{ rurl('assets/js/select2/select2-custom.js') }}"></script>
         @include('script.my_sweetalert2')
+        @include('case.script.show_case_script')
         <script type="text/javascript">
             // Telegram notify config available to upload handler
             window.telegramNotify = {

@@ -1284,20 +1284,15 @@
                                 </div>
 
                                 {{-- ==================== Log620: Agree Points ==================== --}}
+                                {{-- 20. ចំណុចព្រមព្រៀង --}}
                                 <div class="row col-12 mt-3">
-                                    <label class="fw-bold mb-1">
-                                        ២០. ចំណុចព្រមព្រៀងរបស់គូភាគី
-                                    </label>
+                                    <label class="fw-bold mb-1">២០. ចំណុចព្រមព្រៀងរបស់គូភាគី</label>
                                 </div>
-
                                 <div class="row mt-2">
                                     <div class="col-sm-5 fw-bold pink">ចំណុចព្រមព្រៀង</div>
                                     <div class="col-sm-5 fw-bold blue">ដំណោះស្រាយ</div>
                                 </div>
-
                                 <div id="log620_container">
-
-                                    {{-- Existing Data --}}
                                     @foreach ($log6->log620 as $log620)
                                         <div class="row mt-2 log620-row">
                                             <div class="col-sm-5">
@@ -1305,42 +1300,32 @@
                                                     value="{{ $log620->id }}">
                                                 <textarea name="log620_agree_point[]" class="form-control" required>{{ $log620->agree_point }}</textarea>
                                             </div>
-
                                             <div class="col-sm-5">
                                                 <textarea name="log620_solution[]" class="form-control" required>{{ $log620->solution }}</textarea>
                                             </div>
-
                                             <div class="col-sm-2">
-                                                <button type="button" class="btn btn-danger btn-remove-log620">
-                                                    លុប
-                                                </button>
+                                                <button type="button"
+                                                    class="btn btn-danger btn-remove-log620">លុប</button>
                                             </div>
                                         </div>
                                     @endforeach
-
                                 </div>
-
                                 <div class="row mt-2">
                                     <div class="col-sm-2">
-                                        <button type="button" id="btn_add_log620" class="btn btn-info">
-                                            បន្ថែម
-                                        </button>
+                                        <button type="button" id="btn_add_log620"
+                                            class="btn btn-info">បន្ថែម</button>
                                     </div>
                                 </div>
 
+                                {{-- 21. ចំណុចមិនសះជា --}}
                                 <div class="row col-12 mt-4">
-                                    <label class="fw-bold mb-1">
-                                        ២១. ចំណុចមិនសះជា
-                                    </label>
+                                    <label class="fw-bold mb-1">២១. ចំណុចមិនសះជា</label>
                                 </div>
-
                                 <div class="row mt-2">
                                     <div class="col-sm-5 fw-bold pink">ចំណុចមិនសះជា</div>
                                     <div class="col-sm-5 fw-bold blue">ដំណោះស្រាយ</div>
                                 </div>
-
                                 <div id="log621_container">
-
                                     @foreach ($log6->log621 as $log621)
                                         <div class="row mt-2 log621-row">
                                             <div class="col-sm-5">
@@ -1348,26 +1333,20 @@
                                                     value="{{ $log621->id }}">
                                                 <textarea name="log621_disagree_point[]" class="form-control" required>{{ $log621->disagree_point }}</textarea>
                                             </div>
-
                                             <div class="col-sm-5">
                                                 <textarea name="log621_solution[]" class="form-control" required>{{ $log621->solution }}</textarea>
                                             </div>
-
                                             <div class="col-sm-2">
-                                                <button type="button" class="btn btn-danger btn-remove-log621">
-                                                    លុប
-                                                </button>
+                                                <button type="button"
+                                                    class="btn btn-danger btn-remove-log621">លុប</button>
                                             </div>
                                         </div>
                                     @endforeach
-
                                 </div>
-
                                 <div class="row mt-2">
                                     <div class="col-sm-2">
-                                        <button type="button" id="btn_add_log621" class="btn btn-info">
-                                            បន្ថែម
-                                        </button>
+                                        <button type="button" id="btn_add_log621"
+                                            class="btn btn-info">បន្ថែម</button>
                                     </div>
                                 </div>
 
@@ -1584,37 +1563,14 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('btn_add_log621').addEventListener('click', function() {
 
-            let html = `
-        <div class="row mt-2 log621-row">
-            <div class="col-sm-5">
-                <input type="hidden" name="log621_id[]" value="">
-                <textarea name="log621_disagree_point[]" class="form-control" required></textarea>
-            </div>
-            <div class="col-sm-5">
-                <textarea name="log621_solution[]" class="form-control" required></textarea>
-            </div>
-            <div class="col-sm-2">
-                <button type="button" class="btn btn-danger btn-remove-log621">លុប</button>
-            </div>
-        </div>
-    `;
-            document.getElementById('log621_container').insertAdjacentHTML('beforeend', html);
-        });
-
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('btn-remove-log621')) {
-                e.target.closest('.log621-row').remove();
-            }
-        });
-    </script>
 
     <script>
-        document.getElementById('btn_add_log620').addEventListener('click', function() {
+        document.addEventListener('DOMContentLoaded', function() {
 
-            let html = `
+            // ===== 1️⃣ Add row for log620 =====
+            document.getElementById('btn_add_log620').addEventListener('click', function() {
+                let html = `
         <div class="row mt-2 log620-row">
             <div class="col-sm-5">
                 <input type="hidden" name="log620_id[]" value="">
@@ -1627,54 +1583,102 @@
                 <button type="button" class="btn btn-danger btn-remove-log620">លុប</button>
             </div>
         </div>
-    `;
-            document.getElementById('log620_container').insertAdjacentHTML('beforeend', html);
-        });
+        `;
+                document.getElementById('log620_container').insertAdjacentHTML('beforeend', html);
+            });
 
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('btn-remove-log620')) {
-                e.target.closest('.log620-row').remove();
-            }
-        });
-    </script>
+            // ===== 2️⃣ Add row for log621 =====
+            document.getElementById('btn_add_log621').addEventListener('click', function() {
+                let html = `
+        <div class="row mt-2 log621-row">
+            <div class="col-sm-5">
+                <input type="hidden" name="log621_id[]" value="">
+                <textarea name="log621_disagree_point[]" class="form-control" required></textarea>
+            </div>
+            <div class="col-sm-5">
+                <textarea name="log621_solution[]" class="form-control" required></textarea>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-danger btn-remove-log621">លុប</button>
+            </div>
+        </div>
+        `;
+                document.getElementById('log621_container').insertAdjacentHTML('beforeend', html);
+            });
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+            // ===== 3️⃣ Delete row with confirmation =====
+            document.addEventListener('click', function(e) {
 
-            @if ($errors->any())
-
-                // 1️⃣ Show contract block
-                const contractBlock = document.getElementById('contract_block');
-                if (contractBlock) {
-                    contractBlock.style.display = 'block';
+                // Delete log620 row
+                if (e.target.classList.contains('btn-remove-log620')) {
+                    Swal.fire({
+                        title: 'តើអ្នកប្រាកដថាចង់លុបចំណុចនេះ?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'បាទ/ច្បាស់ហើយ',
+                        cancelButtonText: 'ទេ/មិនលុប',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            e.target.closest('.log620-row').remove();
+                        }
+                    });
                 }
 
-                // 2️⃣ Collect error messages
+                // Delete log621 row
+                if (e.target.classList.contains('btn-remove-log621')) {
+                    Swal.fire({
+                        title: 'តើអ្នកប្រាកដថាចង់លុបចំណុចនេះ?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'បាទ/ច្បាស់ហើយ',
+                        cancelButtonText: 'ទេ/មិនលុប',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            e.target.closest('.log621-row').remove();
+                        }
+                    });
+                }
+
+            });
+
+            // ===== 4️⃣ Client-side check before submit =====
+            const form = document.getElementById('form_log6');
+            form.addEventListener('submit', function(e) {
+
+                const log620Points = Array.from(document.querySelectorAll(
+                    'textarea[name="log620_agree_point[]"]')).map(t => t.value.trim());
+                const log620Solutions = Array.from(document.querySelectorAll(
+                    'textarea[name="log620_solution[]"]')).map(t => t.value.trim());
+                const log621Points = Array.from(document.querySelectorAll(
+                    'textarea[name="log621_disagree_point[]"]')).map(t => t.value.trim());
+                const log621Solutions = Array.from(document.querySelectorAll(
+                    'textarea[name="log621_solution[]"]')).map(t => t.value.trim());
+
+                if (log620Points.every(v => v === '') || log620Solutions.every(v => v === '') ||
+                    log621Points.every(v => v === '') || log621Solutions.every(v => v === '')) {
+                    e.preventDefault();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'ចំណុចព្រមព្រៀង និងចំណុចមិនសះជា ត្រូវបំពេញយ៉ាងតិចមួយ។',
+                        confirmButtonText: 'បិទ'
+                    });
+                }
+            });
+
+            // ===== 5️⃣ SweetAlert popup for Laravel validation errors =====
+            @if ($errors->any())
                 let messages = [];
                 @foreach ($errors->all() as $error)
                     messages.push("{{ $error }}");
                 @endforeach
-
-                // 3️⃣ SweetAlert popup in center
                 Swal.fire({
                     icon: 'error',
                     title: 'មានបញ្ហាក្នុងការបញ្ចូលទិន្នន័យ',
-                    html: messages.join("<br>"),
+                    html: messages.join('<br>'),
                     confirmButtonText: 'បិទ',
                     width: '600px',
                     padding: '2rem',
-                    backdrop: true,
-                    position: 'center', // Center popup
                     allowOutsideClick: false
-                }).then(() => {
-
-                    // 4️⃣ Scroll to contract block after close
-                    if (contractBlock) {
-                        contractBlock.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
                 });
             @endif
 
@@ -1682,10 +1686,8 @@
     </script>
 
 
-
-
-
     <x-slot name="moreAfterScript">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @include('case.script.log6_6_script')
         @include('case.script.log6_script')

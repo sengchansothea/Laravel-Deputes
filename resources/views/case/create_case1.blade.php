@@ -658,15 +658,17 @@
         </div>
     </div>
 
-    <script>
+   <script>
         document.addEventListener('DOMContentLoaded', function() {
 
+            // Sections
             const sections = {
                 plantiff: document.getElementById('plantiff_block'),
                 defendant: document.getElementById('defendant_block'),
                 contract: document.getElementById('contract_block')
             };
 
+            // Smooth scroll helper
             const scrollToSection = (section) => {
                 section.scrollIntoView({
                     behavior: 'smooth',
@@ -674,31 +676,23 @@
                 });
             };
 
-            // ✅ One clean validation function
+            // Validation function for required fields
             const validateSection = (section) => {
                 let valid = true;
                 let firstInvalidField = null;
-
                 const requiredFields = section.querySelectorAll('[required]');
 
                 requiredFields.forEach(field => {
-
                     let value = field.value;
-
                     if (!value || value.trim() === '' || value === '0') {
                         field.classList.add('is-invalid');
                         valid = false;
-
-                        if (!firstInvalidField) {
-                            firstInvalidField = field;
-                        }
-
+                        if (!firstInvalidField) firstInvalidField = field;
                     } else {
                         field.classList.remove('is-invalid');
                     }
                 });
 
-                // ✅ Show SweetAlert if invalid
                 if (!valid) {
                     Swal.fire({
                         icon: 'warning',
@@ -709,63 +703,127 @@
                         showConfirmButton: false
                     });
 
-                    if (firstInvalidField) {
-                        firstInvalidField.focus();
-                    }
+                    if (firstInvalidField) firstInvalidField.focus();
                 }
 
-                return valid; // ⭐ VERY IMPORTANT
+                return valid;
             };
 
-            // Next: Plaintiff → Defendant
-            document.getElementById('btn_next_to_defendant')
-                .addEventListener('click', function() {
+            // Navigation buttons
+            const btnNextToDefendant = document.getElementById('btn_next_to_defendant');
+            const btnBackToPlantiff = document.getElementById('btn_back_to_plantiff');
+            const btnNextToContract = document.getElementById('btn_next_to_contract');
+            const btnBackFromContract = document.getElementById('btn_back_to_plantiff_contract');
 
+            // Plaintiff → Defendant
+            if (btnNextToDefendant) {
+                btnNextToDefendant.addEventListener('click', function() {
                     if (!validateSection(sections.plantiff)) return;
-
                     sections.plantiff.style.display = 'none';
                     sections.defendant.style.display = 'block';
                     scrollToSection(sections.defendant);
                 });
+            }
 
-            // Back: Defendant → Plaintiff
-            document.getElementById('btn_back_to_plantiff')
-                .addEventListener('click', function() {
-
+            // Defendant → Plaintiff
+            if (btnBackToPlantiff) {
+                btnBackToPlantiff.addEventListener('click', function() {
                     sections.defendant.style.display = 'none';
                     sections.plantiff.style.display = 'block';
                     scrollToSection(sections.plantiff);
                 });
+            }
 
-            // Next: Defendant → Contract
-            document.getElementById('btn_next_to_contract')
-                .addEventListener('click', function() {
-
+            // Defendant → Contract
+            if (btnNextToContract) {
+                btnNextToContract.addEventListener('click', function() {
                     if (!validateSection(sections.defendant)) return;
-
                     sections.defendant.style.display = 'none';
                     sections.contract.style.display = 'block';
                     scrollToSection(sections.contract);
+
+                    // ✅ Initialize autocomplete after section is visible
+                    initAutocompleteCompany();
+                    initAutocompleteEmployee();
                 });
+            }
 
-            // Back: Contract → Defendant
-            const btnBackFromContract =
-                document.getElementById('btn_back_to_plantiff_contract');
-
+            // Contract → Defendant
             if (btnBackFromContract) {
                 btnBackFromContract.addEventListener('click', function() {
-
                     sections.contract.style.display = 'none';
                     sections.defendant.style.display = 'block';
                     scrollToSection(sections.defendant);
                 });
             }
 
+            // =========================
+            // Autocomplete Functions
+            // =========================
+            const initAutocompleteCompany = () => {
+                const companyInput = $('#find_company_autocomplete');
+                if (companyInput.length && !companyInput.data('autocomplete-initialized')) {
+                    companyInput.autocomplete({
+                        source: function(request, response) {
+                            $.ajax({
+                                url: '/api/company-search',
+                                data: {
+                                    term: request.term
+                                },
+                                success: function(data) {
+                                    response(data);
+                                }
+                            });
+                        },
+                        minLength: 2,
+                        select: function(event, ui) {
+                            if ($('#company_name_khmer').length) $('#company_name_khmer').val(ui
+                                .item.name_kh);
+                            if ($('#company_name_latin').length) $('#company_name_latin').val(ui
+                                .item.name_en);
+                            if ($('#company_id').length) $('#company_id').val(ui.item.id);
+                        }
+                    });
+                    companyInput.data('autocomplete-initialized', true);
+                }
+            };
+
+            const initAutocompleteEmployee = () => {
+                const employeeInput = $('#find_employee_autocomplete');
+                if (employeeInput.length && !employeeInput.data('autocomplete-initialized')) {
+                    employeeInput.autocomplete({
+                        source: function(request, response) {
+                            $.ajax({
+                                url: '/api/employee-search',
+                                data: {
+                                    term: request.term
+                                },
+                                success: function(data) {
+                                    response(data);
+                                }
+                            });
+                        },
+                        minLength: 2,
+                        select: function(event, ui) {
+                            if ($('#name').length) $('#name').val(ui.item.name);
+                            if ($('#dob').length) $('#dob').val(ui.item.dob);
+                            if ($('#id_number').length) $('#id_number').val(ui.item.id_number);
+                            if ($('#occupation').length) $('#occupation').val(ui.item.occupation);
+                            if ($('#phone_number').length) $('#phone_number').val(ui.item.phone1);
+                            if ($('#phone_number2').length) $('#phone_number2').val(ui.item.phone2);
+                        }
+                    });
+                    employeeInput.data('autocomplete-initialized', true);
+                }
+            };
+
+            // Initialize autocomplete for the first section (plaintiff/company)
+            initAutocompleteCompany();
         });
     </script>
 
     <x-slot name="moreAfterScript">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        @include('case.script.case_script')
+        @include('case.script.case_script1')
     </x-slot>
 </x-admin.layout-main>

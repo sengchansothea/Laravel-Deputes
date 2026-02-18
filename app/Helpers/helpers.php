@@ -580,7 +580,6 @@ function arrayProvince($showDefault = 0, $defValue = "0", $defLabel = "សូម
 
     if ($cachedProvinces === null) {
         $cachedProvinces = Province::orderBy("pro_khname", "ASC")
-//            ->select(DB::raw("pro_khname AS name, pro_id AS id"))
             ->pluck("pro_khname", "pro_id")
             ->toArray();
     }
@@ -600,7 +599,6 @@ function arrayDistrict($provinceID = 0, $showDefault = 0, $defValue = 0, $defLab
     if (!isset($cache[$provinceID])) {
         $cache[$provinceID] = District::where("province_id", $provinceID)
             ->orderBy("dis_khname", "ASC")
-//            ->select(DB::raw("dis_khname AS name, dis_id AS id"))
             ->pluck("dis_khname", "dis_id")
             ->toArray();
     }
@@ -611,6 +609,7 @@ function arrayDistrict($provinceID = 0, $showDefault = 0, $defValue = 0, $defLab
     }
     return $data;
 }
+
 function arrayDistrictX($province_id = 0, $showDefault = 0, $defValue = 0, $defLabel = "សូមជ្រើសរើស"){
     $data = District::orderby("dis_khname", "ASC")
         ->select(
@@ -632,7 +631,6 @@ function arrayCommune($districtID = 0, $showDefault = 0, $defValue = "0", $defLa
 
     if (!isset($cache[$districtID])) {
         $cache[$districtID] = Commune::where("district_id", $districtID)
-//            ->select(DB::raw("com_khname AS name, com_id AS id"))
             ->orderBy("com_khname", "ASC")
             ->pluck("com_khname", "com_id")
             ->toArray();
@@ -666,7 +664,6 @@ function arrayVillage($communeID = 0, $showDefault = 0, $defValue = "0", $defLab
 
     if (!isset($cache[$communeID])) {
         $cache[$communeID] = Village::where("commune_id", $communeID)
-//            ->select(DB::raw("vil_khname AS name, vil_id AS id"))
             ->orderBy("vil_khname", "ASC")
             ->pluck("vil_khname", "vil_id")
             ->toArray();
@@ -699,7 +696,7 @@ function arrayNationality($showDefault = 0, $defValue = "0", $defLabel = "សូ
     static $cachedNationalities = null;
     if ($cachedNationalities === null) {
         $cachedNationalities = Nationality::orderBy("sort", "ASC")
-//            ->select(DB::raw("nationality_kh AS name, id AS id"))
+
             ->pluck("nationality_kh", "id")
             ->toArray();
     }

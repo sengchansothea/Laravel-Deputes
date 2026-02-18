@@ -645,6 +645,7 @@ class CaseController extends Controller
             'arrOfficersInHand' => $this->getOfficersInHand()
         ];
         $view = "case.create_case1";
+        // $view = "test_create_case";
         if (request("json_opt") == 1) { //if request from app
             return response()->json(['status' => 200, 'result' => $data]);
         }
@@ -662,7 +663,7 @@ class CaseController extends Controller
             //            'arrProvince' => arrayProvince(1),
             'case' => $case ?? null,
         ];
-        $view = "case.case_step1";
+        $view = "case.case_step";
         if (request("json_opt") == 1) { //if request from app
             return response()->json(['status' => 200, 'result' => $data]);
         }
@@ -1794,7 +1795,8 @@ class CaseController extends Controller
             ]);
         }
 
-        return view("case.show_case", ["adata" => $data]);
+        // return view("case.show_case", ["adata" => $data]);
+        return view("test", ["adata" => $data]);
     }
 
     public function ajaxDeleteFile(Request $request)

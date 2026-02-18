@@ -285,21 +285,11 @@
                                         <label class="required2 fw-bold">
                                             ៩. អ្នកដែលអមកម្មករនិយោជិត និង/ឬ តំណាងកម្មករនិយោជិត
                                         </label>
-                                        <span class="ms-2">
-                                            <label class="fw-bold">
-                                                <input type="checkbox" id="show_sub_employee" class="me-1"
-                                                    style="width: 17px; height:17px">
-                                                <label for="show" class="me-2">មាន</label>
-
-                                                <input type="checkbox" id="hidden_sub_employee" class="me-1"
-                                                    style="width: 17px; height:17px">
-                                                <label for="hidden">មិនមាន</label>
-                                        </span>
                                     </div>
                                 </div>
 
                                 {{-- Show Information Sub Employee --}}
-                                <div id="show_information_sub_employee" style="display:none">
+                                <div>
                                     <div class="form-group col-12 mt-3">
                                         <div id="response_message_sub_employee" class="text-warning fw-bold "
                                             style="display: none;">Waiting for response...</div>
@@ -569,15 +559,15 @@
                                         <label class="required2 fw-bold">
                                             ១៤. តំណាងនិយោជក
                                         </label>
-                                        <span class="ms-2">
+                                        <span class="ms-2 pink">
                                             <label class="fw-bold">
                                                 <input type="checkbox" id="show_represent_company" class="me-1"
                                                     style="width: 17px; height:17px">
-                                                <label for="show" class="me-2">មាន</label>
+                                                <label for="show" class="me-2">មកចូលរួមផ្សះផ្សា</label>
 
                                                 <input type="checkbox" id="hidden_represent_company" class="me-1"
                                                     style="width: 17px; height:17px">
-                                                <label for="hidden">មិនមាន</label>
+                                                <label for="hidden">មិនមកចូលរួមផ្សះផ្សា</label>
                                         </span>
                                     </div>
                                 </div>
