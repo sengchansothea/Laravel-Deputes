@@ -612,8 +612,8 @@
                                                 កាលបរិច្ឆេទ</label> </div>
                                         <div class="row mt-3">
                                             <div class="form-group col-sm-6"> <label
-                                                    class="fw-bold required mb-1">កាលបរិច្ឆេទធ្វើបណ្ដឹង</label> <input
-                                                    type="text" name="case_date" id="case_date"
+                                                    class="fw-bold required mb-1">កាលបរិច្ឆេទធ្វើបណ្ដឹង</label>
+                                                <input type="text" name="case_date" id="case_date"
                                                     value="{{ old('case_date') }}" class="form-control" required>
                                             </div>
                                             <div class="form-group col-sm-6"> <label
@@ -658,7 +658,7 @@
         </div>
     </div>
 
-   <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
 
             // Sections
